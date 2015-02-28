@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+	<!-- This file is the default logback configuration for Spring Boot. To 
+		use the same defaults and add custom logger levels you can copy this file 
+		and add additional overrides, e.g: <include resource="org/springframework/boot/logging/logback/base.xml"/> 
+		<logger name="org.springframework.web" level="DEBUG"/> ... -->
+
+	<include resource="org/springframework/boot/logging/logback/base.xml" />
+
+	<appender name="REMOTE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} : %m%n%wex</pattern>
+		</encoder>
+		<file>../../ctwm.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>ctwm.%d{yyyy-MM-dd}.log</FileNamePattern>
+		</rollingPolicy>
+	</appender>
+
+	<logger name="com.trigon.ctmw.server.web.LoggerController" level="INFO" additivity="false">
+        <appender-ref ref="REMOTE"/>
+    </logger>
+    
+	<root level="INFO">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="FILE" />
+	</root>
+
+</configuration>

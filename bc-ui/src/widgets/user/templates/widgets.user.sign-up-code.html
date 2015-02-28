@@ -1,0 +1,24 @@
+<div class="user-form-bc" id="user-sign-up-code-bc">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-wrap">
+                    <h1>请提交您在注册邮箱中收到的6位验证码</h1>
+
+                    <form ng-submit="submitSignCode()" id="sign-up-code-form" autocomplete="off">
+                        <div class="form-group">
+                            <label for="input-code" class="sr-only">Code</label>
+                            <input type="text" id="input-code" class="form-control"
+                                   placeholder="验证码" required
+                                   ng-model="user.code">
+                        </div>
+                        <input type="submit" id="btn-login" class="btn btn-submit-bc btn-lg btn-block" value="激活帐号">
+                    </form>
+                    <hr>
+                </div>
+            </div>
+            <!-- /.col-xs-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+</div>

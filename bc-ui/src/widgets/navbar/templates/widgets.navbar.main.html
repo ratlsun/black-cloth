@@ -1,0 +1,22 @@
+<div class="navbar navbar-bc navbar-fixed-top" id="navbar-bc">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="" ng-click="gotoHome()" class="navbar-brand">黑布</a>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-main">
+      <ul class="nav navbar-nav navbar-right">
+          <li class="dropdown dropdown-right" ng-if="user">
+              <a href="" class="dropdown-toggle">UserName <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                  <li><a href="">My Profile <span class="pull-right"><i class="fa fa-user"></i></span></a></li>
+                  <li><a href="">Logout <span class="pull-right"><i class="fa fa-sign-out"></i></span></a></li>
+              </ul>
+          </li>
+
+          <li ng-class="{'active': activeMenu==appConfig.stateName.login}" ng-if="!user">
+              <a href="" ng-click="gotoLogin()">登录</a>
+          </li>
+      </ul>
+    </div>
+  </div>
+</div>

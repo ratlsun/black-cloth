@@ -1,0 +1,30 @@
+<div class="user-form-bc" id="user-login-bc">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-wrap">
+                    <h1>请用您的邮箱登录</h1>
+
+                    <form ng-submit="login()" id="login-form" autocomplete="off">
+                        <div class="form-group">
+                            <label for="input-email" class="sr-only">Email</label>
+                            <input type="email" id="input-email" class="form-control"
+                                   placeholder="somebody@site.com" required
+                                   ng-model="user.username">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-key" class="sr-only">Password</label>
+                            <input type="password" id="input-key" class="form-control"
+                                   placeholder="密码" required
+                                   ng-model="user.password">
+                        </div>
+                        <input type="submit" id="btn-login" class="btn btn-submit-bc btn-lg btn-block" value="登录">
+                    </form>
+                    <a href="" ng-click="onSignUp()" class="link-sign-up">注册新帐号</a>
+                </div>
+            </div>
+            <!-- /.col-xs-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+</div>

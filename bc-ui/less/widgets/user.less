@@ -1,0 +1,172 @@
+.sign-wizard-bc {
+    padding-top: 70px;
+
+    .board{
+        width: 75%;
+        margin: 60px auto;
+        height: 500px;
+        background: @user-panel-background-color;
+
+        & > div.board-inner{
+            background: @user-panel-header-background-color url(http://subtlepatterns.com/patterns/geometry2.png);
+            background-size: 30%;
+
+            .liner{
+                height: 2px;
+                background: #ddd;
+                position: absolute;
+                width: 60%;
+                margin: 0 auto;
+                left: 0;
+                right: 0;
+                top: 50%;
+                z-index: 1;
+            }
+
+            .nav-tabs {
+                position: relative;
+                margin: 40px auto 0;
+                box-sizing: border-box;
+
+                & > li {
+                    &.one {
+                        width: 100%;
+                    }
+                    &.three {
+                        width: 33%;
+                    }
+                    /*
+                    &:after {
+                        content: " ";
+                        position: absolute;
+                        left: 45%;
+                        opacity:0;
+                        margin: 0 auto;
+                        bottom: 0px;
+                        border: 5px solid transparent;
+                        border-bottom-color: #ddd;
+                        transition:0.1s ease-in-out;
+                    }
+                    */
+                    span.round-tabs {
+                        width: 70px;
+                        height: 70px;
+                        line-height: 70px;
+                        display: inline-block;
+                        border-radius: 100px;
+                        background: white;
+                        z-index: 2;
+                        position: absolute;
+                        left: 0;
+                        text-align: center;
+                        font-size: 25px;
+                        border: 2px solid @user-panel-header-inactive-icons-color;
+
+                        &-user {
+                            color: @user-panel-header-user-icon-color;
+                        }
+                        &-code {
+                            color: @user-panel-header-code-icon-color;
+                        }
+                        &-done {
+                            color: @user-panel-header-done-icon-color;
+                        }
+                    }
+                    a {
+                        width: 70px;
+                        height: 70px;
+                        margin: 20px auto;
+                        border-radius: 100%;
+                        padding: 0;
+                        &:hover{
+                            background: transparent;
+                        }
+                    }
+                }
+
+                & > li.active {
+                    /*
+                    &:after {
+                        content: " ";
+                        position: absolute;
+                        left: 45%;
+                        opacity:1;
+                        margin: 0 auto;
+                        bottom: 0px;
+                        border: 10px solid transparent;
+                        border-bottom-color: #ddd;
+                    }
+                    */
+                    span.round-tabs {
+                        background: #fafafa;
+
+                        &-user {
+                            border: 2px solid @user-panel-header-user-icon-color;
+                        }
+                        &-code {
+                            border: 2px solid @user-panel-header-code-icon-color;
+                        }
+                        &-done {
+                            border: 2px solid @user-panel-header-done-icon-color;
+                        }
+                    }
+                    & > a, & > a:hover, & > a:focus {
+                        color: #555555;
+                        cursor: default;
+                        border: 0;
+                        border-bottom-color: transparent;
+                    }
+                }
+            }
+        }
+
+        & > div.tab-content{
+            .tab-pane{
+                position: relative;
+                padding-top: 30px;
+
+                .user-form-bc {
+                    padding-top: 0;
+                    .container {
+                        width: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.user-form-bc {
+    padding-top: 70px;
+
+    .form-wrap {
+        width: 40%;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    h1 {
+        color: @form-header-text-color;
+        font-size: 24px;
+        letter-spacing: 8px;
+        text-align: center;
+        font-weight: bold;
+        padding-bottom: 20px;
+    }
+
+    .btn {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+
+    .link-sign-up {
+        font-size: 14px;
+        text-align: center;
+        display: block;
+    }
+}
+
