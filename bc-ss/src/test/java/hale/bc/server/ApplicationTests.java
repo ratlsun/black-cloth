@@ -1,4 +1,6 @@
-package com.trigon.ctmw.server;
+package hale.bc.server;
+
+import hale.bc.server.Application;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -10,7 +10,10 @@
                             <label for="input-code" class="sr-only">Code</label>
                             <input type="text" id="input-code" class="form-control"
                                    placeholder="验证码" required
-                                   ng-model="user.code">
+                                   ng-model="newUser.code">
+                        </div>
+                        <div class="alert alert-danger" ng-if="invalidMessage.$codeForm">
+                            <i class="fa fa-warning"></i>{{invalidMessage.$codeForm}}
                         </div>
                         <input type="submit" id="btn-login" class="btn btn-submit-bc btn-lg btn-block" value="激活帐号">
                     </form>

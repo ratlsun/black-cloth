@@ -1,0 +1,68 @@
+<div class="user-list-bc">
+    <div class="container">
+        <div us-spinner spinner-key="user-list-spinner" class="well col-xs-8 col-xs-offset-2">
+            <div ng-repeat="user in users">
+                <div class="row list-row-title" ng-init="user.showInfo = false">
+                    <div class="col-xs-3 col-sm-2 col-md-1">
+                        <div class="row-icon">
+                            <i class="fa fa-3x" ng-class="'fa-' + user.icon"></i>
+                        </div>
+                    </div>
+                    <div class="col-xs-8 col-sm-9 col-md-10">
+                        <strong>{{user.name}}</strong><br>
+                        <span class="text-muted">{{user.level}}</span>
+                    </div>
+                    <div class="col-xs-1 dropdown-row" ng-click="user.showInfo = !user.showInfo">
+                        <i class="fa fa-chevron-right" ng-if="!user.showInfo"></i>
+                        <i class="fa fa-chevron-down" ng-if="user.showInfo"></i>
+                    </div>
+                </div>
+                <div class="row list-row-information" ng-if="user.showInfo" >
+                    <div class="col-xs-12 col-md-10 col-xs-offset-0 col-md-offset-1">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">用户详细信息</h3>
+                            </div>
+                            <div class="panel-body">
+                                <div class="row">
+                                    <div class="col-xs-2">
+                                        <div class="row-icon">
+                                            <i class="fa fa-5x" ng-class="'fa-' + user.icon"></i>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-10">
+                                        <strong>{{user.name}}</strong><br>
+                                        <table class="table">
+                                            <tbody>
+                                            <tr>
+                                                <td>用户权限:</td>
+                                                <td>{{user.level}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>模拟系统:</td>
+                                                <td>0</td>
+                                            </tr>
+                                            <tr>
+                                                <td>规则:</td>
+                                                <td>0</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <button class="btn btn-sm btn-success" ng-show="user.canActive" ng-click="activeUser(user)">
+                                    <i class="fa fa-check"></i>激活该用户
+                                </button>
+                                <button class="btn btn-sm btn-danger" ng-show="user.canBan" ng-click="inactiveUser(user)">
+                                    <i class="fa fa-ban"></i>禁用该用户
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

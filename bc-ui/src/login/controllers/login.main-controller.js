@@ -5,7 +5,17 @@
         .controller('login.MainController', [
             '$scope',
             '$state',
-            function ($scope, $state) {
+            'appConfig',
+            function ($scope, $state, appConfig) {
+
+                $scope.gotoRegister = function () {
+                    $state.go(appConfig.stateName.register);
+                };
+
+                $scope.gotoHome = function () {
+                    $state.go(appConfig.stateName.home);
+                };
+
             }
         ]);
 

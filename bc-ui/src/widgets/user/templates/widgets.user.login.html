@@ -18,6 +18,9 @@
                                    placeholder="密码" required
                                    ng-model="user.password">
                         </div>
+                        <div class="alert alert-danger" ng-if="invalidMessage.$form">
+                            <i class="fa fa-warning"></i>{{invalidMessage.$form}}
+                        </div>
                         <input type="submit" id="btn-login" class="btn btn-submit-bc btn-lg btn-block" value="登录">
                     </form>
                     <a href="" ng-click="onSignUp()" class="link-sign-up">注册新帐号</a>

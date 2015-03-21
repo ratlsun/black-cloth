@@ -10,19 +10,25 @@
                             <label for="input-email" class="sr-only">Email</label>
                             <input type="email" id="input-email" class="form-control"
                                    placeholder="somebody@site.com" required
-                                   ng-model="user.name">
+                                   ng-model="newUser.name">
                         </div>
                         <div class="form-group">
                             <label for="input-key" class="sr-only">Password</label>
                             <input type="password" id="input-key" class="form-control"
                                    placeholder="您要使用的密码" required
-                                   ng-model="user.pwd1">
+                                   ng-model="newUser.pwd1">
                         </div>
                         <div class="form-group">
                             <label for="input-key-again" class="sr-only">Password</label>
                             <input type="password" id="input-key-again" class="form-control"
                                    placeholder="输入和之前一致的密码" required
-                                   ng-model="user.pwd2">
+                                   ng-model="newUser.pwd2">
+                            <code ng-if="invalidMessage.pwd">
+                                <i class="fa fa-warning"></i>{{invalidMessage.pwd}}
+                            </code>
+                        </div>
+                        <div class="alert alert-danger" ng-if="invalidMessage.$infoForm">
+                            <i class="fa fa-warning"></i>{{invalidMessage.$infoForm}}
                         </div>
                         <input type="submit" id="btn-login" class="btn btn-submit-bc btn-lg btn-block" value="申请帐号">
                     </form>

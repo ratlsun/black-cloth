@@ -4,15 +4,32 @@
     angular.module('module.widgets.user')
         .controller('widgets.user.LoginController', [
             '$scope',
-            'Restangular',
-            'appConfig',
-            function ($scope, Restangular, appConfig) {
+            'userService',
+            function ($scope, userService) {
 
-                $scope.user = {};
+                $scope.user = {
+                    username: 'hale@hale.com',
+                    password: 'hale'
+                };
+                $scope.invalidMessage = {};
+
+                $scope.$watch('user.username', function () {
+                    $scope.invalidMessage.$form = "";
+                });
+
+                $scope.$watch('user.password', function () {
+                    $scope.invalidMessage.$form = '';
+                });
 
                 $scope.login = function () {
-                    Restangular.all('login')
-                        .customPOST($.param($scope.user), '', {}, {'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'});
+                    userService.login($scope.user).then(function(){
+                        userService.getUserByName($scope.user.username).then(function(resp){
+                            userService.setCurrentUser(resp);
+                            $scope.postSignIn();
+                        });
+                    }, function(){
+                        $scope.invalidMessage.$form = '用户不存在或者密码错误！';
+                    })
                 };
             }
         ]);

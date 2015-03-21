@@ -1,4 +1,4 @@
-package com.trigon.ctmw.server.web;
+package hale.bc.server.web;
 
 public class LoggingMessage {
 	

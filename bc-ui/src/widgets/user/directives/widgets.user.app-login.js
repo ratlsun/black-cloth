@@ -7,7 +7,8 @@
                 return {
                     restrict: 'E',
                     scope: {
-                        onSignUp: '&'
+                        onSignUp: '&',
+                        postSignIn: '&'
                     },
                     templateUrl: 'widgets.user.login.html',
                     controller: 'widgets.user.LoginController',

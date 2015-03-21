@@ -7,7 +7,15 @@
 
             stateName: {
                 home: 'home',
-                login: 'login'
+                login: 'login',
+                register: 'register',
+                user_admin: 'user_admin'
+            },
+
+            userStatus: {
+                new: 'New',
+                active: 'Active',
+                inactive: 'Inactive'
             }
 
         }).run([

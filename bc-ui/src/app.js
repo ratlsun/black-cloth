@@ -6,6 +6,8 @@
         'ui.bootstrap',
         'ui.router',
         'restangular',
+        'angular-growl',
+        'angularSpinner',
 
         //template
         'module.templates',
@@ -14,15 +16,19 @@
         'module.common',
         'module.widgets',
         'module.home',
-        'module.login'
+        'module.login',
+        'module.register',
+        'module.user-admin'
 
     ]).config([
         '$stateProvider',
         '$locationProvider',
         '$urlRouterProvider',
         'RestangularProvider',
+        'growlProvider',
         'appConfig',
-        function ($stateProvider, $locationProvider, $urlRouterProvider, RestangularProvider, appConfig) {
+        function ($stateProvider, $locationProvider, $urlRouterProvider,
+                  RestangularProvider, growlProvider, appConfig) {
 
             $locationProvider.hashPrefix('!').html5Mode(false);
 
@@ -36,6 +42,14 @@
                 url: '/login',
                 templateUrl: 'login.main.html',
                 controller: 'login.MainController'
+            }).state(appConfig.stateName.register, {
+                url: '/signup',
+                templateUrl: 'register.main.html',
+                controller: 'register.MainController'
+            }).state(appConfig.stateName.user_admin, {
+                url: '/user-admin',
+                templateUrl: 'user-admin.main.html',
+                controller: 'user-admin.MainController'
             });
 
             RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});
@@ -48,11 +62,45 @@
              }
              return elem;
              });
-
+             */
 
              growlProvider.globalTimeToLive(5000);
              growlProvider.globalPosition('top-center');
-            */
+
+        }
+    ]).run([
+        '$state',
+        'Restangular',
+        'userService',
+        'alertService',
+        'appConfig',
+        function ($state, Restangular, userService, alertService, appConfig) {
+
+            Restangular.setErrorInterceptor(
+                function(resp) {
+                    if (resp && resp.status === 401 &&
+                        resp.data && resp.data.path &&
+                        (_.endsWith(resp.data.path, '/login') ||
+                        _.endsWith(resp.data.path, 'users/auth'))) {
+                        return true;
+                    } else if (resp && resp.status === 401) {
+                        alertService.warning('请先登录。');
+                        $state.go(appConfig.stateName.login);
+                    } else if (resp && resp.status === 403) {
+                        alertService.error('只有管理员能使用这个功能，请用管理员账号登录。');
+                    } else {
+                        alertService.error('无法访问MockServer，请确认是否有网络！');
+                    }
+                    //loggerService.error(response);
+                    return false; // stop the promise chain
+                }
+            );
+
+            userService.getAuthUser().then(function(resp){
+                userService.setCurrentUser(resp);
+            });
+
+            //loggerService.setLevel(appConfig.loggerLevel);
         }
     ]);
 

@@ -1,2 +1,28 @@
 <app-navbar></app-navbar>
-<app-sign-in-and-sign-up-wizard></app-sign-in-and-sign-up-wizard>
+
+<div class="sign-wizard-bc">
+    <div class="container">
+        <div class="row">
+            <div class="board">
+                <div class="board-inner">
+                    <ul class="nav nav-tabs">
+                        <li class="active one">
+                            <a href="" title="登录">
+                                <span class="round-tabs round-tabs-user">
+                                    <i class="fa fa-user"></i>
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <app-login on-sign-up="gotoRegister()" post-sign-in="gotoHome()"></app-login>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

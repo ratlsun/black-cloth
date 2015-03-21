@@ -4,30 +4,23 @@
             <div class="board">
                 <div class="board-inner">
                     <ul class="nav nav-tabs" id="signTab">
-                        <div class="liner" ng-if="activeStep!='login'"></div>
-                        <li class="active one" ng-if="activeStep=='login'">
-                            <a href="" title="登录">
-                                <span class="round-tabs round-tabs-user">
-                                    <i class="fa fa-user"></i>
-                                </span>
-                            </a>
-                        </li>
-                        <li class="three" ng-if="activeStep!='login'" ng-class="{'active': activeStep=='info'}">
+                        <div class="liner"></div>
+                        <li class="three" ng-class="{'active': activeStep=='info'}">
                             <a href="" ng-click="gotoStep('info')" title="注册信息">
                                 <span class="round-tabs round-tabs-user">
                                     <i class="fa fa-user"></i>
                                 </span>
                             </a>
                         </li>
-                        <li class="three" ng-if="activeStep!='login'" ng-class="{'active': activeStep=='code'}">
+                        <li class="three" ng-class="{'active': activeStep=='code'}">
                             <a href="" ng-click="gotoStep('code')" title="邮箱验证">
                                 <span class="round-tabs round-tabs-code">
                                     <i class="fa fa-qrcode"></i>
                                 </span>
                             </a>
                         </li>
-                        <li class="three" ng-if="activeStep!='login'" ng-class="{'active': activeStep=='done'}">
-                            <a href="" ng-click="gotoStep('done')" title="注册成功">
+                        <li class="three" ng-class="{'active': activeStep=='done'}">
+                            <a href="" title="注册成功">
                                 <span class="round-tabs round-tabs-done">
                                     <i class="fa fa-check"></i>
                                 </span>
@@ -37,9 +30,6 @@
                 </div>
 
                 <div class="tab-content">
-                    <div class="tab-pane active" ng-if="activeStep=='login'">
-                        <app-login on-sign-up="gotoInfoStep()"></app-login>
-                    </div>
                     <div class="tab-pane active" ng-if="activeStep=='info'">
                         <inner-sign-up-info></inner-sign-up-info>
                     </div>

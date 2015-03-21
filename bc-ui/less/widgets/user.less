@@ -141,7 +141,7 @@
     padding-top: 70px;
 
     .form-wrap {
-        width: 40%;
+        width: 42%;
         margin: 0 auto;
     }
 
@@ -168,5 +168,52 @@
         text-align: center;
         display: block;
     }
+}
+
+
+.user-list-bc {
+  padding-top: 70px;
+
+  .list-row-title {
+    margin-bottom: 14px;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .dropdown-row {
+      margin: 13px 0;
+      padding: 5px;
+      height: 100%;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+
+  .list-row-information .panel-footer {
+    text-align: right;
+  }
+
+  .row-icon {
+    padding: 0 10px;
+  }
+
+  .table {
+
+    & > tbody > tr {
+      border-top: 1px solid @user-list-panel-field-border-color;
+
+      &:first-child {
+        border-top: 0;
+      }
+
+      & > td {
+        border-top: 0;
+      }
+    }
+
+  }
 }
 

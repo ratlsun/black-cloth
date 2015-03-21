@@ -2,12 +2,15 @@
     "use strict";
 
     angular.module('module.widgets.user')
-        .directive('appSignInAndSignUpWizard', [
+        .directive('appSignUpWizard', [
             function () {
                 return {
                     restrict: 'E',
-                    templateUrl: 'widgets.user.main.html',
-                    controller: 'widgets.user.MainController',
+                    scope: {
+                        onGoBack: '&'
+                    },
+                    templateUrl: 'widgets.user.sign-up.html',
+                    controller: 'widgets.user.SignUpController',
                     replace: true
                 };
             }]);
