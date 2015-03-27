@@ -29,6 +29,10 @@
                     $state.go(appConfig.stateName.user_admin);
                 };
 
+                $scope.gotoChannelAdmin = function () {
+                    $state.go(appConfig.stateName.channel_admin);
+                };
+
                 $scope.logout = function () {
                     userService.logout().then(function (){
                         userService.setCurrentUser(null);

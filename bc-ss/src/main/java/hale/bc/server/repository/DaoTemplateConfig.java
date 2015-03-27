@@ -1,5 +1,6 @@
 package hale.bc.server.repository;
 
+import hale.bc.server.to.Channel;
 import hale.bc.server.to.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,11 +18,19 @@ public class DaoTemplateConfig {
 	
 	@Bean
 	public RedisTemplate<String, User> userTemplate() {
-		RedisTemplate<String, User> template = new RedisTemplate<>();
-		template.setConnectionFactory(jedis);
-		template.setKeySerializer(template.getStringSerializer());
-		template.setValueSerializer(new Jackson2JsonRedisSerializer<User>(User.class));
-		return template;
+		return template(User.class);
+	}
+	
+	@Bean
+	public RedisTemplate<String, Channel> channelTemplate() {
+		return template(Channel.class);
 	}
 
+	private <T> RedisTemplate<String, T> template(Class<T> t) {
+		RedisTemplate<String, T> template = new RedisTemplate<>();
+		template.setConnectionFactory(jedis);
+		template.setKeySerializer(template.getStringSerializer());
+		template.setValueSerializer(new Jackson2JsonRedisSerializer<T>(t));
+		return template;
+	}
 }

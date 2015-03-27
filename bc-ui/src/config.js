@@ -9,7 +9,8 @@
                 home: 'home',
                 login: 'login',
                 register: 'register',
-                user_admin: 'user_admin'
+                user_admin: 'user_admin',
+                channel_admin: 'channel_admin'
             },
 
             userStatus: {

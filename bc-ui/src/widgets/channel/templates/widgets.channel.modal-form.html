@@ -1,0 +1,55 @@
+<div class="channel-form-bc">
+    <form class="form-horizontal" ng-submit="save()">
+        <div class="modal-body">
+            <fieldset>
+                <legend>新增通道</legend>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">通道名称</label>
+                    <div class="col-sm-5">
+                        <input type="text" ng-model="channel.serviceName" required placeholder="Mock" class="form-control">
+                    </div>
+
+                    <label class="col-sm-2 control-label">所属系统</label>
+                    <div class="col-sm-3">
+                        <input type="text" ng-model="channel.system" required placeholder="例如N，Q等" class="form-control">
+                        <div class="alert alert-danger" ng-show="invalidMessage.system">
+                            <i class="fa fa-warning"></i>{{invalidMessage.system}}
+                        </div>
+                    </div>
+                </div>
+                <div class="alert alert-danger" ng-show="invalidMessage.name">
+                    <i class="fa fa-warning"></i>{{invalidMessage.name}}
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">IP地址</label>
+                    <div class="col-sm-5">
+                        <input type="text" ng-model="channel.ip" required
+                               ng-pattern=""
+                               placeholder="" class="form-control">
+                        <div class="alert alert-danger" ng-show="invalidMessage.ip">
+                            <i class="fa fa-warning"></i>{{invalidMessage.ip}}
+                        </div>
+                    </div>
+
+                    <label class="col-sm-2 control-label">端口</label>
+                    <div class="col-sm-3">
+                        <input type="number" min="1" ng-model="channel.port" required placeholder="" class="form-control">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">用途</label>
+                    <div class="col-sm-10">
+                        <textarea ng-model="channel.desc" class="form-control" rows="5"></textarea>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="modal-footer">
+            <a href="" class="btn btn-default" ng-click="dismiss()">关闭</a>
+            <input type="submit" class="btn btn-submit-bc" value="保存">
+        </div>
+    </form>
+</div>

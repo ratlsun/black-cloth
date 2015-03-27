@@ -18,7 +18,8 @@
         'module.home',
         'module.login',
         'module.register',
-        'module.user-admin'
+        'module.user-admin',
+        'module.channel-admin'
 
     ]).config([
         '$stateProvider',
@@ -50,6 +51,10 @@
                 url: '/user-admin',
                 templateUrl: 'user-admin.main.html',
                 controller: 'user-admin.MainController'
+            }).state(appConfig.stateName.channel_admin, {
+                url: '/channel-admin',
+                templateUrl: 'channel-admin.main.html',
+                controller: 'channel-admin.MainController'
             });
 
             RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});

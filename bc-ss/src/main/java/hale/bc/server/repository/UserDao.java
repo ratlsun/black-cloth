@@ -37,7 +37,7 @@ public class UserDao {
 		userNames = stringTemplate.opsForValue();
 		userCodes = stringTemplate.opsForValue();
 		userNameIndex = new DefaultRedisZSet<String>(KeyUtils.users(), stringTemplate);
-		userIdGenerator = new RedisAtomicLong(KeyUtils.uid(), stringTemplate.getConnectionFactory());
+		userIdGenerator = new RedisAtomicLong(KeyUtils.userId(), stringTemplate.getConnectionFactory());
 	}
 	
 	public User createUser(User user) throws DuplicatedEntryException {
