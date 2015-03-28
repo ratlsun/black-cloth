@@ -10,13 +10,14 @@
             'channelService',
             'pageService',
             'alertService',
-            'appConfig',
-            function ($scope, channelData, $timeout, $modalInstance, channelService, pageService, alertService, appConfig) {
+            function ($scope, channelData, $timeout, $modalInstance, channelService, pageService, alertService) {
 
                 $scope.channel = channelData;
                 $scope.invalidMessage = {};
+                $scope.formTitle = '新增通道';
                 if ($scope.channel.port) {
                     $scope.channel.port = parseInt($scope.channel.port);
+                    $scope.formTitle = '修改通道';
                 }
 
                 var validateSystem = function (){

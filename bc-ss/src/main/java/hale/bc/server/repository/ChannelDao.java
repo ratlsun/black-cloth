@@ -95,7 +95,6 @@ public class ChannelDao {
 			channelSystemIndex.remove(KeyUtils.channelSystem(older.getSystem()), 1, channelId);
 			stringTemplate.delete(channelIdKey);
 			
-			older.setId(-cid);
 			channels.set(KeyUtils.channelId(String.valueOf(-cid)), older);
 			return older;
 		}

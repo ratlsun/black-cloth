@@ -9,8 +9,7 @@
             'channelService',
             'pageService',
             'alertService',
-            'appConfig',
-            function ($scope, $modal, $timeout, channelService, pageService, alertService, appConfig) {
+            function ($scope, $modal, $timeout, channelService, pageService, alertService) {
 
                 $scope.channels = [];
                 $scope.channelSystems = [];

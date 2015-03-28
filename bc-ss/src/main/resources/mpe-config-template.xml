@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<sysinfo>
+	<orisysinfo>
+		<orisys>$channel.serviceName</orisys>
+		<hostid>$channel.serviceName</hostid>
+	</orisysinfo>
+
+	<mqinfo>
+		<server>
+			<mode>CLIENT</mode>
+			<servicename>$channel.serviceName</servicename>
+			<connectnum_put>1</connectnum_put>
+			<connectnum_get>1</connectnum_get>
+		</server>
+		<mq>
+			<ip>$channel.ip</ip>
+			<port>$channel.port</port>
+			<channel>S_SIH</channel>
+			<qm>QM_SIH</qm>
+			<expiry>900</expiry>
+		</mq>
+	</mqinfo>
+</sysinfo>

@@ -2,6 +2,7 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.ChannelDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
+import hale.bc.server.service.ChannelService;
 import hale.bc.server.to.Channel;
 import hale.bc.server.to.FailedResult;
 
@@ -23,12 +24,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChannelController {
 	
 	@Autowired
+	private ChannelService channelService;
+	
+	@Autowired
 	private ChannelDao channelDao;
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method=RequestMethod.POST)
     public Channel add(@RequestBody Channel channel) throws DuplicatedEntryException {
-		return channelDao.createChannel(channel);
+		Channel ch = channelDao.createChannel(channel);
+		channelService.generateConfigFile(ch);
+		return ch;
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -52,13 +58,17 @@ public class ChannelController {
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{cid}", method=RequestMethod.PUT)
     public Channel update(@RequestBody Channel channel)  throws DuplicatedEntryException {
-		return channelDao.updateChannel(channel);
+		Channel ch = channelDao.updateChannel(channel);
+		channelService.generateConfigFile(ch);
+		return ch;
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{cid}", method=RequestMethod.DELETE)
     public Channel delete(@PathVariable Long cid) {
-		return channelDao.deleteChannel(cid);
+		Channel ch =  channelDao.deleteChannel(cid);
+		channelService.removeConfigFile(ch);
+		return ch;
     }
 	
 	@ExceptionHandler(DuplicatedEntryException.class)
