@@ -46,7 +46,7 @@ public class UserController {
 		return userDao.getUserById(uid);
     }
 	
-	@PreAuthorize("hasRole('ROLE_USER') and #n == authentication.name")
+	@PreAuthorize("(hasRole('ROLE_USER') and #n == authentication.name) or hasRole('ROLE_ADMIN')")
 	@RequestMapping(value = "/{name:.+}", method=RequestMethod.GET, params="by=name")
     public User getByName(@Param("n") @PathVariable String name)  {
 		return userDao.getUserByName(name);
