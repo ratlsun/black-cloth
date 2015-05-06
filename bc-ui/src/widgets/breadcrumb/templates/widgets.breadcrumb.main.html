@@ -4,6 +4,8 @@
             <i class="fa fa-dashboard"></i> 模拟系统
         </a></li>
 
+        <li ng-if="mockerMode.create" class="active">新建</li>
+
         <li ng-if="mockerMode.view" class="active">{{mocker.name}}</li>
         <li ng-if="mockerMode.view"><a href="" ng-click="gotoMockerSetting(mocker)">
             <i class="fa fa-edit" tooltip="修改设置" tooltip-trigger tooltip-placement="bottom"></i>

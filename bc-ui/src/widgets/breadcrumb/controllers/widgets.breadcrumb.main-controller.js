@@ -12,15 +12,20 @@
                 $scope.activeMenu = $state.current.name;
                 $scope.mockerMode = {
                     view: false,
-                    setting: false
+                    setting: false,
+                    create: false
                 };
 
-                mockerService.getMockerById($scope.lastItemId).then(function(resp){
-                    $scope.mocker = resp;
-                });
+                if ($scope.lastItemId) {
+                    mockerService.getMockerById($scope.lastItemId).then(function(resp) {
+                        $scope.mocker = resp;
+                    });
+                }
 
                 if ($scope.activeMenu === appConfig.stateName.mockerViewer) {
                     $scope.mockerMode.view = true;
+                } else if ($scope.activeMenu === appConfig.stateName.mockerCreator) {
+                    $scope.mockerMode.create = true;
                 } else {
                     $scope.mockerMode.setting = true;
                 }
