@@ -1,0 +1,72 @@
+<div class="mocker-setting-panel-bc">
+    <div class="row">
+        <div class="col-xs-3">
+            <inner-sidebar></inner-sidebar>
+        </div>
+
+        <div class="col-xs-9">
+            <div class="panel panel-primary setting-op-list">
+                <div class="panel-heading">
+                    <h3 class="panel-title">模拟系统-{{mocker.name}}</h3>
+                </div>
+                <div class="panel-body">
+                    <form ng-submit="updateName()">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <div class="form-group">
+                                    <label for="input-name">更改模拟系统名称：</label>
+                                    <input type="text" ng-model="mocker.newName"
+                                           class="form-control" id="input-name"
+                                           placeholder="" required/>
+                                </div>
+                                <div class="alert alert-danger" ng-show="invalidMessage.name">
+                                    <i class="fa fa-warning"></i>{{invalidMessage.name}}
+                                </div>
+                            </div>
+                            <div class="col-xs-offset-2 col-xs-2">
+                                <button type="submit" class="btn btn-submit-bc">更改名称</button>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <h4>开放模拟系统给所有用户</h4>
+                                <p>公开的模拟系统中的匹配规则可以被其他用户使用和修改。</p>
+                            </div>
+                            <div class="col-xs-offset-2 col-xs-2">
+                                <button class="btn btn-default" disabled="disabled">暂未提供</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <h4>更换模拟系统所有者</h4>
+                                <p>更换生效后，原有系统所有者将不再有相关权限！</p>
+                            </div>
+                            <div class="col-xs-offset-2 col-xs-2">
+                                <button class="btn btn-default" disabled="disabled">暂未提供</button>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item">
+                        <div class="row">
+                            <div class="col-xs-8">
+                                <h4>删除模拟系统</h4>
+                                <p>删除模拟系统将同时清除改系统下所有规则和使用纪录！</p>
+                            </div>
+                            <div class="col-xs-offset-2 col-xs-2">
+                                <button ng-click="deleteMocker()" class="btn btn-danger">确定删除</button>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

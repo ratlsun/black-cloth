@@ -1,34 +1,51 @@
 <div class="navbar navbar-bc navbar-fixed-top" id="navbar-bc">
-  <div class="container">
-    <div class="navbar-header">
-      <a href="" ng-click="gotoHome()" class="navbar-brand">黑布</a>
+    <div class="container">
+        <div class="navbar-header">
+            <a href="" ng-click="gotoHome()" class="navbar-brand">模客</a>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+            <ul class="nav navbar-nav">
+                <li class="navbar-text"></li>
+                <li class="navbar-text"></li>
+                <li class="navbar-text"></li>
+                <li ng-class="{'active': activeMenu==='mockerDashboard'}" tooltip="模拟系统列表" tooltip-trigger tooltip-placement="bottom">
+                    <a href="" ng-click="gotoMockerDashboard()">模拟系统</a>
+                </li>
+                <li ng-if="currentUser.name" ng-class="{'active': activeMenu==='mockerCreator'}" tooltip="新建模拟系统" tooltip-trigger tooltip-placement="bottom">
+                    <a href="" ng-click="gotoMockerCreator()" class="navbar-icon"><i class="fa fa-plus fa-lg"></i></a>
+                </li>
+                <li ng-if="currentUser.name" tooltip="开始模拟" tooltip-trigger tooltip-placement="bottom">
+                    <a href="" ng-click="gotoMockerWizard()" class="navbar-icon"><i class="fa fa-play-circle-o fa-lg"></i></a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li dropdown class="dropdown dropdown-right" ng-if="currentUser.name">
+                    <a dropdown-toggle href="" class="dropdown-toggle">{{currentUser.name}}<span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li ng-if="currentUser.isAdmin">
+                            <a href="" ng-click="gotoUserAdmin()">用户管理 <span class="pull-right"><i
+                                    class="fa fa-users"></i></span></a>
+                        </li>
+                        <li ng-if="currentUser.isAdmin">
+                            <a href="" ng-click="gotoChannelAdmin()">通道管理 <span class="pull-right"><i
+                                    class="fa fa-exchange"></i></span></a>
+                        </li>
+
+                        <li>
+                            <a href="" ng-click="logout()">退出 <span class="pull-right"><i
+                                    class="fa fa-sign-out"></i></span></a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li ng-class="{'active': activeMenu==='register'}" ng-if="!currentUser.name">
+                    <a href="" ng-click="gotoRegister()">注册</a>
+                </li>
+
+                <li ng-class="{'active': activeMenu==='login'}" ng-if="!currentUser.name">
+                    <a href="" ng-click="gotoLogin()">登录</a>
+                </li>
+            </ul>
+        </div>
     </div>
-    <div class="navbar-collapse collapse" id="navbar-main">
-      <ul class="nav navbar-nav navbar-right">
-          <li class="dropdown dropdown-right" ng-if="currentUser.name">
-              <a href="" class="dropdown-toggle">{{currentUser.name}}<span class="caret"></span></a>
-              <ul class="dropdown-menu">
-                  <li ng-if="currentUser.isAdmin">
-                      <a href="" ng-click="gotoUserAdmin()">用户管理 <span class="pull-right"><i class="fa fa-users"></i></span></a>
-                  </li>
-                  <li ng-if="currentUser.isAdmin">
-                      <a href="" ng-click="gotoChannelAdmin()">通道管理 <span class="pull-right"><i class="fa fa-exchange"></i></span></a>
-                  </li>
-
-                  <li>
-                      <a href="" ng-click="logout()">退出 <span class="pull-right"><i class="fa fa-sign-out"></i></span></a>
-                  </li>
-              </ul>
-          </li>
-
-          <li ng-class="{'active': activeMenu==='register'}" ng-if="!currentUser.name">
-              <a href="" ng-click="gotoRegister()">注册</a>
-          </li>
-
-          <li ng-class="{'active': activeMenu==='login'}" ng-if="!currentUser.name">
-              <a href="" ng-click="gotoLogin()">登录</a>
-          </li>
-      </ul>
-    </div>
-  </div>
 </div>

@@ -5,6 +5,7 @@ abstract class KeyUtils {
 	
 	static final String USER = "user:";
 	static final String CHANNEL = "channel:";
+	static final String MOCKER = "mocker:";
 	
 	static String userId(String uid) {
 		return USER + uid;
@@ -47,4 +48,19 @@ abstract class KeyUtils {
 		return key.substring(l, l+1);
 	}
 	
+	public static String mockerId() {
+		return ID_GENERATOR + "mocker"	;
+	}
+	
+	public static String mockerId(String mockerId) {
+		return MOCKER + mockerId;
+	}
+
+	public static String mockerOwnerName(String owner, String name) {
+		return MOCKER + "owner-" + owner + ":" + name + ":mid";
+	}
+
+	public static String mockerOwner(String owner) {
+		return MOCKER + "owner-" + owner + ":names";
+	}
 }

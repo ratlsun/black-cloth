@@ -1,0 +1,52 @@
+<div class="mocker-creator-form-bc">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-xs-offset-3">
+                <form ng-submit="save()">
+                    <div class="row">
+                        <div class="col-xs-11">
+                            <div class="form-group">
+                                <label for="input-name">模拟系统名称：</label>
+                                <input type="text" ng-model="mocker.name" class="form-control" id="input-name"
+                                       placeholder="" required autofocus/>
+                            </div>
+                            <div class="alert alert-danger" ng-show="invalidMessage.name">
+                                <i class="fa fa-warning"></i>{{invalidMessage.name}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-11">
+                            <div class="form-group">
+                                <label for="input-desc">模拟系统功能描述：</label>
+                                <textarea ng-model="mocker.desc" id="input-desc" class="form-control"
+                                          rows="2"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <hr/>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>
+                                <input disabled="disabled" checked="checked" ng-model="mocker.type" type="radio" value="Public">
+                                公开(暂时不支持)
+                            </label>
+                            <span class="help-block">公开的模拟系统中的匹配规则可以被其他用户使用和修改。</span>
+                        </div>
+                        <div class="col-xs-12">
+                            <label>
+                                <input checked="checked" ng-model="mocker.type" type="radio" value="Private">
+                                私有
+                            </label>
+                            <span class="help-block">私有的模拟系统不会被其他用户看到。</span>
+                        </div>
+                    </div>
+                    <hr/>
+                    <button type="submit" class="btn btn-submit-bc btn-lg">创建模拟系统</button>
+                </form>
+            </div>
+            <!-- /.col-xs-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+</div>

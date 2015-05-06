@@ -5,12 +5,12 @@
                 <legend>{{formTitle}}</legend>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>通道名称</label>
+                    <label class="col-sm-2 control-label"><sup><i class="fa fa-asterisk text-danger"></i></sup>通道名称</label>
                     <div class="col-sm-5">
                         <input type="text" ng-model="channel.serviceName" required placeholder="例如Mock等(注意大小写)" class="form-control">
                     </div>
 
-                    <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>所属系统</label>
+                    <label class="col-sm-2 control-label"><sup><i class="fa fa-asterisk text-danger"></i></sup>所属系统</label>
                     <div class="col-sm-3">
                         <input type="text" ng-model="channel.system" required placeholder="例如N，Q等" class="form-control">
                         <div class="alert alert-danger" ng-show="invalidMessage.system">
@@ -23,7 +23,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>IP地址</label>
+                    <label class="col-sm-2 control-label"><sup><i class="fa fa-asterisk text-danger"></i></sup>IP地址</label>
                     <div class="col-sm-5">
                         <input type="text" ng-model="channel.ip" required
                                ng-pattern=""
@@ -33,7 +33,7 @@
                         </div>
                     </div>
 
-                    <label class="col-sm-2 control-label"><i class="fa fa-asterisk text-danger"></i>端口</label>
+                    <label class="col-sm-2 control-label"><sup><i class="fa fa-asterisk text-danger"></i></sup>端口</label>
                     <div class="col-sm-3">
                         <input type="number" min="1" ng-model="channel.port" required placeholder="" class="form-control">
                     </div>

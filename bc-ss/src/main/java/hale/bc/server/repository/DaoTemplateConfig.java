@@ -1,6 +1,7 @@
 package hale.bc.server.repository;
 
 import hale.bc.server.to.Channel;
+import hale.bc.server.to.Mocker;
 import hale.bc.server.to.User;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class DaoTemplateConfig {
 	@Bean
 	public RedisTemplate<String, Channel> channelTemplate() {
 		return template(Channel.class);
+	}
+	
+	@Bean
+	public RedisTemplate<String, Mocker> mockerTemplate() {
+		return template(Mocker.class);
 	}
 
 	private <T> RedisTemplate<String, T> template(Class<T> t) {

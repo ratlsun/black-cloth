@@ -1,0 +1,13 @@
+<div class="mocker-list-panel-bc">
+    <div ng-repeat="mocker in mockers" class="list-item row">
+        <div class="item-container">
+            <div class="item-icon">
+                <div><i class="fa fa-lock fa-2x"></i></div>
+            </div>
+            <a href="" ng-click="onItemClick({mocker: mocker})">{{mocker.name}}</a>
+            <i class="fa fa-retweet count" tooltip="有0条规则" tooltip-trigger tooltip-placement="bottom">0</i>
+            <i class="fa fa-crosshairs count" tooltip="0次匹配规则成功" tooltip-trigger tooltip-placement="bottom">0</i>
+            <i class="fa fa-eye count" tooltip="有0个关注" tooltip-trigger tooltip-placement="bottom">0</i>
+        </div>
+    </div>
+</div>

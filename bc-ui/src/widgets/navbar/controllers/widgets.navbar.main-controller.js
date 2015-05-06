@@ -17,6 +17,14 @@
                     userService.getUserByName('ppp');
                 };
 
+                $scope.gotoMockerDashboard = function () {
+                    $state.go(appConfig.stateName.mockerDashboard);
+                };
+
+                $scope.gotoMockerCreator = function () {
+                    $state.go(appConfig.stateName.mockerCreator);
+                };
+
                 $scope.gotoLogin = function () {
                     $state.go(appConfig.stateName.login);
                 };
@@ -26,11 +34,11 @@
                 };
 
                 $scope.gotoUserAdmin = function () {
-                    $state.go(appConfig.stateName.user_admin);
+                    $state.go(appConfig.stateName.userAdmin);
                 };
 
                 $scope.gotoChannelAdmin = function () {
-                    $state.go(appConfig.stateName.channel_admin);
+                    $state.go(appConfig.stateName.channelAdmin);
                 };
 
                 $scope.logout = function () {

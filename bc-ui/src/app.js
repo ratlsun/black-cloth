@@ -19,7 +19,8 @@
         'module.login',
         'module.register',
         'module.user-admin',
-        'module.channel-admin'
+        'module.channel-admin',
+        'module.mocker'
 
     ]).config([
         '$stateProvider',
@@ -47,14 +48,30 @@
                 url: '/signup',
                 templateUrl: 'register.main.html',
                 controller: 'register.MainController'
-            }).state(appConfig.stateName.user_admin, {
+            }).state(appConfig.stateName.userAdmin, {
                 url: '/user-admin',
                 templateUrl: 'user-admin.main.html',
                 controller: 'user-admin.MainController'
-            }).state(appConfig.stateName.channel_admin, {
+            }).state(appConfig.stateName.channelAdmin, {
                 url: '/channel-admin',
                 templateUrl: 'channel-admin.main.html',
                 controller: 'channel-admin.MainController'
+            }).state(appConfig.stateName.mockerCreator, {
+                url: '/mocker-creator',
+                templateUrl: 'mocker.creator.main.html',
+                controller: 'mocker.creator.MainController'
+            }).state(appConfig.stateName.mockerViewer, {
+                url: '/mocker-viewer?mid',
+                templateUrl: 'mocker.viewer.main.html',
+                controller: 'mocker.viewer.MainController'
+            }).state(appConfig.stateName.mockerSetting, {
+                url: '/mocker-setting?mid',
+                templateUrl: 'mocker.setting.main.html',
+                controller: 'mocker.setting.MainController'
+            }).state(appConfig.stateName.mockerDashboard, {
+                url: '/mocker-dashboard',
+                templateUrl: 'mocker.dashboard.main.html',
+                controller: 'mocker.dashboard.MainController'
             });
 
             RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});

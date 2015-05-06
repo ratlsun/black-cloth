@@ -9,8 +9,12 @@
                 home: 'home',
                 login: 'login',
                 register: 'register',
-                user_admin: 'user_admin',
-                channel_admin: 'channel_admin'
+                userAdmin: 'user-admin',
+                channelAdmin: 'channel-admin',
+                mockerCreator: 'mocker-creator',
+                mockerViewer: 'mocker-viewer',
+                mockerSetting: 'mocker-setting',
+                mockerDashboard: 'mocker-dashboard'
             },
 
             userStatus: {

@@ -10,7 +10,7 @@ public class Channel {
 	private String port;
 	private char system;
 	private String desc;
-	private ChannelType ctype = ChannelType.Public;
+	private ChannelType type = ChannelType.Public;
 	
 	public Channel() {
 		super();
@@ -64,11 +64,11 @@ public class Channel {
 		this.desc = desc;
 	}
 
-	public ChannelType getCtype() {
-		return ctype;
+	public ChannelType getType() {
+		return type;
 	}
 
-	public void setCtype(ChannelType ctype) {
-		this.ctype = ctype;
+	public void setType(ChannelType type) {
+		this.type = type;
 	}
 }

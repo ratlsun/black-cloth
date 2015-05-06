@@ -1,0 +1,22 @@
+<div class="breadcrumb-bc" id="breadcrumb-bc">
+    <ol class="breadcrumb">
+        <li><a href="" ng-click="gotoMockerDashboard()">
+            <i class="fa fa-dashboard"></i> 模拟系统
+        </a></li>
+
+        <li ng-if="mockerMode.view" class="active">{{mocker.name}}</li>
+        <li ng-if="mockerMode.view"><a href="" ng-click="gotoMockerSetting(mocker)">
+            <i class="fa fa-edit" tooltip="修改设置" tooltip-trigger tooltip-placement="bottom"></i>
+        </a></li>
+        <li ng-if="mockerMode.view"><a href="" ng-click="gotoRuleCreator()">
+            <i class="fa fa-plus" tooltip="添加规则" tooltip-trigger tooltip-placement="bottom"></i>
+        </a></li>
+
+        <li ng-if="mockerMode.setting"><a href="" ng-click="gotoMockerViewer(mocker)">
+            {{mocker.name}}
+        </a></li>
+        <li ng-if="mockerMode.setting" class="active">设置</li>
+
+    </ol>
+    <hr/>
+</div>
