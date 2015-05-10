@@ -58,9 +58,13 @@ public class MockerDao {
 		}
 	}
 
+	public Mocker getMockerById(Long mockerId) {
+		return mockers.get(KeyUtils.mockerId(String.valueOf(mockerId)));
+	}
+	
 	public Mocker getMockerById(Long mockerId, String owner) {
 		Mocker m = mockers.get(KeyUtils.mockerId(String.valueOf(mockerId)));
-		if (m.getOwner().equals(owner)) {
+		if (m != null && m.getOwner() != null && m.getOwner().equals(owner)) {
 			return m;
 		}
 		return null;
@@ -77,8 +81,8 @@ public class MockerDao {
 		return result;
 	}
 	
-	public Mocker deleteMocker(Long mockerId, String owner) {
-		Mocker m = getMockerById(mockerId, owner);
+	public Mocker deleteMocker(Long mockerId) {
+		Mocker m = getMockerById(mockerId);
 		if (m == null) {
 			return null;
 		}
@@ -89,10 +93,10 @@ public class MockerDao {
 		return m;
 	}
 	
-	public Mocker updateMocker(Mocker mocker, String owner) throws DuplicatedEntryException {
+	public Mocker updateMocker(Mocker mocker) throws DuplicatedEntryException {
 		Long mockerId = mocker.getId();
 		String mockerIdText = String.valueOf(mockerId);
-		Mocker oldMocker = getMockerById(mockerId, owner);
+		Mocker oldMocker = getMockerById(mockerId);
 		if (oldMocker == null) {
 			return null;
 		}
@@ -103,7 +107,7 @@ public class MockerDao {
 			stringTemplate.delete(getOwnerNameKey(oldMocker));
 			ownerNames.set(newOwnerNameKey, mockerIdText);
 			
-			String ownerKey = KeyUtils.mockerOwner(owner);
+			String ownerKey = KeyUtils.mockerOwner(mocker.getOwner());
 			ownerIndex.remove(ownerKey, oldMocker.getName());
 			ownerIndex.add(ownerKey, mocker.getName(), 0);
 		}

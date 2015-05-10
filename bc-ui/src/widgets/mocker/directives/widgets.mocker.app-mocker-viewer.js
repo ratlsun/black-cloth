@@ -7,7 +7,8 @@
                 return {
                     restrict: 'E',
                     scope: {
-                        mockerId: '@'
+                        mockerId: '@',
+                        onRuleClick: '&'
                     },
                     templateUrl: 'widgets.mocker.viewer.html',
                     controller: 'widgets.mocker.ViewerController',

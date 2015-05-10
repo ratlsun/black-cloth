@@ -9,7 +9,6 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +24,6 @@ public class MockerController {
 	@Autowired
 	private MockerDao mockerDao;
 	
-	@PreAuthorize("hasRole('ROLE_USER')")
 	@RequestMapping(method=RequestMethod.POST)
     public Mocker add(@RequestBody Mocker mocker, Principal principal) throws DuplicatedEntryException {
 		mocker.setOwner(principal.getName());
@@ -44,12 +42,20 @@ public class MockerController {
 	
 	@RequestMapping(value = "/{mid}", method=RequestMethod.PUT)
     public Mocker update(@RequestBody Mocker mocker, Principal principal)  throws DuplicatedEntryException {
-		return mockerDao.updateMocker(mocker, principal.getName());
+		Mocker m = mockerDao.getMockerById(mocker.getId(), principal.getName());
+		if (m == null) {
+			return null;
+		}
+		return mockerDao.updateMocker(mocker);
     }
 	
 	@RequestMapping(value = "/{mid}", method=RequestMethod.DELETE)
     public Mocker delete(@PathVariable Long mid, Principal principal) {
-		return mockerDao.deleteMocker(mid, principal.getName());
+		Mocker m = mockerDao.getMockerById(mid, principal.getName());
+		if (m == null) {
+			return null;
+		}
+		return mockerDao.deleteMocker(mid);
     }
 	
 	@ExceptionHandler(DuplicatedEntryException.class)

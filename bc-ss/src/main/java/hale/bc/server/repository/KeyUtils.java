@@ -6,6 +6,7 @@ abstract class KeyUtils {
 	static final String USER = "user:";
 	static final String CHANNEL = "channel:";
 	static final String MOCKER = "mocker:";
+	static final String RULE = "rule:";
 	
 	static String userId(String uid) {
 		return USER + uid;
@@ -49,7 +50,7 @@ abstract class KeyUtils {
 	}
 	
 	public static String mockerId() {
-		return ID_GENERATOR + "mocker"	;
+		return ID_GENERATOR + "mocker";
 	}
 	
 	public static String mockerId(String mockerId) {
@@ -62,5 +63,17 @@ abstract class KeyUtils {
 
 	public static String mockerOwner(String owner) {
 		return MOCKER + "owner-" + owner + ":names";
+	}
+
+	public static String ruleId() {
+		return ID_GENERATOR + "rule"	;
+	}
+
+	public static String ruleId(String ruleId) {
+		return RULE + ruleId;
+	}
+
+	public static String ruleMocker(Long mockerId) {
+		return RULE + "mocker-" + mockerId + ":ids";
 	}
 }

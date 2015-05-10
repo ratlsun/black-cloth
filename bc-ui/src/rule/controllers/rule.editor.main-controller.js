@@ -1,8 +1,8 @@
 (function (window, angular) {
     "use strict";
 
-    angular.module('module.mocker')
-        .controller('mocker.viewer.MainController', [
+    angular.module('module.rule')
+        .controller('rule.editor.MainController', [
             '$scope',
             '$state',
             '$stateParams',
@@ -10,13 +10,14 @@
             function ($scope, $state, $stateParams, appConfig) {
 
                 $scope.mockerId = $stateParams.mid;
+                $scope.ruleId = $stateParams.rid;
 
-                $scope.editRule = function (rule) {
-                    $state.go(appConfig.stateName.ruleEditor, {
-                        mid: $scope.mockerId,
-                        rid: rule.id
+                $scope.gotoMockerViewer = function () {
+                    $state.go(appConfig.stateName.mockerViewer, {
+                        mid: $scope.mockerId
                     });
                 };
+
             }
         ]);
 

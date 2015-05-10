@@ -20,7 +20,8 @@
         'module.register',
         'module.user-admin',
         'module.channel-admin',
-        'module.mocker'
+        'module.mocker',
+        'module.rule'
 
     ]).config([
         '$stateProvider',
@@ -72,6 +73,10 @@
                 url: '/mocker-dashboard',
                 templateUrl: 'mocker.dashboard.main.html',
                 controller: 'mocker.dashboard.MainController'
+            }).state(appConfig.stateName.ruleEditor, {
+                url: '/rule-editor?mid&rid',
+                templateUrl: 'rule.editor.main.html',
+                controller: 'rule.editor.MainController'
             });
 
             RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});

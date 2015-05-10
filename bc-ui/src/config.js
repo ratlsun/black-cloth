@@ -14,7 +14,8 @@
                 mockerCreator: 'mocker-creator',
                 mockerViewer: 'mocker-viewer',
                 mockerSetting: 'mocker-setting',
-                mockerDashboard: 'mocker-dashboard'
+                mockerDashboard: 'mocker-dashboard',
+                ruleEditor: 'rule-editor'
             },
 
             userStatus: {

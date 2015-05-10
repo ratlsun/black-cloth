@@ -9,8 +9,8 @@
 
                 mockerService.getMockerById($scope.mockerId).then(function(resp){
                     $scope.mocker = resp;
-                    $scope.mocker.rules = ['a','b'];
                 });
+
             }
         ]);
 

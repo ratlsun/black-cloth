@@ -5,15 +5,18 @@
         .controller('widgets.breadcrumb.MainController', [
             '$scope',
             '$state',
+            '$stateParams',
             'appConfig',
             'mockerService',
-            function ($scope, $state, appConfig, mockerService) {
+            function ($scope, $state, $stateParams, appConfig, mockerService) {
 
                 $scope.activeMenu = $state.current.name;
                 $scope.mockerMode = {
                     view: false,
                     setting: false,
-                    create: false
+                    create: false,
+                    addRule: false,
+                    editRule: false
                 };
 
                 if ($scope.lastItemId) {
@@ -26,28 +29,34 @@
                     $scope.mockerMode.view = true;
                 } else if ($scope.activeMenu === appConfig.stateName.mockerCreator) {
                     $scope.mockerMode.create = true;
-                } else {
+                } else if ($scope.activeMenu === appConfig.stateName.mockerSetting) {
                     $scope.mockerMode.setting = true;
+                } else if ($stateParams.rid) {
+                    $scope.mockerMode.editRule = true;
+                } else {
+                    $scope.mockerMode.addRule = true;
                 }
 
                 $scope.gotoMockerDashboard = function () {
                     $state.go(appConfig.stateName.mockerDashboard);
                 };
 
-                $scope.gotoMockerSetting = function (mocker) {
+                $scope.gotoMockerSetting = function () {
                     $state.go(appConfig.stateName.mockerSetting, {
-                        mid: mocker.id
+                        mid: $scope.mocker.id
                     });
                 };
 
-                $scope.gotoMockerViewer = function (mocker) {
+                $scope.gotoMockerViewer = function () {
                     $state.go(appConfig.stateName.mockerViewer, {
-                        mid: mocker.id
+                        mid: $scope.mocker.id
                     });
                 };
 
-                $scope.gotoRuleCreator = function () {
-                    $state.go(appConfig.stateName.mockerCreator);
+                $scope.gotoRuleEditor = function () {
+                    $state.go(appConfig.stateName.ruleEditor, {
+                        mid: $scope.mocker.id
+                    });
                 };
             }
         ]);

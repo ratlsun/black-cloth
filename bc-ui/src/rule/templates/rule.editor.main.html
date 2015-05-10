@@ -1,0 +1,11 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+    <div class="col-xs-offset-1 col-xs-10">
+        <app-breadcrumb last-item-id="{{mockerId}}"></app-breadcrumb>
+        <app-rule-editor ng-if="!ruleId" post-rule-saved="gotoMockerViewer()"
+                mocker-id="{{mockerId}}" edit-mode="C"></app-rule-editor>
+        <app-rule-editor ng-if="ruleId" post-rule-saved="gotoMockerViewer()"
+                         mocker-id="{{mockerId}}" rule-id="{{ruleId}}" edit-mode="E"></app-rule-editor>
+    </div>
+</div>

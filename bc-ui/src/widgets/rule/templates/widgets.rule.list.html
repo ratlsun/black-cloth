@@ -1,0 +1,44 @@
+<div class="rule-list-panel-bc">
+
+    <ul class="item-list">
+        <li ng-repeat="rule in rules">
+            <div class="info">
+                <div class="well-sm">
+                    <span>{{rule.request.header.method}}</span>
+                    <span>http://your-domian/{{rule.request.header.url}}</span>
+                    <span ng-if="rule.request.body.content">
+                        <abbr title="{{rule.request.body.content}}">{...}</abbr>
+                    </span>
+                    <span><i class="fa fa-long-arrow-right"></i></span>
+                </div>
+                <div class="well-sm pull-right">
+                    <span><i class="fa fa-long-arrow-left"></i></span>
+                    <span>HTTP/1.1 {{rule.response.header.statusCode}}</span>
+                    <span>[{{rule.response.header.contentType}};charset=UTF-8]</span>
+                    <span ng-if="rule.response.body.content">
+                        <abbr title="{{rule.response.body.content}}">{...}</abbr>
+                    </span>
+                </div>
+                <hr/>
+                <ul>
+                    <li>匹配成功次数：0</li>
+                    <li>最后更新时间：{{rule.updated | date:'yyyy-MM-dd HH:mm'}}</li>
+                    <li>创建时间：{{rule.created | date:'yyyy-MM-dd HH:mm'}}</li>
+                </ul>
+            </div>
+            <div class="operation">
+                <ul>
+                    <li tooltip="删除规则" tooltip-trigger tooltip-placement="right">
+                        <a href="" ng-click="deleteRule(rule)"><span class="fa fa-trash"></span></a>
+                    </li>
+                    <li tooltip="使规则无效" tooltip-trigger tooltip-placement="right">
+                        <a href="" ng-click="disableRule(rule)"><span class="fa fa-check-square-o"></span></a>
+                    </li>
+                    <li tooltip="修改规则" tooltip-trigger tooltip-placement="right">
+                        <a href="" ng-click="onRuleClick({rule: rule})"><span class="fa fa-edit"></span></a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+    </ul>
+</div>
