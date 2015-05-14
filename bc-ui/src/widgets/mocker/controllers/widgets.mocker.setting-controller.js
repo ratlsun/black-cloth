@@ -23,7 +23,7 @@
                     }
                     var oldName = $scope.mocker.name;
                     $scope.mocker.name = $scope.mocker.newName;
-                    mockerService.updateMocker($scope.mocker).then(function(resp){
+                    mockerService.updateMocker($scope.mocker, 'ChangeMockerName').then(function(resp){
                         if (resp.result === -1) {
                             $scope.invalidMessage.name = '相同名字的模拟系统已经存在！';
                             $scope.mocker.name = oldName;

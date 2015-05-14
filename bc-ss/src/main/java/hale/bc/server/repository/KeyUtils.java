@@ -7,6 +7,7 @@ abstract class KeyUtils {
 	static final String CHANNEL = "channel:";
 	static final String MOCKER = "mocker:";
 	static final String RULE = "rule:";
+	static final String USER_OPERATION = "user-operation:";
 	
 	static String userId(String uid) {
 		return USER + uid;
@@ -75,5 +76,13 @@ abstract class KeyUtils {
 
 	public static String ruleMocker(Long mockerId) {
 		return RULE + "mocker-" + mockerId + ":ids";
+	}
+
+	public static String userOperationMocker(Long mockerId) {
+		return USER_OPERATION + "mocker-" + mockerId + ":values";
+	}
+	
+	public static String userOperationUsername(String username) {
+		return USER_OPERATION + "user-" + username + ":values";
 	}
 }

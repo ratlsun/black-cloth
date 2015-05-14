@@ -8,14 +8,14 @@
                 <li class="navbar-text"></li>
                 <li class="navbar-text"></li>
                 <li class="navbar-text"></li>
-                <li ng-class="{'active': activeMenu==='mockerDashboard'}" tooltip="模拟系统列表" tooltip-trigger tooltip-placement="bottom">
+                <li ng-class="{'active': activeMenu==='mocker-dashboard'}" tooltip="模拟系统列表" tooltip-trigger tooltip-placement="bottom">
                     <a href="" ng-click="gotoMockerDashboard()">模拟系统</a>
                 </li>
-                <li ng-if="currentUser.name" ng-class="{'active': activeMenu==='mockerCreator'}" tooltip="新建模拟系统" tooltip-trigger tooltip-placement="bottom">
+                <li ng-if="currentUser.name" ng-class="{'active': activeMenu==='mocker-creator'}" tooltip="新建模拟系统" tooltip-trigger tooltip-placement="bottom">
                     <a href="" ng-click="gotoMockerCreator()" class="navbar-icon"><i class="fa fa-plus fa-lg"></i></a>
                 </li>
-                <li ng-if="currentUser.name" tooltip="开始模拟" tooltip-trigger tooltip-placement="bottom">
-                    <a href="" ng-click="gotoMockerWizard()" class="navbar-icon"><i class="fa fa-play-circle-o fa-lg"></i></a>
+                <li ng-if="currentUser.name" ng-class="{'active': activeMenu==='mock-activity'}" tooltip="开始模拟" tooltip-trigger tooltip-placement="bottom">
+                    <a href="" ng-click="gotoMockActivity()" class="navbar-icon"><i class="fa fa-play-circle-o fa-lg"></i></a>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">

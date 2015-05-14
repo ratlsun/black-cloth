@@ -13,7 +13,7 @@
                 };
 
                 $scope.gotoHome = function () {
-                    $state.go(appConfig.stateName.home);
+                    $state.go(appConfig.stateName.mockerDashboard);
                 };
 
             }

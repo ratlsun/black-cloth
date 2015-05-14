@@ -21,7 +21,8 @@
         'module.user-admin',
         'module.channel-admin',
         'module.mocker',
-        'module.rule'
+        'module.rule',
+        'module.mock-activity'
 
     ]).config([
         '$stateProvider',
@@ -35,7 +36,7 @@
 
             $locationProvider.hashPrefix('!').html5Mode(false);
 
-            $urlRouterProvider.otherwise(appConfig.stateName.home);
+            $urlRouterProvider.otherwise(appConfig.stateName.mockerDashboard);
 
             $stateProvider.state(appConfig.stateName.home, {
                 url: '/home',
@@ -77,6 +78,10 @@
                 url: '/rule-editor?mid&rid',
                 templateUrl: 'rule.editor.main.html',
                 controller: 'rule.editor.MainController'
+            }).state(appConfig.stateName.mockActivity, {
+                url: '/mock-activity?maid',
+                templateUrl: 'mock-activity.main.html',
+                controller: 'mock-activity.MainController'
             });
 
             RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});

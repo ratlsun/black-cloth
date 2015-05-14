@@ -3,10 +3,36 @@
 <div class="mocker-dashboard-container-bc container">
     <div class="row">
         <div class="col-xs-8">
-            feed timeline
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            最近的更新：
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <app-change-list></app-change-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="col-xs-4">
-            <app-mocker-list on-item-click="viewMocker(mocker)"></app-mocker-list>
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            拥有的模拟系统：
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <app-mocker-list on-item-click="viewMocker(mocker)"></app-mocker-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

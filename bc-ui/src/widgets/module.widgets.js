@@ -6,7 +6,9 @@
         'module.widgets.breadcrumb',
         'module.widgets.user',
         'module.widgets.channel',
-        'module.widgets.mocker'
+        'module.widgets.mocker',
+        'module.widgets.rule',
+        'module.widgets.change'
     ]);
 
 })(window, window.angular);

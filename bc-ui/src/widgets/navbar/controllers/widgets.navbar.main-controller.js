@@ -14,7 +14,7 @@
 
                 $scope.gotoHome = function () {
                     //$state.go(appConfig.stateName.home);
-                    userService.getUserByName('ppp');
+                    //userService.getUserByName('ppp');
                 };
 
                 $scope.gotoMockerDashboard = function () {
@@ -23,6 +23,10 @@
 
                 $scope.gotoMockerCreator = function () {
                     $state.go(appConfig.stateName.mockerCreator);
+                };
+
+                $scope.gotoMockActivity = function () {
+                    $state.go(appConfig.stateName.mockActivity);
                 };
 
                 $scope.gotoLogin = function () {

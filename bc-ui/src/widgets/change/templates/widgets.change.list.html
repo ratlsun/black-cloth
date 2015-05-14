@@ -1,0 +1,36 @@
+<div class="change-timeline-bc timeline">
+
+    <div class="line text-muted"></div>
+
+    <!-- Separator -->
+
+    <!-- /Separator -->
+
+    <div ng-repeat="change in changes">
+        <div class="separator text-muted" ng-if="change.dateLine">
+            <time>{{change.dateLine | date:'yyyy-MM-dd'}}</time>
+        </div>
+        <article class="panel" ng-class="change.theme" ng-if="!change.dateLine">
+            <div class="panel-heading icon">
+                <i class="fa" ng-class="change.icon"></i>
+            </div>
+            <div class="panel-heading">
+                <span class="panel-title">
+                    <i class="fa fa-clock-o"></i>{{change.endChanged | date:'HH:mm'}}&nbsp;{{change.name}}
+                </span>
+            </div>
+            <ul class="list-group" ng-if="change.hasRules">
+                <li class="list-group-item" ng-if="change.ruleAddedCount > 0">
+                    <i class="fa fa-plus"></i>{{change.ruleAddedCount}}条规则被增加
+                </li>
+                <li class="list-group-item" ng-if="change.ruleModifiedCount > 0">
+                    <i class="fa fa-edit"></i>{{change.ruleModifiedCount}}条规则被修改
+                </li>
+                <li class="list-group-item" ng-if="change.ruleDeletedCount > 0">
+                    <i class="fa fa-trash"></i>{{change.ruleDeletedCount}}条规则被移除
+                </li>
+            </ul>
+        </article>
+    </div>
+
+</div>

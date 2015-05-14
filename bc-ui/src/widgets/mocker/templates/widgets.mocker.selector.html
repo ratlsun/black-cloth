@@ -1,0 +1,6 @@
+<div class="mocker-selector-panel-bc">
+    <div ng-repeat="mocker in mockers" class="selector-item">
+        <input type="checkbox" ng-model="selectedMockers" name="input-mockers" id="input-mockers-{{mocker.id}}"/>
+        <label for="input-mockers-{{mocker.id}}">{{mocker.name}}</label>
+    </div>
+</div>

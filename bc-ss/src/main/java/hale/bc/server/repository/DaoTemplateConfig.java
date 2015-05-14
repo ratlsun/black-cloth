@@ -4,6 +4,7 @@ import hale.bc.server.to.Channel;
 import hale.bc.server.to.Mocker;
 import hale.bc.server.to.Rule;
 import hale.bc.server.to.User;
+import hale.bc.server.to.UserOperation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,6 +37,11 @@ public class DaoTemplateConfig {
 	@Bean
 	public RedisTemplate<String, Rule> ruleTemplate() {
 		return template(Rule.class);
+	}
+	
+	@Bean
+	public RedisTemplate<String, UserOperation> userOperationTemplate() {
+		return template(UserOperation.class);
 	}
 
 	private <T> RedisTemplate<String, T> template(Class<T> t) {

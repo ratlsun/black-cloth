@@ -19,8 +19,8 @@
                         return Restangular.all('mockers').post(mocker);
                     },
 
-                    updateMocker: function (mocker) {
-                        return Restangular.one('mockers', mocker.id).customPUT(mocker);
+                    updateMocker: function (mocker, operation) {
+                        return Restangular.one('mockers', mocker.id).customPUT(mocker, '', {op: operation});
                     },
 
                     deleteMocker: function (mockerId) {

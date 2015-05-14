@@ -1,0 +1,55 @@
+<app-navbar></app-navbar>
+
+<div class="mock-activity-dashboard-bc container">
+    <div class="row">
+        <div class="col-xs-3">
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            请选择需要模拟的系统：
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <app-mocker-selector></app-mocker-selector>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-2">
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            启动／停止模拟：
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <button class="btn btn-submit-bc btn-block" ng-click="startMock()"><i class="fa fa-play"></i>开始</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-7">
+            <div class="tabbable-panel">
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            模拟器匹配日志：
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="activity-msg-panel-bc">
+                            <div class="msg msg-success"> <i class="fa fa-compress"></i> msg msg-success msg-success-text</div>
+                            <div class="msg msg-danger msg-danger-text"> <i class="fa fa-question-circle"></i> msg msg-success msg-success-text</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
