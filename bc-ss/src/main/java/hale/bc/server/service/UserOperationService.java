@@ -39,8 +39,7 @@ public class UserOperationService {
 	    			case ChangeMockerType:
 	    			case ChangeMockerName:
 	    			case DeleteMocker:
-	    				chs.add(UserChange.mockerChange(op.getUserName(), op.getMocker(), op, 
-	    						UserChangeType.valueOf(op.getType().name())));
+	    				chs.add(UserChange.mockerChange(op.getMocker(), op, UserChangeType.valueOf(op.getType().name())));
 	    				break;
 	    			case CreateRule:
 	    			case UpdateRule:
@@ -51,12 +50,17 @@ public class UserOperationService {
 	    				if (needMerge(mockerRuleMap, op)){
 	    					mockerRuleMap.get(mid).merge(op);
 	    				} else {
-	    					UserChange uc = UserChange.mockerChange(op.getUserName(), 
-    								op.getMocker(), op, UserChangeType.ChangeMockerRules);
+	    					UserChange uc = UserChange.mockerChange(op.getMocker(), op, UserChangeType.ChangeMockerRules);
 	    					chs.add(uc);
 	    					mockerRuleMap.put(mid, uc);
 	    				}
 	    				break;
+	    			case StartMock:
+	    			case StopMock:
+    					chs.add(UserChange.activityChange(op));
+	    				break;
+	    			case PauseMock:
+	    			case ResumeMock:
 	    			default:
     			}
     		}

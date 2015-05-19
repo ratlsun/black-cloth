@@ -26,7 +26,9 @@ public class UserOperationDao {
 	
 	public UserOperation createUserOperation(UserOperation userOperation) {
 		userOperation.setLogged(new Date());
-		mockerIndex.add(KeyUtils.userOperationMocker(userOperation.getMocker().getId()), userOperation, userOperation.getLogged().getTime());
+		if(userOperation.getMocker() != null){
+			mockerIndex.add(KeyUtils.userOperationMocker(userOperation.getMocker().getId()), userOperation, userOperation.getLogged().getTime());
+		}
 		userIndex.add(KeyUtils.userOperationUsername(userOperation.getUserName()), userOperation, userOperation.getLogged().getTime());
 		return userOperation;
 	}

@@ -7,7 +7,8 @@
                 return {
                     restrict: 'E',
                     scope: {
-                        onItemClick: '&'
+                        selectedMockers: '=',
+                        disableCheck: '='
                     },
                     templateUrl: 'widgets.mocker.selector.html',
                     controller: 'widgets.mocker.SelectorController',

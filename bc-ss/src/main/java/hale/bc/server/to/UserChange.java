@@ -13,7 +13,7 @@ public class UserChange {
 	private Integer ruleDeletedCount = 0;
 	private Integer ruleMatchedCount = 0;
 	private Integer ruleMismatchCount = 0;
-	private Long mockActivityId;
+	private String mockActivityCode;
 	private String name;
 	private Date startChanged;
 	private Date endChanged;
@@ -23,10 +23,10 @@ public class UserChange {
 		super();
 	}
 	
-	static public UserChange mockerChange(String userName, Mocker mocker, UserOperation mockerOperation,
+	static public UserChange mockerChange(Mocker mocker, UserOperation mockerOperation,
 			UserChangeType type) {
 		UserChange uc = new UserChange();
-		uc.setUserName(userName);
+		uc.setUserName(mockerOperation.getUserName());
 		uc.setMocker(mocker);
 		uc.setStartChanged(mockerOperation.getLogged());
 		uc.setEndChanged(mockerOperation.getLogged());
@@ -59,15 +59,6 @@ public class UserChange {
 		return uc;
 	}
 	
-	static public UserChange activityChange(String userName, Long mockActivityId) {
-		UserChange uc = new UserChange();
-		uc.setUserName(userName);
-		uc.setMockActivityId(mockActivityId);
-		uc.setName("进行了一次模拟");
-		uc.setType(UserChangeType.MockActivity);
-		return uc;
-	}
-
 	public void merge(UserOperation op) {
 		setStartChanged(op.getLogged());
 		switch(op.getType()) {
@@ -84,6 +75,17 @@ public class UserChange {
 		}		
 	}
 	
+	static public UserChange activityChange(UserOperation activityOperation) {
+		UserChange uc = new UserChange();
+		uc.setUserName(activityOperation.getUserName());
+		uc.setMockActivityCode(activityOperation.getMockActivityCode());
+		uc.setName(activityOperation.getName());
+		uc.setType(UserChangeType.MockActivity);
+		uc.setStartChanged(activityOperation.getLogged());
+		uc.setEndChanged(activityOperation.getLogged());
+		return uc;
+	}
+
 	public String getUserName() {
 		return userName;
 	}
@@ -124,12 +126,12 @@ public class UserChange {
 		this.ruleDeletedCount = ruleDeletedCount;
 	}
 
-	public Long getMockActivityId() {
-		return mockActivityId;
+	public String getMockActivityCode() {
+		return mockActivityCode;
 	}
 
-	public void setMockActivityId(Long mockActivityId) {
-		this.mockActivityId = mockActivityId;
+	public void setMockActivityCode(String mockActivityCode) {
+		this.mockActivityCode = mockActivityCode;
 	}
 
 	public String getName() {

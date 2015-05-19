@@ -9,7 +9,7 @@ public class UserOperation {
 	private String userName;
 	private Mocker mocker;
 	private Long ruleId;
-	private Long mockActivityId;
+	private String mockActivityCode;
 	private String name;
 	private String desc;
 	private Date logged;
@@ -78,12 +78,26 @@ public class UserOperation {
 		return uo;
 	}
 	
-	static public UserOperation activityOperation(String userName, Long mockActivityId, String name, UserOperationType type) {
+	static public UserOperation activityOperation(String userName, String mockActivityCode, UserOperationType type) {
 		UserOperation uo = new UserOperation();
 		uo.setUserName(userName);
-		uo.setMockActivityId(mockActivityId);
-		uo.setName(name);
+		uo.setMockActivityCode(mockActivityCode);
 		uo.setType(type);
+		switch(type) {
+			case StartMock:
+				uo.setName("开始进行模拟(" + mockActivityCode + ")");
+				break;
+			case StopMock:
+				uo.setName("结束模拟(" + mockActivityCode + ")");
+				break;
+			case PauseMock:
+				uo.setName("暂停模拟(" + mockActivityCode + ")");
+				break;
+			case ResumeMock:
+				uo.setName("恢复模拟(" + mockActivityCode + ")");
+				break;
+			default:
+		}
 		return uo;
 	}
 
@@ -111,12 +125,12 @@ public class UserOperation {
 		this.ruleId = ruleId;
 	}
 
-	public Long getMockActivityId() {
-		return mockActivityId;
+	public String getMockActivityCode() {
+		return mockActivityCode;
 	}
 
-	public void setMockActivityId(Long mockActivityId) {
-		this.mockActivityId = mockActivityId;
+	public void setMockActivityCode(String mockActivityCode) {
+		this.mockActivityCode = mockActivityCode;
 	}
 
 	public String getName() {

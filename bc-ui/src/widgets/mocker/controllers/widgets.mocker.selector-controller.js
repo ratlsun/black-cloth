@@ -8,11 +8,31 @@
             'alertService',
             function ($scope, mockerService, alertService) {
 
+                $scope.selected = {};
+
                 mockerService.getMyMockers().then(function(resp){
                     $scope.mockers = resp;
                 });
 
-                $scope.selectedMockers = [];
+                $scope.$watch('selected', function (nv) {
+                    var s = [];
+                    _.forEach(nv, function(v, k){
+                        if (v) {
+                            s.push(parseInt(k));
+                        }
+                    });
+                    $scope.selectedMockers = s;
+                }, true);
+
+                $scope.$watch('selectedMockers', function (nv) {
+                    if (_.isEmpty($scope.selected)) {
+                        var s = {};
+                        _.forEach(nv, function(mid){
+                            s[mid] = true;
+                        });
+                        $scope.selected = s;
+                    }
+                });
             }
         ]);
 

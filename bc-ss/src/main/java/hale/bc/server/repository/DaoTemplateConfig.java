@@ -1,6 +1,7 @@
 package hale.bc.server.repository;
 
 import hale.bc.server.to.Channel;
+import hale.bc.server.to.MockActivity;
 import hale.bc.server.to.Mocker;
 import hale.bc.server.to.Rule;
 import hale.bc.server.to.User;
@@ -42,6 +43,11 @@ public class DaoTemplateConfig {
 	@Bean
 	public RedisTemplate<String, UserOperation> userOperationTemplate() {
 		return template(UserOperation.class);
+	}
+	
+	@Bean
+	public RedisTemplate<String, MockActivity> mockActivityTemplate() {
+		return template(MockActivity.class);
 	}
 
 	private <T> RedisTemplate<String, T> template(Class<T> t) {

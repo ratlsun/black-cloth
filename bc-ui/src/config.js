@@ -3,7 +3,7 @@
 
     angular.module('module.config', [])
         .constant('appConfig', {
-            rootContext: '/bc',
+            rootContext: '/m',
 
             stateName: {
                 home: 'home',
@@ -39,7 +39,7 @@
                 ChangeMockerOwner: {
                     typeName: 'ChangeMockerOwner',
                     icon: 'fa-user',
-                    theme: 'panel-warning'
+                    theme: 'panel-info'
                 },
                 ChangeMockerType: {
                     typeName: 'ChangeMockerType',
@@ -47,7 +47,7 @@
                         toPublic: 'fa-unlock-alt',
                         toPrivate: 'fa-lock'
                     },
-                    theme: 'panel-warning'
+                    theme: 'panel-info'
                 },
                 CreateMocker: {
                     typeName: 'CreateMocker',
@@ -58,7 +58,13 @@
                     typeName: 'DeleteMocker',
                     icon: 'fa-trash',
                     theme: 'panel-danger'
+                },
+                MockActivity: {
+                    typeName: 'MockActivity',
+                    icon: 'fa-youtube-play',
+                    theme: 'panel-warning'
                 }
+
             }
 
         }).run([

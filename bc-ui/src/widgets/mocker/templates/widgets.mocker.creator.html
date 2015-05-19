@@ -27,14 +27,14 @@
                 <div class="row">
                     <div class="col-xs-12">
                         <label>
-                            <input disabled="disabled" checked="checked" ng-model="mocker.type" type="radio" value="Public">
+                            <input disabled="disabled" ng-model="mocker.type" type="radio" value="Public">
                             公开(暂时不支持)
                         </label>
                         <span class="help-block">公开的模拟系统中的匹配规则可以被其他用户使用和修改。</span>
                     </div>
                     <div class="col-xs-12">
                         <label>
-                            <input checked="checked" ng-model="mocker.type" type="radio" value="Private">
+                            <input ng-model="mocker.type" type="radio" value="Private">
                             私有
                         </label>
                         <span class="help-block">私有的模拟系统不会被其他用户看到。</span>

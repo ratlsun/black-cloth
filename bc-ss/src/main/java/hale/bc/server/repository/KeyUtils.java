@@ -8,6 +8,7 @@ abstract class KeyUtils {
 	static final String MOCKER = "mocker:";
 	static final String RULE = "rule:";
 	static final String USER_OPERATION = "user-operation:";
+	static final String MOCK_ACTIVITY = "mock-activity:";
 	
 	static String userId(String uid) {
 		return USER + uid;
@@ -84,5 +85,13 @@ abstract class KeyUtils {
 	
 	public static String userOperationUsername(String username) {
 		return USER_OPERATION + "user-" + username + ":values";
+	}
+
+	public static String mockActivityCode(String code) {
+		return MOCK_ACTIVITY + code;
+	}
+
+	public static String mockActivityOwner(String owner) {
+		return MOCK_ACTIVITY + "owner-" + owner + ":macodes";
 	}
 }

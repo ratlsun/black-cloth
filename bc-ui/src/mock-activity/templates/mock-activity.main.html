@@ -12,7 +12,8 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active">
-                            <app-mocker-selector></app-mocker-selector>
+                            <app-mocker-selector selected-mockers="selectedMockers"
+                                                 disable-check="disableSelectMocker"></app-mocker-selector>
                         </div>
                     </div>
                 </div>
@@ -28,7 +29,18 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active">
-                            <button class="btn btn-submit-bc btn-block" ng-click="startMock()"><i class="fa fa-play"></i>开始</button>
+                            <button class="btn btn-info btn-block" ng-if="!activity || activity.status==='Stopped'" ng-click="startMock()">
+                                开始模拟&nbsp;<i class="fa fa-play"></i>
+                            </button>
+                            <button class="btn btn-warning btn-block" ng-if="activity.status==='Running'" ng-click="pauseMock()">
+                                暂停模拟&nbsp;<i class="fa fa-pause"></i>
+                            </button>
+                            <button class="btn btn-info btn-block" ng-if="activity.status==='Paused'" ng-click="resumeMock()">
+                                恢复模拟&nbsp;<i class="fa fa-play"></i>
+                            </button>
+                            <button class="btn btn-danger btn-block" ng-if="activity && activity.status!=='Stopped'" ng-click="stopMock()">
+                                结束模拟&nbsp;<i class="fa fa-stop"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -44,6 +56,14 @@
                     </ul>
                     <div class="tab-content">
                         <div class="activity-msg-panel-bc">
+                            <div ng-repeat="hit in activity.mockHits.latestHits" class="msg" ng-class="">
+                                <i class="fa fa-compress" ng-class=""></i> 匹配成功
+                                <span>{{hit.request.header.method}}</span>
+                                <span>{{hit.request.header.url}}</span>
+                                <span ng-if="hit.request.body.content">
+                                    <abbr title="{{hit.request.body.content}}">{...}</abbr>
+                                </span>
+                            </div>
                             <div class="msg msg-success"> <i class="fa fa-compress"></i> msg msg-success msg-success-text</div>
                             <div class="msg msg-danger msg-danger-text"> <i class="fa fa-question-circle"></i> msg msg-success msg-success-text</div>
                         </div>
