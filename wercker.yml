@@ -4,5 +4,8 @@ build:
     steps:
         - npm-install:
             cwd: bc-ui/
+        - script:
+            name: bower-install
+            code: bower install -q
 
 
