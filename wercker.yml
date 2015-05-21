@@ -13,6 +13,9 @@ build:
             cwd: bc-ui/
         - script:
             name: bower-install
-            code: bower install -q
+            code: |
+                cd bc-ui
+                bower install -q
+
 
 
