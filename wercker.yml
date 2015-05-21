@@ -3,6 +3,10 @@ box: wercker/nodejs
 build:
     steps:
         - npm-install:
+            options: -g bower
+        - npm-install:
+            options: -g gulp
+        - npm-install:
             cwd: bc-ui/
         - script:
             name: bower-install
