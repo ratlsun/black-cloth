@@ -8,8 +8,8 @@
             function ($scope, userService) {
 
                 $scope.user = {
-                    username: 'hale@hale.com',
-                    password: 'hale'
+                    //username: 'hale@hale.com',
+                    //password: 'hale'
                 };
                 $scope.invalidMessage = {};
 

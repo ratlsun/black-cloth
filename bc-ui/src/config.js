@@ -3,7 +3,7 @@
 
     angular.module('module.config', [])
         .constant('appConfig', {
-            rootContext: '/m',
+            rootContext: '/',
 
             stateName: {
                 home: 'home',

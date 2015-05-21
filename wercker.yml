@@ -12,10 +12,11 @@ build:
         - npm-install:
             cwd: bc-ui/
         - script:
-            name: bower-install
+            name: build with dependencies
             code: |
                 cd bc-ui
                 bower install -q
+                gulp prod
 
 
 
