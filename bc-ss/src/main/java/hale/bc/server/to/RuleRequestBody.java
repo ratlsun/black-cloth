@@ -10,6 +10,12 @@ public class RuleRequestBody {
 	public RuleRequestBody() {
 		super();
 	}
+	
+	static public RuleRequestBody buildBody(String content){
+		RuleRequestBody body = new RuleRequestBody();
+		body.setContent(content);
+		return body;
+	}
 
 	public String getContent() {
 		return content;

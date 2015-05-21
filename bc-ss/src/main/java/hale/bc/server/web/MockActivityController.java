@@ -1,6 +1,7 @@
 package hale.bc.server.web;
 
 import hale.bc.server.repository.MockActivityDao;
+import hale.bc.server.service.MockActivityService;
 import hale.bc.server.service.UserOperationService;
 import hale.bc.server.to.MockActivity;
 import hale.bc.server.to.MockActivityStatus;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-@RequestMapping("/mock-activity")
+@RequestMapping("/mock-activities")
 public class MockActivityController {
 	
 	@Autowired
@@ -27,6 +28,9 @@ public class MockActivityController {
 	
 	@Autowired
 	private UserOperationService userOperationService;
+	
+	@Autowired
+	private MockActivityService mockActivityService;
 	
 	@RequestMapping(value = "/active", method=RequestMethod.GET)
     public MockActivity getActiveMockByOwner(Principal principal) {
@@ -37,7 +41,8 @@ public class MockActivityController {
     public MockActivity start(@RequestBody MockActivity activity, Principal principal) {
 		activity.setOwner(principal.getName());
 		MockActivity ma = mockActivityDao.createMockActivity(activity);
-		if (ma != null) {
+		if (ma != null && ma.getMockerIds() != null && !ma.getMockerIds().isEmpty()) {
+			mockActivityService.loadRules(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.StartMock));
 		}
@@ -48,6 +53,7 @@ public class MockActivityController {
     public MockActivity pause(@PathVariable String code, Principal principal) {
 		MockActivity ma = updateStatus(code, principal.getName(), MockActivityStatus.Paused);
 		if (ma != null) {
+			mockActivityService.clearRules(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.PauseMock));
 		}
@@ -57,7 +63,8 @@ public class MockActivityController {
 	@RequestMapping(value = "/{code}/resume", method=RequestMethod.PUT)
     public MockActivity resume(@PathVariable String code, @RequestBody MockActivity activity, Principal principal) {
 		MockActivity ma = updateStatus(code, principal.getName(), MockActivityStatus.Running, activity.getMockerIds());
-		if (ma != null) {
+		if (ma != null && ma.getMockerIds() != null && !ma.getMockerIds().isEmpty()) {
+			mockActivityService.loadRules(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.ResumeMock));
 		}
@@ -68,6 +75,7 @@ public class MockActivityController {
     public MockActivity stop(@PathVariable String code, Principal principal) {
 		MockActivity ma = updateStatus(code, principal.getName(), MockActivityStatus.Stopped);
 		if (ma != null) {
+			mockActivityService.clearRules(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.StopMock));
 		}

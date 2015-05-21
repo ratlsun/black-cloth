@@ -12,7 +12,6 @@ public class MockActivity {
 	private Date created;
 	private Date updated;
 	private List<Long> mockerIds;
-	private MockHits mockHits;
 	private MockActivityStatus status;
 	
 	public MockActivity() {
@@ -41,14 +40,6 @@ public class MockActivity {
 
 	public void setMockerIds(List<Long> mockerIds) {
 		this.mockerIds = mockerIds;
-	}
-
-	public MockHits getMockHits() {
-		return mockHits;
-	}
-
-	public void setMockHits(MockHits mockHits) {
-		this.mockHits = mockHits;
 	}
 
 	public MockActivityStatus getStatus() {

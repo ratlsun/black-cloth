@@ -11,6 +11,13 @@ public class RuleRequest {
 		super();
 	}
 
+	static public RuleRequest buildRequest(RuleRequestHeader header, RuleRequestBody body){
+		RuleRequest r = new RuleRequest();
+		r.header = header;
+		r.body = body;
+		return r;
+	}
+	
 	public RuleRequestHeader getHeader() {
 		return header;
 	}

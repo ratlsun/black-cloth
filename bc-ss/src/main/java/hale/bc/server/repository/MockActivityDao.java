@@ -37,7 +37,7 @@ public class MockActivityDao {
 		//String code = String.valueOf(UUID.randomUUID());
 		byte bytes[] = new byte[12];
 	    random.nextBytes(bytes);
-	    String code = Base64Utils.encodeToString(bytes);
+	    String code = Base64Utils.encodeToString(bytes).replaceAll("/", "-");
 		activity.setCode(code);
 		Date d = new Date();
 		activity.setCreated(d);

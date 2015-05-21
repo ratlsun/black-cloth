@@ -11,6 +11,14 @@ public class RuleRequestHeader {
 	public RuleRequestHeader() {
 		super();
 	}
+	
+	static public RuleRequestHeader buildHeader(String url, String contentType, String method){
+		RuleRequestHeader header = new RuleRequestHeader();
+		header.setContentType(contentType);
+		header.setMethod(method);
+		header.setUrl(url);
+		return header;
+	}
 
 	public String getUrl() {
 		return url;

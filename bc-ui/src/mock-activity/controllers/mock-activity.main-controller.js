@@ -17,6 +17,9 @@
                 mockActivityService.getMyMockActivity().then(function(resp){
                     $scope.activity = resp;
                     $scope.selectedMockers = resp.mockerIds;
+                    mockActivityService.getMockHitByActivity($scope.activity).then(function(hitsResp){
+                        $scope.hits = hitsResp;
+                    });
                 });
 
                 $scope.$watch('activity', function (nv) {
@@ -32,7 +35,6 @@
                 };
 
                 $scope.startMock = function () {
-                    console.log('start ' + $scope.selectedMockers);
                     if($scope.selectedMockers.length > 0) {
                         mockActivityService.startMockActivity({mockerIds: $scope.selectedMockers}).then(function(resp){
                             if (resp) {
@@ -59,15 +61,19 @@
                 };
 
                 $scope.resumeMock = function () {
-                    $scope.activity.mockerIds = $scope.selectedMockers;
-                    mockActivityService.resumeMockActivity($scope.activity).then(function(resp){
-                        if (resp) {
-                            alertService.success('模拟环境恢复运行成功，可以进行模拟。');
-                            $scope.activity = resp;
-                        } else {
-                            alertService.error('模拟环境恢复失败，请检查模拟系统的设置是否正确！');
-                        }
-                    });
+                    if($scope.selectedMockers.length > 0) {
+                        $scope.activity.mockerIds = $scope.selectedMockers;
+                        mockActivityService.resumeMockActivity($scope.activity).then(function(resp){
+                            if (resp) {
+                                alertService.success('模拟环境恢复运行成功，可以进行模拟。');
+                                $scope.activity = resp;
+                            } else {
+                                alertService.error('模拟环境恢复失败，请检查模拟系统的设置是否正确！');
+                            }
+                        });
+                    } else {
+                        alertService.warning('请先选择需要模拟的场景再点击恢复！');
+                    }
                 };
 
                 $scope.stopMock = function () {
