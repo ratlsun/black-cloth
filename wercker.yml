@@ -20,6 +20,12 @@ build:
             name: build server side java code
             code: |
                 cd bc-ss
-                mvn clean package
+                mvn clean package -DskipTests
+
+deploy:
+    steps:
+        - script:
+            name: deploy to aliyun
+            code: ./deploy.sh
 
 
