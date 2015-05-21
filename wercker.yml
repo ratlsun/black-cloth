@@ -8,13 +8,12 @@ build:
         - npm-install:
             options: -g bower
         - npm-install:
-            options: -g gulp
-        - npm-install:
             cwd: bc-ui/
         - script:
             name: build with dependencies
             code: |
                 cd bc-ui
+                npm install gulp
                 bower install -q
                 gulp prod
 
