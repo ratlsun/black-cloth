@@ -1,4 +1,4 @@
-box: wercker/nodejs
+box: palerique/java8-oracle-nodejs
 
 build:
     steps:
@@ -10,12 +10,16 @@ build:
         - npm-install:
             options: -g gulp
         - script:
-            name: build with dependencies
+            name: build ui with dependencies
             code: |
                 cd bc-ui
                 npm install -q
                 bower install -q
                 gulp prod
-
+        - script:
+            name: build server side java code
+            code: |
+                cd bc-ss
+                mvn clean package
 
 
