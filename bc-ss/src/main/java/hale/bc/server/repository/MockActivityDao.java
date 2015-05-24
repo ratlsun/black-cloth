@@ -54,6 +54,10 @@ public class MockActivityDao {
 		return activities.get(KeyUtils.mockActivityCode(code));
 	}
 	
+	public Set<String> getMockCodesByOwner(String owner, int count) {
+		return ownerIndex.range(KeyUtils.mockActivityOwner(owner), 0, count);
+	}
+	
 	public MockActivity getActiveMockActivityByOwner(String owner) {
 		Set<String> codes =  ownerIndex.reverseRange(KeyUtils.mockActivityOwner(owner), 0, 1);
 		if (codes != null && !codes.isEmpty()) {

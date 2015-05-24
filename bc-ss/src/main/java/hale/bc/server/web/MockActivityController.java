@@ -3,6 +3,7 @@ package hale.bc.server.web;
 import hale.bc.server.repository.MockActivityDao;
 import hale.bc.server.service.MockActivityService;
 import hale.bc.server.service.UserOperationService;
+import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.MockActivity;
 import hale.bc.server.to.MockActivityStatus;
 import hale.bc.server.to.UserOperation;
@@ -10,6 +11,7 @@ import hale.bc.server.to.UserOperationType;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,6 +37,15 @@ public class MockActivityController {
 	@RequestMapping(value = "/active", method=RequestMethod.GET)
     public MockActivity getActiveMockByOwner(Principal principal) {
 		return mockActivityDao.getActiveMockActivityByOwner(principal.getName());
+    }
+	
+	@RequestMapping(value = "/has", method=RequestMethod.GET)
+    public FailedResult hasMockByOwner(Principal principal) {
+		Set<String> codes = mockActivityDao.getMockCodesByOwner(principal.getName(), 1);
+		if (codes == null || codes.isEmpty()) {
+			return null;
+		}
+		return new FailedResult(0, codes.iterator().next());  //@TODO change to normal result class.
     }
 	
 	@RequestMapping(method=RequestMethod.POST)

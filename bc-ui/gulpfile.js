@@ -51,6 +51,7 @@ gulp.task('dev:libjs', function () {
         'jquery/dist/jquery.js',
         'lodash/lodash.js',
         'spin.js/spin.js',
+        'qtip2/jquery.qtip.js',
 
         //NG-libs
         'angular/angular.js',
@@ -71,7 +72,8 @@ gulp.task('prod:libjs', function () {
     var jsLib = _.map([
         'jquery/dist/jquery.js',
         'lodash/lodash.js',
-        'spin.js/spin.js'
+        'spin.js/spin.js',
+        'qtip2/jquery.qtip.js'
     ], function(sPath) {
         return path.join(libPath, sPath);
     });
@@ -175,7 +177,8 @@ gulp.task('libcss', function () {
     var cssLib = _.map([
         'bootstrap/dist/css/bootstrap.min.css',
         'font-awesome/css/font-awesome.min.css',
-        'angular-growl-v2/build/angular-growl.min.css'
+        'angular-growl-v2/build/angular-growl.min.css',
+        'qtip2/jquery.qtip.min.css'
     ], function (sPath) {
         return path.join(libPath, sPath);
     });

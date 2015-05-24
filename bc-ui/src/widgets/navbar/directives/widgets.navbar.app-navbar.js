@@ -6,7 +6,9 @@
             function () {
                 return {
                     restrict: 'E',
-                    scope: {},
+                    scope: {
+                        mockerId: "="
+                    },
                     templateUrl: 'widgets.navbar.main.html',
                     controller: 'widgets.navbar.MainController',
                     replace: true

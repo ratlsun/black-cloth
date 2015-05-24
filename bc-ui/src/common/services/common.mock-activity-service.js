@@ -27,6 +27,10 @@
                         return Restangular.one('mock-activities', 'active').get();
                     },
 
+                    getOneHistoryMockActivity: function () {
+                        return Restangular.one('mock-activities', 'has').get();
+                    },
+
                     getMockHitByActivity: function (activity) {
                         return Restangular.all('mock-hits').getList({acode: activity.code});
                     }
