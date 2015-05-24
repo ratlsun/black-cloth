@@ -1,6 +1,17 @@
 <app-navbar></app-navbar>
 
 <div class="mock-activity-dashboard-bc container">
+    <div class="alert alert-success" ng-if="activity.status==='Running'">
+        模拟环境运行中，将你要访问的api的地址改为<b>http://mock-api.com/{{activity.code}}.mock/<i>your-api-url</i></b>后，
+        正常运行程序即可。
+        <br/>
+        模拟环境运行过程中收到的api访问记录将显示在右下方。
+        <br/>
+        模拟环境运行过程中不能修改已经选择的模拟系统和相应的规则，如需修改可以暂停模拟，然后点击恢复模拟修改就会生效。
+    </div>
+    <div class="alert alert-warning" ng-if="activity.status==='Paused'">
+        模拟环境暂停中，你可以重新选择左下方的模拟系统或者修改相应的规则，点击恢复模拟后这些修改就会生效。
+    </div>
     <div class="row">
         <div class="col-xs-3">
             <div class="tabbable-panel">
@@ -29,6 +40,7 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active">
+
                             <button class="btn btn-info btn-block" ng-if="!activity || activity.status==='Stopped'" ng-click="startMock()">
                                 开始模拟&nbsp;<i class="fa fa-play"></i>
                             </button>

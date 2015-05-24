@@ -65,7 +65,7 @@
                 $scope.pauseMock = function () {
                     mockActivityService.pauseMockActivity($scope.activity).then(function(resp){
                         if (resp) {
-                            alertService.success('模拟环境暂停成功，暂停期间可以修改模拟系统的设置，恢复模拟后生效。');
+                            alertService.success('模拟环境暂停成功，暂停期间可以修改设置，恢复模拟后生效。');
                             $scope.activity = resp;
                         } else {
                             alertService.error('模拟环境暂停失败，请检查模拟系统的设置是否正确！');
