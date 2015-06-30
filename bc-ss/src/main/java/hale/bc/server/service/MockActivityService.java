@@ -116,7 +116,7 @@ public class MockActivityService {
 				result = matchBaseUrl(request, key);
 			} 
 			if (result == null && request.getBody()!= null && !request.getBody().getContent().isEmpty()) {
-				key = getMatchKey(code, request.getHeader(), RuleRequestBody.buildBody(""), true, true);
+				key = getMatchKey(code, baseHeader, RuleRequestBody.buildBody(""), true, true);
 				result = matchBaseUrl(request, key);
 			} 
 		} 

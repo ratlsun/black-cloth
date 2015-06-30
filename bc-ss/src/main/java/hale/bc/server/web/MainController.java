@@ -10,6 +10,8 @@ import hale.bc.server.to.RuleRequestBody;
 import hale.bc.server.to.RuleRequestHeader;
 import hale.bc.server.to.RuleResponse;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +19,11 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.common.io.CharStreams;
 
 @Controller
 public class MainController {
@@ -44,8 +47,13 @@ public class MainController {
     }
 	
 	@RequestMapping(value=MOCK_PATTERN)
-    public ResponseEntity<String> match(@PathVariable String code, HttpMethod method, HttpServletRequest request,
-    		@RequestBody(required = false) String body) {
+    public ResponseEntity<String> match(@PathVariable String code, HttpMethod method, HttpServletRequest request) {
+		String body = "";
+		try {
+			body = CharStreams.toString(request.getReader());
+		} catch (IOException e) {
+			//eaten, empty body
+		}
 		String respContent = "";
 		RuleRequestBody rb = null;
 		String ct = "application/json";
@@ -54,7 +62,7 @@ public class MainController {
 		if (qs != null && qs.length() > 0){
 			api = api + '?' + qs;
 		}
-		if (body != null && body.length() > 0){
+		if (body.length() > 0){
 			rb = RuleRequestBody.buildBody(body);
 		}
 		RuleRequest req = RuleRequest.buildRequest(RuleRequestHeader.buildHeader(api, "*", method.name()), rb);
