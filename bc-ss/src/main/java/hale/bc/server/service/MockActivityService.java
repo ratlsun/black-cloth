@@ -100,6 +100,10 @@ public class MockActivityService {
 			key = getMatchKey(code, request.getHeader(), request.getBody(), false, false);
 			result = matchFullUrl(key);
 		} 
+		if (result == null && request.getBody()!= null && !request.getBody().getContent().isEmpty()) {
+			key = getMatchKey(code, request.getHeader(), RuleRequestBody.buildBody(""), true, false);
+			result = matchFullUrl(key);
+		} 
 		if (result == null && request.getHeader().hasUrlParameter()) {
 			RuleRequestHeader header = request.getHeader();
 			RuleRequestHeader baseHeader = RuleRequestHeader.buildHeader(
@@ -109,6 +113,10 @@ public class MockActivityService {
 			
 			if (result == null) {
 				key = getMatchKey(code, baseHeader, request.getBody(), false, true);
+				result = matchBaseUrl(request, key);
+			} 
+			if (result == null && request.getBody()!= null && !request.getBody().getContent().isEmpty()) {
+				key = getMatchKey(code, request.getHeader(), RuleRequestBody.buildBody(""), true, true);
 				result = matchBaseUrl(request, key);
 			} 
 		} 

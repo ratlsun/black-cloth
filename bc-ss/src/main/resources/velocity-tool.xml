@@ -1,0 +1,14 @@
+<tools>
+    <toolbox scope="application">
+        <tool class="org.apache.velocity.tools.generic.DateTool"/>
+    </toolbox>
+    <toolbox scope="application">
+        <tool class="org.apache.velocity.tools.generic.NumberTool"/>
+    </toolbox>
+    <toolbox scope="application">
+        <tool class="org.apache.velocity.tools.generic.MathTool"/>
+    </toolbox>
+    <toolbox scope="application">
+        <tool class="hale.bc.server.service.template.JsonTool"/>
+    </toolbox>
+</tools>

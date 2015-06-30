@@ -2,11 +2,13 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.MockHitDao;
 import hale.bc.server.service.MockActivityService;
+import hale.bc.server.service.template.TemplateService;
 import hale.bc.server.to.MockHit;
 import hale.bc.server.to.Rule;
 import hale.bc.server.to.RuleRequest;
 import hale.bc.server.to.RuleRequestBody;
 import hale.bc.server.to.RuleRequestHeader;
+import hale.bc.server.to.RuleResponse;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -27,6 +29,9 @@ public class MainController {
 	final private int MOCK_PATTERN_LENGTH = 23;
 	
 	@Autowired
+	private TemplateService templateService;
+	
+	@Autowired
 	private MockActivityService mockActivityService;
 	
 	@Autowired
@@ -41,7 +46,7 @@ public class MainController {
 	@RequestMapping(value=MOCK_PATTERN)
     public ResponseEntity<String> match(@PathVariable String code, HttpMethod method, HttpServletRequest request,
     		@RequestBody(required = false) String body) {
-		String resp = "";
+		String respContent = "";
 		RuleRequestBody rb = null;
 		String ct = "application/json";
 		String api = request.getServletPath().substring(MOCK_PATTERN_LENGTH);
@@ -56,13 +61,15 @@ public class MainController {
 		MockHit hit = MockHit.buildUnmatchedHit(code, req);
 		Rule rule = mockActivityService.match(code, req);
 		if (rule != null) {
-			resp = rule.getResponse().getBody().getContent();
-			ct = rule.getResponse().getHeader().getContentType();
-			hit.setResponse(rule.getResponse());
+			RuleResponse resp = rule.getResponse();
+			respContent = templateService.evaluate(body, rule.getResponse().getBody().getContent());
+			ct = resp.getHeader().getContentType();
+			resp.getBody().setContent(respContent);
+			hit.setResponse(resp);
 			hit.setMatch(true);
 		}
 		mockHitDao.createMockHit(hit);
-		return ResponseEntity.ok().header("Content-Type", ct).body(resp);
+		return ResponseEntity.ok().header("Content-Type", ct).body(respContent);
     }
 	
 }
