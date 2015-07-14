@@ -1,7 +1,13 @@
 package hale.bc.server.to;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
+/**
+ * 
+		* @ClassName: Channel 
+		* @Description: TODO(这里用一句话描述这个类的作用) 
+		* @date 2015年7月15日 上午12:16:50 
+		*
+ */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Channel {
 	private Long id;
