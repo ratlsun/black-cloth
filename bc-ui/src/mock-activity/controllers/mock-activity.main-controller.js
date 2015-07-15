@@ -8,15 +8,15 @@
             '$stateParams',
             '$interval',
             'mockActivityService',
-            'mockHitService',
             'alertService',
             'pageService',
             'appConfig',
             function ($scope, $state, $stateParams, $interval,
-                      mockActivityService, mockHitService, alertService, pageService, appConfig) {
+                      mockActivityService, alertService, pageService, appConfig) {
 
                 $scope.selectedMockers = [];
                 $scope.disableSelectMocker = false;
+                $scope.hits = [];
 
                 mockActivityService.getMyMockActivity().then(function(resp){
                     $scope.activity = resp;
@@ -102,13 +102,17 @@
                 };
 
                 $scope.clearLog = function (code) {
-                    mockHitService.clearLog(code).then(function(resp){
-                        if (resp) {
-                            alertService.success('匹配日志清空成功。');
-                        } else {
-                            alertService.error('匹配日志清空失败。');
-                        }
-                    });
+                    if ($scope.hits.length > 0) {
+                        mockActivityService.clearLog(code).then(function(resp){
+                            if (resp) {
+                                alertService.success('匹配日志清空成功。');
+                            } else {
+                                alertService.error('匹配日志清空失败。');
+                            }
+                        });
+                    } else {
+                        alertService.error('尚未有匹配日志！');
+                    };
                 };
             }
         ]);

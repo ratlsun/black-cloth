@@ -38,11 +38,6 @@ public class MockHitController {
 		return mockHitDao.getMockHitsByActivityCode(code, LATEST_COUNT);
     }
 	
-	/**
-	 * 根据规则码清空其对应的匹配日志
-			* @param acode
-			* @return
-	 */
 	@RequestMapping(value = "/{acode}", method=RequestMethod.DELETE)
     public String delete(@PathVariable String acode) {
 		return mockHitDao.clearMockHitByCode(acode);

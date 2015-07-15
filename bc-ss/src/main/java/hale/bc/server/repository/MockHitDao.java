@@ -9,6 +9,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Repository;
 
@@ -16,10 +17,12 @@ import org.springframework.stereotype.Repository;
 public class MockHitDao {
 
 	private ZSetOperations<String, MockHit> activityCodeIndex;
+	private StringRedisTemplate stringTemplate;
 	
 	@Autowired
-	public MockHitDao(RedisTemplate<String, MockHit> mockHitTemplate) {
+	public MockHitDao(RedisTemplate<String, MockHit> mockHitTemplate, StringRedisTemplate stringTemplate) {
 		activityCodeIndex = mockHitTemplate.opsForZSet();
+		this.stringTemplate = stringTemplate;
 	}
 	
 	public MockHit createMockHit(MockHit hit) {
@@ -33,13 +36,11 @@ public class MockHitDao {
 		return new ArrayList<MockHit>(mhs);
 	}
 
-	/**
-	 * 根据规则码清空其对应的日志
-			* @param acode
-			* @return
-	 */
 	public String clearMockHitByCode(String code) {
-		activityCodeIndex.removeRange(KeyUtils.mockHitCode(code), 0, 100);
+		String mockHitCodeKey = KeyUtils.mockHitCode(code);
+		if (stringTemplate.hasKey(mockHitCodeKey)) {
+			stringTemplate.delete(mockHitCodeKey);
+		}
 		return "1";
 	}
 }
