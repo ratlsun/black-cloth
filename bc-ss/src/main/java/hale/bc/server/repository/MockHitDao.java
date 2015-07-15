@@ -32,4 +32,14 @@ public class MockHitDao {
 		Set<MockHit> mhs = activityCodeIndex.reverseRange(KeyUtils.mockHitCode(code), 0, count);
 		return new ArrayList<MockHit>(mhs);
 	}
+
+	/**
+	 * 根据规则码清空其对应的日志
+			* @param acode
+			* @return
+	 */
+	public String clearMockHitByCode(String code) {
+		activityCodeIndex.removeRange(KeyUtils.mockHitCode(code), 0, 100);
+		return "1";
+	}
 }

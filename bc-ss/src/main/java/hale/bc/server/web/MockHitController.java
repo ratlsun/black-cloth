@@ -9,10 +9,12 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
 
 
 @RestController
@@ -34,6 +36,16 @@ public class MockHitController {
 			return null;
 		}
 		return mockHitDao.getMockHitsByActivityCode(code, LATEST_COUNT);
+    }
+	
+	/**
+	 * 根据规则码清空其对应的匹配日志
+			* @param acode
+			* @return
+	 */
+	@RequestMapping(value = "/{acode}", method=RequestMethod.DELETE)
+    public String delete(@PathVariable String acode) {
+		return mockHitDao.clearMockHitByCode(acode);
     }
 	
 }

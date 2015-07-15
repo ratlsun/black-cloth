@@ -66,27 +66,35 @@
                             模拟器匹配日志：
                         </li>
                     </ul>
-                    <div class="tab-content">
-                        <div class="activity-msg-panel-bc" us-spinner spinner-key="hits-list-spinner">
-                            <div ng-repeat="hit in hits" class="msg"
-                                 ng-class="{true:'msg-success', false:'msg-danger msg-danger-text'}[hit.match]">
-                                <i class="fa" ng-class="{true:'fa-compress', false:'fa-question-circle'}[hit.match]"></i>
-                                <span ng-if="hit.match">匹配成功：</span>
-                                <span ng-if="!hit.match">匹配失败：</span>
-                                <span>{{hit.request.header.method}}</span>
-                                <span>/{{hit.request.header.url}}</span>
-                                <span ng-if="hit.request.body.content">
-                                    <abbr title="{{hit.request.body.content}}">{...}</abbr>
-                                </span>
 
-                                <span ng-if="hit.match">
-                                <i class="fa fa-exchange"></i>
-                                    <span>HTTP/1.1 {{hit.response.header.statusCode}}</span>
-                                    <span>[{{hit.response.header.contentType}};charset=UTF-8]</span>
-                                    <span ng-if="hit.response.body.content">
-                                        <abbr title="{{hit.response.body.content}}">{...}</abbr>
+                    <div class="tab-content">
+                        <div class="row col-xs-12 text-right">
+                            <button class="btn btn-danger" ng-if="hits" ng-click="clearLog(activity.code)">
+                                清空日志
+                            </button>
+                        </div>
+                        <div class="row col-xs-12 text-left">
+                            <div class="activity-msg-panel-bc" us-spinner spinner-key="hits-list-spinner">
+                                <div ng-repeat="hit in hits" class="msg"
+                                     ng-class="{true:'msg-success', false:'msg-danger msg-danger-text'}[hit.match]">
+                                    <i class="fa" ng-class="{true:'fa-compress', false:'fa-question-circle'}[hit.match]"></i>
+                                    <span ng-if="hit.match">匹配成功：</span>
+                                    <span ng-if="!hit.match">匹配失败：</span>
+                                    <span>{{hit.request.header.method}}</span>
+                                    <span>/{{hit.request.header.url}}</span>
+                                    <span ng-if="hit.request.body.content">
+                                        <abbr title="{{hit.request.body.content}}">{...}</abbr>
                                     </span>
-                                </span>
+
+                                    <span ng-if="hit.match">
+                                    <i class="fa fa-exchange"></i>
+                                        <span>HTTP/1.1 {{hit.response.header.statusCode}}</span>
+                                        <span>[{{hit.response.header.contentType}};charset=UTF-8]</span>
+                                        <span ng-if="hit.response.body.content">
+                                            <abbr title="{{hit.response.body.content}}">{...}</abbr>
+                                        </span>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
