@@ -14,7 +14,7 @@ build:
             code: |
                 cd bc-ui
                 npm install -q
-                bower install -q
+                bower install --config.interactive=false
                 gulp prod
         - script:
             name: build server side java code
