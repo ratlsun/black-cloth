@@ -3,4 +3,5 @@ bc-ss/.classpath
 
 dump.rdb
 
-bc-ss/.settings/**
+bc-ss/.settings
+bc-ss/bin
