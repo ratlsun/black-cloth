@@ -1,7 +1,6 @@
 package hale.bc.server.to;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Channel {
 	private Long id;

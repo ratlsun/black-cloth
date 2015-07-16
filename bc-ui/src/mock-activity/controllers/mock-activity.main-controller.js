@@ -16,6 +16,7 @@
 
                 $scope.selectedMockers = [];
                 $scope.disableSelectMocker = false;
+                $scope.hits = [];
 
                 mockActivityService.getMyMockActivity().then(function(resp){
                     $scope.activity = resp;
@@ -98,6 +99,20 @@
                             alertService.error('模拟环境停止运行失败，请检查模拟系统的设置是否正确！');
                         }
                     });
+                };
+
+                $scope.clearLog = function (code) {
+                    if ($scope.hits.length > 0) {
+                        mockActivityService.clearLog(code).then(function(resp){
+                            if (resp) {
+                                alertService.success('匹配日志清空成功。');
+                            } else {
+                                alertService.error('匹配日志清空失败。');
+                            }
+                        });
+                    } else {
+                        alertService.error('尚未有匹配日志！');
+                    };
                 };
             }
         ]);

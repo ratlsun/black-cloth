@@ -61,11 +61,23 @@
         <div class="col-xs-7">
             <div class="tabbable-panel">
                 <div class="tabbable-line">
-                    <ul class="nav nav-tabs">
-                        <li class="active">
-                            模拟器匹配日志：
-                        </li>
-                    </ul>
+                    
+                        <div class="row">
+                            <div class="col-xs-3 text-left">
+                                <ul class="nav nav-tabs">
+                                <li class="active">
+                                    模拟器匹配日志：
+                                </li>
+                                </ul>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <button class="btn btn-xs btn-default" ng-click="clearLog(activity.code)">
+                                    清空日志
+                                </button>
+                            </div>
+                        </div>
+                    
+
                     <div class="tab-content">
                         <div class="activity-msg-panel-bc" us-spinner spinner-key="hits-list-spinner">
                             <div ng-repeat="hit in hits" class="msg"
