@@ -62,7 +62,12 @@
 
                     getAllUsers: function () {
                         return Restangular.all('users').getList();
+                    },
+
+                    editPwd: function (user, newPwd) {
+                        return Restangular.all('users').customPUT(user, 'editPwd', {newPwd: newPwd});
                     }
+
 
                 };
             }]);

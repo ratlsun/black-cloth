@@ -80,6 +80,11 @@ public class UserController {
 		return userDao.updateUserStatus(uid, UserStatus.Inactive);
     }
 	
+	@RequestMapping(value = "/editPwd", method=RequestMethod.PUT, params="newPwd")
+    public String eidtPassword(@RequestBody User user, @RequestParam(value = "newPwd", required = true) String newPwd)  throws DuplicatedEntryException {
+		return userDao.eidtPassword(user, newPwd);
+    }
+	
 	@ExceptionHandler(DuplicatedEntryException.class)
 	public FailedResult handleCustomException(DuplicatedEntryException ex) {
 		return new FailedResult(-1, ex.getMessage());

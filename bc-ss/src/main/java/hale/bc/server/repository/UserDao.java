@@ -15,11 +15,11 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.data.redis.support.collections.DefaultRedisZSet;
 import org.springframework.data.redis.support.collections.RedisZSet;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDao {
-
 	private Random r = new Random();
 	
 	private StringRedisTemplate stringTemplate;
@@ -29,6 +29,9 @@ public class UserDao {
 	private ValueOperations<String, String> userCodes;
 	private ValueOperations<String, User> users;
 	private RedisAtomicLong userIdGenerator;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	public UserDao(RedisTemplate<String, User> userTemplate, StringRedisTemplate template) {
@@ -114,6 +117,22 @@ public class UserDao {
 			users.add(getUserByName(username));
 		}
 		return users;
+	}
+
+	public String eidtPassword(User user, String newPwd) {
+		String userNameKey = KeyUtils.userName(user.getName());
+		if (stringTemplate.hasKey(userNameKey)) {
+			String uid = userNames.get(userNameKey);
+			User userInfo = users.get(KeyUtils.userId(uid));
+			if (passwordEncoder.matches(user.getPassword(), userInfo.getPassword())) {
+				userInfo.setPassword(passwordEncoder.encode(newPwd));
+				users.set(KeyUtils.userId(uid), userInfo);
+				return "{\"result\":1, \"msg\":\"密码修改成功！\"}";
+			} else {
+				return "{\"result\":-11, \"errorMsg\":\"原密码输入错误，请重新输入！\"}";
+			}
+		}
+		return "{\"result\":0, \"errorMsg\":\"未知错误！\"}";
 	}
 
 }
