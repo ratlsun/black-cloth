@@ -33,6 +33,10 @@
 
                     getMockHitByActivity: function (activity) {
                         return Restangular.all('mock-hits').getList({acode: activity.code});
+                    },
+
+                    clearLog: function (acode) {
+                        return Restangular.one('mock-hits').remove({acode: acode});
                     }
 
                 };

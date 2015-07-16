@@ -16,6 +16,8 @@
 
                 $scope.selectedMockers = [];
                 $scope.disableSelectMocker = false;
+                $scope.hits = [];
+                $scope.canClear = false;
 
                 mockActivityService.getMyMockActivity().then(function(resp){
                     $scope.activity = resp;
@@ -25,6 +27,9 @@
                         $scope.hitsFetching = $interval(function(){
                             mockActivityService.getMockHitByActivity($scope.activity).then(function(hitsResp) {
                                 $scope.hits = hitsResp;
+                                if ($scope.hits.length>0) {
+                                    $scope.canClear = true;
+                                };
                                 pageService.unmask('hits-list-spinner');
                             });
                         }, 5000);
@@ -98,6 +103,21 @@
                             alertService.error('模拟环境停止运行失败，请检查模拟系统的设置是否正确！');
                         }
                     });
+                };
+
+                $scope.clearLog = function (code) {
+                    if ($scope.hits.length > 0) {
+                        mockActivityService.clearLog(code).then(function(resp){
+                            if (resp) {
+                                $scope.canClear = false;
+                                alertService.success('匹配日志清空成功。');
+                            } else {
+                                alertService.error('匹配日志清空失败。');
+                            }
+                        });
+                    } else {
+                        alertService.warning('尚未有匹配日志！');
+                    };
                 };
             }
         ]);

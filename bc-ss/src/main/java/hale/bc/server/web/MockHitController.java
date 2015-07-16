@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
+
 @RestController
 @RequestMapping("/mock-hits")
 public class MockHitController {
@@ -34,6 +35,12 @@ public class MockHitController {
 			return null;
 		}
 		return mockHitDao.getMockHitsByActivityCode(code, LATEST_COUNT);
+    }
+	
+	@RequestMapping(method=RequestMethod.DELETE, params="acode")
+    public String delete(@RequestParam(value = "acode", required = true) String code) {
+		mockHitDao.clearMockHitByCode(code);
+		return "{\"result\":0}";
     }
 	
 }
