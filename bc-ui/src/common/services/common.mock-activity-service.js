@@ -36,7 +36,7 @@
                     },
 
                     clearLog: function (acode) {
-                        return Restangular.one('mock-hits', acode).remove();
+                        return Restangular.one('mock-hits').remove({acode: acode});
                     }
 
                 };

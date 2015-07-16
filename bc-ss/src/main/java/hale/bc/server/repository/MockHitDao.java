@@ -36,11 +36,10 @@ public class MockHitDao {
 		return new ArrayList<MockHit>(mhs);
 	}
 
-	public String clearMockHitByCode(String code) {
+	public void clearMockHitByCode(String code) {
 		String mockHitCodeKey = KeyUtils.mockHitCode(code);
 		if (stringTemplate.hasKey(mockHitCodeKey)) {
 			stringTemplate.delete(mockHitCodeKey);
 		}
-		return "1";
 	}
 }
