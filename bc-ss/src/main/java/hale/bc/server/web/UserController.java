@@ -85,6 +85,22 @@ public class UserController {
 		return userDao.eidtPassword(user, newPwd);
     }
 	
+	@RequestMapping(value = "/forgetPwd", method=RequestMethod.PUT, params="name")
+    public String forgetPwd(@RequestParam(value = "name", required = true) String userName)  throws DuplicatedEntryException {
+		return userDao.forgetPwd(userName);
+    }
+	
+	@RequestMapping(value = "/resetPwd", method=RequestMethod.PUT)
+    public String resetPwd(@RequestBody User user)  throws DuplicatedEntryException {
+		return userDao.resetPwd(user);
+    }
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/initPwd", method=RequestMethod.PUT)
+    public String initPwd(@RequestBody User user)  throws DuplicatedEntryException {
+		return userDao.initPwd(user);
+    }
+	
 	@ExceptionHandler(DuplicatedEntryException.class)
 	public FailedResult handleCustomException(DuplicatedEntryException ex) {
 		return new FailedResult(-1, ex.getMessage());

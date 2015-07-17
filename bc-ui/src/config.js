@@ -16,7 +16,8 @@
                 mockerSetting: 'mocker-setting',
                 mockerDashboard: 'mocker-dashboard',
                 mockActivity: 'mock-activity',
-                ruleEditor: 'rule-editor'
+                ruleEditor: 'rule-editor',
+                resetPwd: 'reset-pwd'
             },
 
             userStatus: {

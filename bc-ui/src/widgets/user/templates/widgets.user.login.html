@@ -23,7 +23,14 @@
                         </div>
                         <input type="submit" id="btn-login" class="btn btn-submit-bc btn-lg btn-block" value="登录">
                     </form>
-                    <a href="" ng-click="onSignUp()" class="link-sign-up">注册新帐号</a>
+                    <div class="raw">
+                        <div class="col-xs-6 text-left">
+                            <a href="" ng-click="onSignUp()">注册新帐号</a>
+                        </div>
+                        <div class="col-xs-6 text-right">
+                            <a href="" ng-click="forgetPwd(user.username)">忘记密码</a>
+                        </div>
+                    </div>
                 </div>
             </div>
             <!-- /.col-xs-12 -->
