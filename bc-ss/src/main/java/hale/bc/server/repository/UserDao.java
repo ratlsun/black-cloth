@@ -1,13 +1,21 @@
 package hale.bc.server.repository;
 
 import hale.bc.server.repository.exception.DuplicatedEntryException;
+import hale.bc.server.service.mail.MailSenderInfo;
+import hale.bc.server.service.mail.MailSender;
+import hale.bc.server.to.CodeSender;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.dom4j.Document;
+import org.dom4j.Element;
+import org.dom4j.io.SAXReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -43,7 +51,7 @@ public class UserDao {
 		userIdGenerator = new RedisAtomicLong(KeyUtils.userId(), stringTemplate.getConnectionFactory());
 	}
 	
-	public User createUser(User user) throws DuplicatedEntryException {
+	public String createUser(User user) throws DuplicatedEntryException {
 		String userName = user.getName();
 		String userNameKey = KeyUtils.userName(userName);
 		if (userNameIndex.contains(userName) || stringTemplate.hasKey(userNameKey)) {
@@ -63,8 +71,23 @@ public class UserDao {
 		users.set(KeyUtils.userId(userId), user);
 		userNames.set(userNameKey, userId);
 		userNameIndex.add(userName, 0);
+		//send
+		CodeSender sender = null;
+		try {
+			sender = getCodeSender();
+		} catch (FileNotFoundException e) {
+			return "{\"result\":0, \"errorMsg\":\"未找到配置文件！\"}";
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		return user;
+		if ("true".equals(sender.getAutoSendCode())) {
+			sendMail(sender, userName, code);
+			return "{\"result\":10, \"msg\":\"验证码已发，请查看您的邮箱！\"}";
+		} 
+		
+		return "{\"result\":1, \"msg\":\"用户注册成功！\"}";
 	}
 
 	public User activeUser(String code) {
@@ -134,5 +157,47 @@ public class UserDao {
 		}
 		return "{\"result\":0, \"errorMsg\":\"未知错误！\"}";
 	}
+	
+	public CodeSender getCodeSender() throws FileNotFoundException, Exception{
+		CodeSender codeSender = new CodeSender();
+		SAXReader saxReader = new SAXReader();
+	    Document document = saxReader.read(new File("config/mock_config.xml"));
+	    for(Element e : (List<Element>)document.getRootElement().elements()){
+	        codeSender.setAutoSendCode(e.element("auto_send_code").getText());
+	        codeSender.setServerHost(e.element("server_host").getText());
+	        codeSender.setServerPort(e.element("server_port").getText());
+	        codeSender.setUsername(e.element("user_name").getText());
+	        codeSender.setPassword(e.element("password").getText());
+	    }
+		return codeSender;
+	}
+	
+	private void sendMail(CodeSender sender, String userName, String code) {
+		MailSenderInfo mailInfo = new MailSenderInfo();
+		mailInfo.setMailServerHost(sender.getServerHost());
+		mailInfo.setMailServerPort(sender.getServerPort());
+		mailInfo.setValidate(true);
+		mailInfo.setUserName(sender.getUsername());
+		mailInfo.setPassword(sender.getPassword());
+		mailInfo.setFromAddress(sender.getUsername());
+		mailInfo.setToAddress(userName);
+		mailInfo.setSubject("您获得了mock-api工具的注册码，非常感谢您的注册和关注");
+		mailInfo.setContent("<!DOCTYPE html><html ><head lang=\"zh-CN\"></head>"
+				+ "<body>"
+				+ "亲爱的用户：<br>"
+				+ "<p>非常感谢您注册我们的mock工具。您获得的注册码为：<span style=\"font-size: 24.0px;background-color: #f2dcdb;\">"+code+"</span>。</p>"
+				+ "<p>您可以在 <a href='http://mock-api.com/#!/signup'>http://mock-api.com/#!/signup<a> 页面上点击<span style=\"font-size: 24.0px;background-color: yellow;\">中间黄色按钮</span>进入步骤II"
+				+ "后输入上述注册码通过注册。</br>"
+				+ "验证成功后，就可以使用您的用户名和密码登录该工具。</p>"
+				+ "<p>因为本次公网上发布的是封测版本，有很多功能还不完善或者存在一些缺陷，大家使用过程中有任何"
+				+ "疑问、建议、需求以及吐槽，甚至骂街都可以在以下github项目上提交issue:<br>"
+				+ "<a href='https://github.com/mock-api-agilean/issue-tracking/issues'>https://github.com/mock-api-agilean/issue-tracking/issues<a><br>"
+				+ "我们会尽最大努力答复并解决。<br>"
+				+ "<p>Best regards<br>"
+				+ "<a href='http://www.agilean.cn'>Agilean</a>"
+				+ "</body></html>");
+		MailSender sms = new MailSender();
+		sms.sendHtmlMail(mailInfo);
+	} 
 
 }

@@ -33,7 +33,7 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(method=RequestMethod.POST)
-    public User add(@RequestBody User user) throws DuplicatedEntryException {
+    public String add(@RequestBody User user) throws DuplicatedEntryException {
 		user.setStatus(UserStatus.New);
 		user.getRoles().add("USER");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));

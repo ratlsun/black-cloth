@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<MOCK>
+    <send_code>
+    	<auto_send_code>false</auto_send_code>
+    	<server_host>smtp.qq.com</server_host>
+    	<server_port>25</server_port>
+    	<user_name>*****@qq.com</user_name>
+    	<password>******</password>
+    </send_code>
+</MOCK>
