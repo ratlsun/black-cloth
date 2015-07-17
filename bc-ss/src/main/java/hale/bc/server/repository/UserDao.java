@@ -186,15 +186,15 @@ public class UserDao {
 				+ "<body>"
 				+ "亲爱的用户：<br>"
 				+ "<p>非常感谢您注册我们的mock工具。您获得的注册码为：<span style=\"font-size: 24.0px;background-color: #f2dcdb;\">"+code+"</span>。</p>"
-				+ "<p>您可以在 <a href='http://mock-api.com/#!/signup'>http://mock-api.com/#!/signup<a> 页面上点击<span style=\"font-size: 24.0px;background-color: yellow;\">中间黄色按钮</span>进入步骤II"
+				+ "<p>您可以在 <a href='http://mock-api.com/#!/signup'>http://mock-api.com/#!/signup</a> 页面上点击<span style=\"font-size: 24.0px;background-color: yellow;\">中间黄色按钮</span>进入步骤II"
 				+ "后输入上述注册码通过注册。</br>"
 				+ "验证成功后，就可以使用您的用户名和密码登录该工具。</p>"
 				+ "<p>因为本次公网上发布的是封测版本，有很多功能还不完善或者存在一些缺陷，大家使用过程中有任何"
 				+ "疑问、建议、需求以及吐槽，甚至骂街都可以在以下github项目上提交issue:<br>"
-				+ "<a href='https://github.com/mock-api-agilean/issue-tracking/issues'>https://github.com/mock-api-agilean/issue-tracking/issues<a><br>"
+				+ "<a href='https://github.com/mock-api-agilean/issue-tracking/issues'>https://github.com/mock-api-agilean/issue-tracking/issues</a><br>"
 				+ "我们会尽最大努力答复并解决。<br>"
 				+ "<p>Best regards<br>"
-				+ "<a href='http://www.agilean.cn'>Agilean</a>"
+				+ "<a href='http://www.agilean.cn'>Agilean</a></p>"
 				+ "</body></html>");
 		MailSender sms = new MailSender();
 		sms.sendHtmlMail(mailInfo);
