@@ -12,8 +12,6 @@
             function ($scope, $state, $stateParams, userService, alertService, appConfig) {
                 $scope.username = $stateParams.name;
                 $scope.timeCode = $stateParams.r;
-                console.info("1:" + $scope.username);
-                console.info("2:" + $scope.timeCode);
 
                 $scope.invalidMessage = {};
 

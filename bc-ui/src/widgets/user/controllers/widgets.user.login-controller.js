@@ -37,7 +37,7 @@
                     if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ .test(username)) {
                         $scope.invalidMessage.$form = '请输入正确格式的邮箱！';
                     } else {
-                        alertService.info("正在发送密码重置链接！");
+                        alertService.info("正在发送密码重置链接到您的邮箱！");
                         userService.forgetPwd(username).then(function(resp){
                             if (resp.result === 1) {
                                 alertService.success(resp.msg);
