@@ -35,8 +35,8 @@
                         return Restangular.all('mock-hits').getList({acode: activity.code});
                     },
 
-                    clearLog: function (acode) {
-                        return Restangular.one('mock-hits').remove({acode: acode});
+                    clearMockHitByActivity: function (activity) {
+                        return Restangular.one('mock-hits').remove({acode: activity.code});
                     }
 
                 };

@@ -52,6 +52,9 @@ gulp.task('dev:libjs', function () {
         'lodash/lodash.js',
         'spin.js/spin.js',
         'qtip2/jquery.qtip.js',
+        'codemirror/lib/codemirror.js',
+        'codemirror/mode/javascript/javascript.js',
+        'codemirror/mode/xml/xml.js',
 
         //NG-libs
         'angular/angular.js',
@@ -59,7 +62,8 @@ gulp.task('dev:libjs', function () {
         'angular-ui-router/release/angular-ui-router.js',
         'restangular/dist/restangular.js',
         'angular-growl-v2/build/angular-growl.js',
-        'angular-spinner/angular-spinner.js'
+        'angular-spinner/angular-spinner.js',
+        'angular-ui-codemirror/ui-codemirror.js'
     ], function (sPath) {
         return path.join(libPath, sPath);
     });
@@ -73,7 +77,10 @@ gulp.task('prod:libjs', function () {
         'jquery/dist/jquery.js',
         'lodash/lodash.js',
         'spin.js/spin.js',
-        'qtip2/jquery.qtip.js'
+        'qtip2/jquery.qtip.js',
+        'codemirror/lib/codemirror.js',
+        'codemirror/mode/javascript/javascript.js',
+        'codemirror/mode/xml/xml.js'
     ], function(sPath) {
         return path.join(libPath, sPath);
     });
@@ -84,7 +91,8 @@ gulp.task('prod:libjs', function () {
         'angular-ui-router/release/angular-ui-router.js',
         'restangular/dist/restangular.js',
         'angular-growl-v2/build/angular-growl.js',
-        'angular-spinner/angular-spinner.js'
+        'angular-spinner/angular-spinner.js',
+        'angular-ui-codemirror/ui-codemirror.js'
     ], function(sPath) {
         return path.join(libPath, sPath);
     });
@@ -155,7 +163,7 @@ gulp.task('prod:appjs', ['prod:templates'], function () {
     ];
 
     return gulp.src(files)
-        //.pipe(uglify())
+        .pipe(uglify())
         .pipe(concat('app.js'))
         .pipe(gulp.dest(distPaths.jsPath))
 });
@@ -178,7 +186,8 @@ gulp.task('libcss', function () {
         'bootstrap/dist/css/bootstrap.min.css',
         'font-awesome/css/font-awesome.min.css',
         'angular-growl-v2/build/angular-growl.min.css',
-        'qtip2/jquery.qtip.min.css'
+        'qtip2/jquery.qtip.min.css',
+        'codemirror/lib/codemirror.css'
     ], function (sPath) {
         return path.join(libPath, sPath);
     });

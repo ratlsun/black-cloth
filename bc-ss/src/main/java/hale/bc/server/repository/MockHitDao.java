@@ -36,7 +36,7 @@ public class MockHitDao {
 		return new ArrayList<MockHit>(mhs);
 	}
 
-	public void clearMockHitByCode(String code) {
+	public void clearMockHitByActivityCode(String code) {
 		String mockHitCodeKey = KeyUtils.mockHitCode(code);
 		if (stringTemplate.hasKey(mockHitCodeKey)) {
 			stringTemplate.delete(mockHitCodeKey);

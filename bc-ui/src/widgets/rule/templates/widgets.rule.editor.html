@@ -35,7 +35,8 @@
                         <div ng-if="rule.request.header.method === 'POST' || rule.request.header.method === 'PUT'" class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
-                                    <label for="input-req">Body：</label>
+                                    <label for="input-req-text">Body：</label>
+                                    <br/>
                                     <div class="btn-group btn-group-xs">
                                         <label class="btn btn-primary" ng-model="rule.request.body.type" btn-radio="'Text'">
                                             <i ng-if="rule.request.body.type !== 'Text'" class="fa fa-circle-o"></i>
@@ -48,13 +49,21 @@
                                             Json
                                         </label>
                                         <label class="btn btn-primary" disabled="disabled" ng-model="rule.request.body.type" btn-radio="'Form'">表单(后续开放)</label>
-                                        <label class="btn btn-primary" disabled="disabled" ng-model="rule.request.body.type" btn-radio="'XML'">XML(后续开放)</label>
+                                        <label class="btn btn-primary" ng-model="rule.request.body.type" btn-radio="'XML'">
+                                            <i ng-if="rule.request.body.type !== 'XML'" class="fa fa-circle-o"></i>
+                                            <i ng-if="rule.request.body.type === 'XML'" class="fa fa-dot-circle-o"></i>
+                                            XML
+                                        </label>
                                         <label class="btn btn-primary" disabled="disabled" ng-model="rule.request.body.type" btn-radio="'Expression'">表达式(后续开放)</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <textarea ng-model="rule.request.body.content" id="input-req" class="form-control"
-                                              rows="9"></textarea>
+                                    <textarea ng-if="rule.request.body.type === 'Text'" ng-model="rule.request.body.content"
+                                              id="input-req-text" class="form-control" rows="9"></textarea>
+                                    <textarea ng-if="rule.request.body.type === 'Json'" ng-model="rule.request.body.content" ui-codemirror
+                                              ui-codemirror-opts="jsonBodyEditorOptions" id="input-req-json" class="form-control"></textarea>
+                                    <textarea ng-if="rule.request.body.type === 'XML'" ng-model="rule.request.body.content" ui-codemirror
+                                              ui-codemirror-opts="xmlBodyEditorOptions" id="input-req-xml" class="form-control"></textarea>
                                 </div>
                             </div>
                         </div>

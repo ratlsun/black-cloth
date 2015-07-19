@@ -2,6 +2,7 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.MockActivityDao;
 import hale.bc.server.repository.MockHitDao;
+import hale.bc.server.to.DefaultResult;
 import hale.bc.server.to.MockActivity;
 import hale.bc.server.to.MockHit;
 
@@ -30,17 +31,27 @@ public class MockHitController {
 	
 	@RequestMapping(method=RequestMethod.GET, params="acode")
     public List<MockHit> getByActivityCode(@RequestParam(value = "acode", required = true) String code, Principal principal) {
-		MockActivity ma = mockActivityDao.getMockActivityByCode(code);
-		if (ma == null || !ma.getOwner().equals(principal.getName())){
+		if (!isOwner(code, principal.getName())){
 			return null;
 		}
 		return mockHitDao.getMockHitsByActivityCode(code, LATEST_COUNT);
     }
 	
 	@RequestMapping(method=RequestMethod.DELETE, params="acode")
-    public String delete(@RequestParam(value = "acode", required = true) String code) {
-		mockHitDao.clearMockHitByCode(code);
-		return "{\"result\":0}";
+    public DefaultResult deleteByActivityCode(@RequestParam(value = "acode", required = true) String code, Principal principal) {
+		if (!isOwner(code, principal.getName())){
+			return null;
+		}
+		mockHitDao.clearMockHitByActivityCode(code);
+		return new DefaultResult();
     }
+	
+	private boolean isOwner(String code, String user){
+		MockActivity ma = mockActivityDao.getMockActivityByCode(code);
+		if (ma == null || !ma.getOwner().equals(user)){
+			return false;
+		}
+		return true;
+	}
 	
 }

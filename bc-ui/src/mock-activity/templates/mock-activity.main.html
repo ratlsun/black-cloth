@@ -70,8 +70,8 @@
                             </ul>
                         </div>
                         <div class="col-xs-9 text-right">
-                            <button class="btn btn-xs btn-default" ng-disabled="!canClear" ng-click="clearLog(activity.code)">
-                                清空日志
+                            <button class="btn btn-xs btn-default" ng-disabled="hits.length == 0" ng-click="clearLog()">
+                                <i class="fa fa-trash-o"></i>&nbsp;清空日志
                             </button>
                         </div>
                     </div>

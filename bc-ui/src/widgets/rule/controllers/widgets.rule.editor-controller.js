@@ -40,9 +40,18 @@
 
                 $scope.invalidMessage = {};
 
+                $scope.jsonBodyEditorOptions = {
+                    mode: {name: 'javascript', json: true}
+                };
+
+                $scope.xmlBodyEditorOptions = {
+                    mode: 'xml'
+                };
+
                 $scope.save = function () {
                     if ($scope.rule.request.header.method !== 'POST' && $scope.rule.request.header.method !== 'PUT') {
                         $scope.rule.request.body.content = '';
+                        $scope.rule.request.body.type = 'None';
                     }
 
                     if ($scope.editMode === 'C') {

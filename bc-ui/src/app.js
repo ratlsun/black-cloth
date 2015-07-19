@@ -8,6 +8,7 @@
         'restangular',
         'angular-growl',
         'angularSpinner',
+        'ui.codemirror',
 
         //template
         'module.templates',
