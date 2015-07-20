@@ -285,7 +285,7 @@ public class UserDao {
 				+ "<body>"
 				+ "亲爱的用户：<br>"
 				+ "<p>非常感谢您使用我们的mock工具。</p>"
-				+ "<p>密码重置链接为: <a href='http://mock-api.com/#!/reset-pwd?name=" + userName + "&r=" + timeCode + "'>http://mock-api.com/users/resetPwd?name=" + userName + "&r=" + timeCode + "</a>"
+				+ "<p>密码重置链接为: <a href='http://mock-api.com/#!/reset-pwd?name=" + userName + "&r=" + timeCode + "'>http://mock-api.com/#!/reset-pwd?name=" + userName + "&r=" + timeCode + "</a>"
 				+ "</br>"
 				+ "密码重置成功后，就可以使用您的用户名和密码正常登录该工具。</p>"
 				+ "<p>因为本次公网上发布的是封测版本，有很多功能还不完善或者存在一些缺陷，大家使用过程中有任何"
