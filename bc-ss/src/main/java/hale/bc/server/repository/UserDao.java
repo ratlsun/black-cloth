@@ -71,6 +71,7 @@ public class UserDao {
 			 code = String.valueOf(r.nextInt(900000) + 100000);
 		} while (stringTemplate.hasKey(KeyUtils.userCode(code)));
 		userCodes.set(KeyUtils.userCode(code), userId);
+		user.setCode(code);
 		
 		users.set(KeyUtils.userId(userId), user);
 		userNames.set(userNameKey, userId);
@@ -228,6 +229,24 @@ public class UserDao {
 		}
 		return "{\"result\":0, \"errorMsg\":\"未知错误！\"}";
 	} 
+	
+	public String resendCode(User user) {
+		CodeSender sender = null;
+		try {
+			sender = getCodeSender();
+		} catch (FileNotFoundException e) {
+			return "{\"result\":0, \"errorMsg\":\"未找到配置文件！\"}";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			sendVerifyCodeMail(sender, user.getName(), user.getCode());
+		} catch (MessagingException e) {
+			return "{\"result\":-11, \"errorMsg\":\"邮件发送失败！\"}";
+		}
+		return "{\"result\":10, \"msg\":\"验证码已发，请查看您的邮箱！\"}";
+	}
 	
 	public CodeSender getCodeSender() throws FileNotFoundException, Exception{
 		CodeSender codeSender = new CodeSender();

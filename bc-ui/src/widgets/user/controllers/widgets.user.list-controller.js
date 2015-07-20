@@ -68,6 +68,16 @@
                         convertUser(user);
                         alertService.success('禁用用户［' + user.name + '］成功。');
                     });
+                };
+
+                $scope.resendCode = function(user){
+                    userService.resendCode(user).then(function(resp){
+                        if (resp.result === 1) {
+                            alertService.success('发送邀请码给［' + user.name + '］成功。');
+                        } else {
+                            alertService.error(resp.errorMsg);
+                        }
+                    });
                 }
             }
         ]);

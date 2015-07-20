@@ -101,6 +101,12 @@ public class UserController {
 		return userDao.initPwd(user);
     }
 	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/resendCode", method=RequestMethod.PUT)
+    public String resendCode(@RequestBody User user)  throws DuplicatedEntryException {
+		return userDao.resendCode(user);
+    }
+	
 	@ExceptionHandler(DuplicatedEntryException.class)
 	public FailedResult handleCustomException(DuplicatedEntryException ex) {
 		return new FailedResult(-1, ex.getMessage());

@@ -74,6 +74,10 @@
 
                     resetPwd: function (user) {
                         return Restangular.all('users').customPUT(user, 'resetPwd');
+                    },
+
+                    resendCode: function (user) {
+                        return Restangular.all('users').customPUT(user, 'resendCode');
                     }
 
                 };

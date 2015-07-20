@@ -12,8 +12,17 @@ public class User {
 	private String password;
 	private UserStatus status = UserStatus.Inactive;
 	private List<String> roles = new ArrayList<>();
+	private String code;
 	private Long timeCode;
 	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public Long getTimeCode() {
 		return timeCode;
 	}
