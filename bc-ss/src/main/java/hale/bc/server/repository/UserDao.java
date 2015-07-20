@@ -245,7 +245,7 @@ public class UserDao {
 		} catch (MessagingException e) {
 			return "{\"result\":-11, \"errorMsg\":\"邮件发送失败！\"}";
 		}
-		return "{\"result\":10, \"msg\":\"验证码已发，请查看您的邮箱！\"}";
+		return "{\"result\":1, \"msg\":\"验证码已发，请查看您的邮箱！\"}";
 	}
 	
 	public CodeSender getCodeSender() throws FileNotFoundException, Exception{
