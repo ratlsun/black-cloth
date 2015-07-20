@@ -62,6 +62,18 @@
 
                     getAllUsers: function () {
                         return Restangular.all('users').getList();
+                    },
+
+                    editPwd: function (user, newPwd) {
+                        return Restangular.all('users').customPUT(user, 'editPwd', {newPwd: newPwd});
+                    },
+
+                    forgetPwd: function (username) {
+                        return Restangular.all('users').customPUT(null, 'forgetPwd', {name: username});
+                    },
+
+                    resetPwd: function (user) {
+                        return Restangular.all('users').customPUT(user, 'resetPwd');
                     }
 
                 };

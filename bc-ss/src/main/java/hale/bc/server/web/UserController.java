@@ -33,7 +33,7 @@ public class UserController {
 	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(method=RequestMethod.POST)
-    public User add(@RequestBody User user) throws DuplicatedEntryException {
+    public String add(@RequestBody User user) throws DuplicatedEntryException {
 		user.setStatus(UserStatus.New);
 		user.getRoles().add("USER");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -78,6 +78,27 @@ public class UserController {
 	@RequestMapping(value = "/{uid}/inactive", method=RequestMethod.PUT)
     public User inactive(@PathVariable Long uid)  {
 		return userDao.updateUserStatus(uid, UserStatus.Inactive);
+    }
+	
+	@RequestMapping(value = "/editPwd", method=RequestMethod.PUT, params="newPwd")
+    public String eidtPassword(@RequestBody User user, @RequestParam(value = "newPwd", required = true) String newPwd)  throws DuplicatedEntryException {
+		return userDao.eidtPassword(user, newPwd);
+    }
+	
+	@RequestMapping(value = "/forgetPwd", method=RequestMethod.PUT, params="name")
+    public String forgetPwd(@RequestParam(value = "name", required = true) String userName)  throws DuplicatedEntryException {
+		return userDao.forgetPwd(userName);
+    }
+	
+	@RequestMapping(value = "/resetPwd", method=RequestMethod.PUT)
+    public String resetPwd(@RequestBody User user)  throws DuplicatedEntryException {
+		return userDao.resetPwd(user);
+    }
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/initPwd", method=RequestMethod.PUT)
+    public String initPwd(@RequestBody User user)  throws DuplicatedEntryException {
+		return userDao.initPwd(user);
     }
 	
 	@ExceptionHandler(DuplicatedEntryException.class)

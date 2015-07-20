@@ -4,8 +4,9 @@
     angular.module('module.widgets.user')
         .controller('widgets.user.SignUpController', [
             '$scope',
+            'alertService',
             'userService',
-            function ($scope, userService) {
+            function ($scope, alertService, userService) {
                 $scope.newUser = {};
                 $scope.activeStep = "info";
                 $scope.invalidMessage = {};
@@ -52,6 +53,9 @@
                         if (resp.result === -1) {
                             $scope.invalidMessage.$infoForm = '该邮箱账号已经存在！';
                         } else {
+                            if (resp.result === 10) {
+                                alertService.success(resp.msg);
+                            };
                             $scope.gotoStep('code');
                         }
                     });

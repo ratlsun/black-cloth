@@ -23,7 +23,8 @@
         'module.channel-admin',
         'module.mocker',
         'module.rule',
-        'module.mock-activity'
+        'module.mock-activity',
+        'module.reset-pwd'
 
     ]).config([
         '$stateProvider',
@@ -83,6 +84,10 @@
                 url: '/mock-activity?maid',
                 templateUrl: 'mock-activity.main.html',
                 controller: 'mock-activity.MainController'
+            }).state(appConfig.stateName.resetPwd, {
+                url: '/reset-pwd?name&r',
+                templateUrl: 'reset-pwd.main.html',
+                controller: 'reset-pwd.MainController'
             });
 
             RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});
