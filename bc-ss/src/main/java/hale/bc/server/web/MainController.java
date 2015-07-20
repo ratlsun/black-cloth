@@ -61,6 +61,7 @@ public class MainController {
 		String respContent = "";
 		RuleRequestBody rb = null;
 		String ct = "application/json";
+		int status = 200;
 		Map<String, String> chds = null;
 		String api = request.getServletPath().substring(MOCK_PATTERN_LENGTH);
 		String qs = request.getQueryString();
@@ -78,12 +79,13 @@ public class MainController {
 			respContent = templateService.evaluate(body, rule.getResponse().getBody().getContent());
 			ct = resp.getHeader().getContentType();
 			chds = resp.getHeader().getHeaders();
+			status = resp.getHeader().getStatusCode();
 			resp.getBody().setContent(respContent);
 			hit.setResponse(resp);
 			hit.setMatch(true);
 		}
 		mockHitDao.createMockHit(hit);
-		BodyBuilder builder = ResponseEntity.ok().header("Content-Type", ct);
+		BodyBuilder builder = ResponseEntity.status(status).header("Content-Type", ct);
 		if (chds != null && !chds.isEmpty()) {
 			for (String hk: chds.keySet()) {
 				builder.header(hk, chds.get(hk));
