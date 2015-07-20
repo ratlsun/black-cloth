@@ -29,7 +29,8 @@
                         response: {
                             header: {
                                 statusCode: 200,
-                                contentType: 'application/json'
+                                contentType: 'application/json',
+                                headers: {}
                             },
                             body: {
                                 content: ''
@@ -37,6 +38,11 @@
                         }
                     };
                 }
+
+                $scope.newHeader = {
+                    key: '',
+                    value: ''
+                };
 
                 $scope.invalidMessage = {};
 
@@ -48,7 +54,13 @@
                     mode: 'xml'
                 };
 
+                $scope.getHeaderSize = function(hs){
+                    return _.size(hs);
+                };
+
                 $scope.save = function () {
+                    $scope.addHeader();
+
                     if ($scope.rule.request.header.method !== 'POST' && $scope.rule.request.header.method !== 'PUT') {
                         $scope.rule.request.body.content = '';
                         $scope.rule.request.body.type = 'None';
@@ -65,6 +77,23 @@
                             $scope.postRuleSaved({rule: resp});
                         });
                     }
+                };
+
+                $scope.addHeader = function () {
+                    if ($scope.newHeader.key.length > 0 && $scope.newHeader.value.length > 0) {
+                        if (!$scope.rule.response.header.headers) {
+                            $scope.rule.response.header.headers = {};
+                        }
+                        _.set($scope.rule.response.header.headers,
+                            $scope.newHeader.key, $scope.newHeader.value);
+
+                        $scope.newHeader.key = '';
+                        $scope.newHeader.value = '';
+                    }
+                };
+
+                $scope.removeHeader = function (hkey) {
+                    delete $scope.rule.response.header.headers[hkey];
                 };
             }
         ]);

@@ -11,12 +11,16 @@ import hale.bc.server.to.RuleRequestHeader;
 import hale.bc.server.to.RuleResponse;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.ResponseEntity.BodyBuilder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -57,6 +61,7 @@ public class MainController {
 		String respContent = "";
 		RuleRequestBody rb = null;
 		String ct = "application/json";
+		Map<String, String> chds = null;
 		String api = request.getServletPath().substring(MOCK_PATTERN_LENGTH);
 		String qs = request.getQueryString();
 		if (qs != null && qs.length() > 0){
@@ -72,12 +77,19 @@ public class MainController {
 			RuleResponse resp = rule.getResponse();
 			respContent = templateService.evaluate(body, rule.getResponse().getBody().getContent());
 			ct = resp.getHeader().getContentType();
+			chds = resp.getHeader().getHeaders();
 			resp.getBody().setContent(respContent);
 			hit.setResponse(resp);
 			hit.setMatch(true);
 		}
 		mockHitDao.createMockHit(hit);
-		return ResponseEntity.ok().header("Content-Type", ct).body(respContent);
+		BodyBuilder builder = ResponseEntity.ok().header("Content-Type", ct);
+		if (chds != null && !chds.isEmpty()) {
+			for (String hk: chds.keySet()) {
+				builder.header(hk, chds.get(hk));
+			}
+		}
+		return builder.body(respContent);
     }
 	
 }

@@ -69,6 +69,7 @@
                         </div>
                     </div>
                 </div>
+                <button type="submit" class="btn btn-submit-bc btn-lg">保存规则</button>
             </div>
             <div class="col-xs-6">
                 <div class="panel panel-primary">
@@ -113,8 +114,6 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="row">
                             <div class="col-xs-6">
                                 <div class="form-group">
                                     <label for="input-ct">Content Type：</label>
@@ -131,6 +130,45 @@
                         <div class="row">
                             <div class="col-xs-12">
                                 <div class="form-group">
+                                    <label for="input-headers" ng-click="showHeaderGrid = !showHeaderGrid;" ng-init="showHeaderGrid = false;">
+                                        <i class="fa fa-chevron-circle-right" ng-if="!showHeaderGrid"></i>
+                                        <i class="fa fa-chevron-circle-down" ng-if="showHeaderGrid"></i>
+                                        Headers：
+                                        <span class="badge">{{getHeaderSize(rule.response.header.headers)}}</span>
+                                    </label>
+                                    <div ng-if="showHeaderGrid">
+                                        <div class="row" ng-repeat="(hkey, hvalue) in rule.response.header.headers">
+                                            <div class="col-xs-10">
+                                                <div class="input-group">
+                                                    <input type="text" ng-model="hkey" class="form-control" placeholder="" required/>
+                                                    <div class="input-group-addon">=</div>
+                                                    <input type="text" ng-model="hvalue" class="form-control" placeholder="" required/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <a class="btn btn-danger" ng-click="removeHeader(hkey)"><i class="fa fa-times"></i></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-xs-10">
+                                                <div class="input-group">
+                                                    <input type="text" ng-model="newHeader.key" class="form-control" id="input-headers"
+                                                           placeholder=""/>
+                                                    <div class="input-group-addon">=</div>
+                                                    <input type="text" ng-model="newHeader.value" class="form-control" placeholder=""/>
+                                                </div>
+                                            </div>
+                                            <div class="col-xs-1">
+                                                <a class="btn btn-success" ng-click="addHeader()"><i class="fa fa-plus"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="form-group">
                                     <label for="input-resp">Body：</label>
                                     <textarea ng-model="rule.response.body.content" id="input-resp" class="form-control"
                                              rows="11"></textarea>
@@ -141,6 +179,6 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-submit-bc btn-lg">保存规则</button>
+
     </form>
 </div>

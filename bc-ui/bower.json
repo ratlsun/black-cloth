@@ -19,7 +19,7 @@
         "angular-spinner": "^0.6.0",
         "angular-ui-codemirror": "~0.3.0",
         "qtip2": "^2.2.0",
-        "lodash": "^3.5.0"
+        "lodash": "^3.10.0"
     },
     "devDependencies": {
         
