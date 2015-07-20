@@ -133,19 +133,19 @@
                                         <i class="fa fa-chevron-circle-right" ng-if="!showHeaderGrid"></i>
                                         <i class="fa fa-chevron-circle-down" ng-if="showHeaderGrid"></i>
                                         Headers：
-                                        <span class="badge">{{getHeaderSize(rule.response.header.headers)}}</span>
+                                        <span class="badge">{{headers.length}}</span>
                                     </label>
                                     <div ng-if="showHeaderGrid">
-                                        <div class="row" ng-repeat="(hkey, hvalue) in rule.response.header.headers">
+                                        <div class="row" ng-repeat="hd in headers">
                                             <div class="col-xs-10">
                                                 <div class="input-group">
-                                                    <input type="text" ng-model="hkey" class="form-control" disabled/>
+                                                    <input type="text" ng-model="hd.key" class="form-control" required/>
                                                     <div class="input-group-addon">=</div>
-                                                    <input type="text" ng-model="hvalue" class="form-control" disabled/>
+                                                    <input type="text" ng-model="hd.value" class="form-control" required/>
                                                 </div>
                                             </div>
                                             <div class="col-xs-1">
-                                                <a class="btn btn-danger" ng-click="removeHeader(hkey)"><i class="fa fa-times"></i></a>
+                                                <a class="btn btn-danger" ng-click="removeHeader($index)"><i class="fa fa-times"></i></a>
                                             </div>
                                         </div>
                                         <div class="row">

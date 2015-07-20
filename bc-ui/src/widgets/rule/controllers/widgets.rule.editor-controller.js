@@ -8,9 +8,17 @@
             'alertService',
             function ($scope, ruleService, alertService) {
 
+                $scope.headers = [];
+
                 if ($scope.ruleId){
                     ruleService.getRuleById($scope.ruleId).then(function(resp){
                         $scope.rule = resp;
+                        _.forEach($scope.rule.response.header.headers, function(n, key){
+                            $scope.headers.push({
+                                key: key,
+                                value: $scope.rule.response.header.headers[key]
+                            });
+                        });
                     });
                 } else {
                     $scope.rule = {
@@ -54,12 +62,13 @@
                     mode: 'xml'
                 };
 
-                $scope.getHeaderSize = function(hs){
-                    return _.size(hs);
-                };
-
                 $scope.save = function () {
                     $scope.addHeader();
+                    var hds = {};
+                    _.forEach($scope.headers, function(o) {
+                        hds[o.key] = o.value;
+                    });
+                    $scope.rule.response.header.headers = hds;
 
                     if ($scope.rule.request.header.method !== 'POST' && $scope.rule.request.header.method !== 'PUT') {
                         $scope.rule.request.body.content = '';
@@ -81,19 +90,21 @@
 
                 $scope.addHeader = function () {
                     if ($scope.newHeader.key.length > 0 && $scope.newHeader.value.length > 0) {
-                        if (!$scope.rule.response.header.headers) {
-                            $scope.rule.response.header.headers = {};
+                        var i = _.findIndex($scope.headers, 'key', $scope.newHeader.key);
+                        var nh = _.clone($scope.newHeader, true);
+                        if (i > -1) {
+                            $scope.headers[i] = nh;
+                        } else {
+                            $scope.headers.push(nh);
                         }
-                        _.set($scope.rule.response.header.headers,
-                            $scope.newHeader.key, $scope.newHeader.value);
 
                         $scope.newHeader.key = '';
                         $scope.newHeader.value = '';
                     }
                 };
 
-                $scope.removeHeader = function (hkey) {
-                    delete $scope.rule.response.header.headers[hkey];
+                $scope.removeHeader = function (index) {
+                    $scope.headers.splice(index, 1);
                 };
             }
         ]);
