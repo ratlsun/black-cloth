@@ -36,7 +36,6 @@
                             <div class="col-xs-12">
                                 <div class="form-group">
                                     <label for="input-req-text">Body：</label>
-                                    <br/>
                                     <div class="btn-group btn-group-xs">
                                         <label class="btn btn-primary" ng-model="rule.request.body.type" btn-radio="'Text'">
                                             <i ng-if="rule.request.body.type !== 'Text'" class="fa fa-circle-o"></i>
@@ -59,7 +58,7 @@
                                 </div>
                                 <div class="form-group">
                                     <textarea ng-if="rule.request.body.type === 'Text'" ng-model="rule.request.body.content"
-                                              id="input-req-text" class="form-control" rows="9"></textarea>
+                                              id="input-req-text" class="form-control" rows="10"></textarea>
                                     <textarea ng-if="rule.request.body.type === 'Json'" ng-model="rule.request.body.content" ui-codemirror
                                               ui-codemirror-opts="jsonBodyEditorOptions" id="input-req-json" class="form-control"></textarea>
                                     <textarea ng-if="rule.request.body.type === 'XML'" ng-model="rule.request.body.content" ui-codemirror
@@ -171,7 +170,7 @@
                                 <div class="form-group">
                                     <label for="input-resp">Body：</label>
                                     <textarea ng-model="rule.response.body.content" id="input-resp" class="form-control"
-                                             rows="11"></textarea>
+                                             rows="12"></textarea>
                                 </div>
                             </div>
                         </div>
