@@ -11,6 +11,14 @@
                         return Restangular.all('mockers').getList();
                     },
 
+                    getByPublic: function () {
+                        return Restangular.all('mockers').customGET('public');
+                    },
+
+                    getCollect: function () {
+                        return Restangular.all('mockers').customGET('collect');
+                    },
+
                     getMockerById: function (mid) {
                         return Restangular.one('mockers', mid).get();
                     },
@@ -25,6 +33,14 @@
 
                     deleteMocker: function (mockerId) {
                         return Restangular.one('mockers', mockerId).remove();
+                    },
+
+                    collectMocker: function (id, operation) {
+                        return Restangular.one('mockers', id).customPUT(null, 'collect', {op: operation});
+                    },
+
+                    cancelCollectMocker: function (id, operation) {
+                        return Restangular.one('mockers', id).customPUT(null, 'cancelCollect', {op: operation});
                     }
                 };
             }]);

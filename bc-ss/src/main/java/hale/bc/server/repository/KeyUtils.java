@@ -67,6 +67,26 @@ abstract class KeyUtils {
 	public static String mockerOwner(String owner) {
 		return MOCKER + "owner-" + owner + ":names";
 	}
+	
+	public static String mockerPublicName(String name) {
+		return MOCKER + "public:" + name + ":mid";
+	}
+	
+	public static String mockerPublic() {
+		return MOCKER + "public:names";
+	}
+	
+	public static String mockerCollectOwnerName(String owner, String name) {
+		return MOCKER + "collect-" + owner + ":" + name + ":mid";
+	}
+
+	public static String mockerCollectOwner(String owner) {
+		return MOCKER + "collect-" + owner + ":names";
+	}
+	
+	public static String collectMockerOwner(String mockerName) {
+		return MOCKER + "collect-" + mockerName + ":names";
+	}
 
 	public static String ruleId() {
 		return ID_GENERATOR + "rule"	;

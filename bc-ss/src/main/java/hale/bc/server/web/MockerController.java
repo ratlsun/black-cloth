@@ -52,6 +52,44 @@ public class MockerController {
 		return mockerDao.getMockers(principal.getName());
     }
 	
+	@RequestMapping(value = "/public", method=RequestMethod.GET)
+    public List<Mocker> getByPublic(Principal principal) {
+		return mockerDao.getMockersByPublic(principal.getName());
+    }
+	
+	@RequestMapping(value = "/{mid}/collect", method=RequestMethod.PUT)
+    public String collect(@PathVariable Long mid, @RequestParam(value = "op", required = true) String operation, Principal principal) throws DuplicatedEntryException {
+		Mocker m = mockerDao.getMockerById(mid);
+		if (m == null) {
+			return "{\"result\":-11, \"errorMsg\":\"该模拟器不存在！\"}";
+		}
+		String result = mockerDao.collectMockerById(mid, principal.getName());
+		if ("1".equals(result)) {
+			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, null, 
+					UserOperationType.valueOf(operation)));
+		}
+		return "{\"result\":1, \"msg\":\"成功关注模拟系统:" + m.getName() + "！\"}";
+    }
+	
+	@RequestMapping(value = "/{mid}/cancelCollect", method=RequestMethod.PUT)
+    public String cancelCollect(@PathVariable Long mid, @RequestParam(value = "op", required = true) String operation, Principal principal) {
+		Mocker m = mockerDao.getMockerById(mid);
+		if (m == null) {
+			return "{\"result\":-11, \"errorMsg\":\"该模拟器不存在！\"}";
+		}
+		String result = mockerDao.cancelCollectMockerById(mid, principal.getName());
+		if ("1".equals(result)) {
+			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, null, 
+					UserOperationType.valueOf(operation)));
+		}
+		return "{\"result\":1, \"msg\":\"取消关注模拟系统:" + m.getName() + "！\"}";
+    }
+	
+	@RequestMapping(value = "/collect", method=RequestMethod.GET)
+    public List<Mocker> getCollect(Principal principal) {
+		return mockerDao.getCollectMockers(principal.getName());
+    }
+	
 	@RequestMapping(value = "/{mid}", method=RequestMethod.PUT)
     public Mocker update(@RequestBody Mocker mocker, 
     			@RequestParam(value = "op", required = true) String operation, 

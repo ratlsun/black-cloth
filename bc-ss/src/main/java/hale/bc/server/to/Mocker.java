@@ -9,9 +9,18 @@ public class Mocker {
 	private String name;
 	private String desc;
 	private MockerType type = MockerType.Public;
+	private int collectCount = 0;
 	
 	public Mocker() {
 		super();
+	}
+
+	public int getCollectCount() {
+		return collectCount;
+	}
+
+	public void setCollectCount(int collectCount) {
+		this.collectCount = collectCount;
 	}
 
 	public Long getId() {

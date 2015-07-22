@@ -60,6 +60,16 @@
                     icon: 'fa-trash',
                     theme: 'panel-danger'
                 },
+                CollectMocker: {
+                    typeName: 'CollectMocker',
+                    icon: 'fa-eye',
+                    theme: 'panel-info'
+                },
+                CancelCollectMocker: {
+                    typeName: 'CancelCollectMocker',
+                    icon: 'fa-eye-slash',
+                    theme: 'panel-danger'
+                },
                 MockActivity: {
                     typeName: 'MockActivity',
                     icon: 'fa-youtube-play',

@@ -36,6 +36,8 @@ public class UserChange {
 			case ChangeMockerOwner:
 			case ChangeMockerType:
 			case ChangeMockerName:
+			case CollectMocker:
+			case CancelCollectMocker:
 			case DeleteMocker:
 				uc.setName(mockerOperation.getName());
 				break;
