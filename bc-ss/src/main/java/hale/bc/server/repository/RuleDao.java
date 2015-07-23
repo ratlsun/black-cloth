@@ -45,6 +45,10 @@ public class RuleDao {
 		return rule;
 	}
 	
+	public Long getRuleCountByMocker(Long mockerId) {
+		return mockerIndex.size(KeyUtils.ruleMocker(mockerId));
+	}
+	
 	public List<Rule> getRulesByMocker(Long mockerId) {
 		List<Rule> result = new ArrayList<>();
 		for (String ruleId : mockerIndex.reverseRange(KeyUtils.ruleMocker(mockerId), 0, -1)){
