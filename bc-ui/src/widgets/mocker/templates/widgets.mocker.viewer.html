@@ -5,7 +5,9 @@
         </div>
 
         <div class="col-xs-9">
-            <app-rule-list mocker-id="{{mockerId}}" on-rule-click="onRuleClick({rule: rule})"></app-rule-list>
+            <app-rule-list mocker-id="{{mockerId}}"
+                           on-rule-click="onRuleClick({rule: rule})"
+                           post-rule-deleted="refreshMocker()"></app-rule-list>
         </div>
     </div>
 

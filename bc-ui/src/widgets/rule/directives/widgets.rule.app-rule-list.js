@@ -8,6 +8,7 @@
                     restrict: 'E',
                     scope: {
                         onRuleClick: '&',
+                        postRuleDeleted: '&',
                         mockerId: '@'
                     },
                     templateUrl: 'widgets.rule.list.html',
