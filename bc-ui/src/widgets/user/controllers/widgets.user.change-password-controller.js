@@ -2,7 +2,7 @@
     "use strict";
 
     angular.module('module.widgets.user')
-        .controller('widgets.user.EditPasswordController', [
+        .controller('widgets.user.ChangePasswordController', [
             '$scope',
             '$timeout',
             '$modalInstance',
@@ -11,19 +11,35 @@
             'appConfig',
             function ($scope, $timeout, $modalInstance, userService, alertService, appConfig) {
                 $scope.currentUser = userService.getCurrentUser();
-                $scope.userName = $scope.currentUser.name;
                 $scope.invalidMessage = {};
+                $scope.user = {
+                    password: '',
+                    newPwd: '',
+                    confirmedPwd: ''
+                };
 
                 var validatePwd = function (){
                     var isValid = true;
-                    $scope.invalidMessage.$infoForm = null;
-                    if ($scope.user.newPwd1 && $scope.user.newPwd2
-                        && $scope.user.newPwd1 !== $scope.user.newPwd2) {
-                        $scope.invalidMessage.$infoForm = '第二次输入的新密码与第一次输入的新密码不一致！';
+                    $scope.invalidMessage.newPwd = null;
+                    if ($scope.user.newPwd && $scope.user.confirmedPwd
+                        && $scope.user.newPwd !== $scope.user.confirmedPwd) {
+                        $scope.invalidMessage.newPwd = '第二次输入的密码与第一次不一致！';
                         isValid = false;
                     }
                     return isValid;
                 };
+
+                $scope.$watch('user.newPwd', function () {
+                    validatePwd();
+                });
+
+                $scope.$watch('user.confirmedPwd', function () {
+                    validatePwd();
+                });
+
+                $scope.$watch('user.password', function () {
+                    $scope.invalidMessage.oldPwd = null;
+                });
 
                 $scope.dismiss = function(){
                     $modalInstance.dismiss();
@@ -33,14 +49,9 @@
                     if (!validatePwd()) {
                         return;
                     }
-                    userService.editPwd({
-                        id: $scope.currentUser.id,
-                        name: $scope.currentUser.name,
-                        password: $scope.user.password,
-                        newPwd: $scope.user.newPwd1
-                    }).then(function(resp){
+                    userService.changePassword(_.assign($scope.user, $scope.currentUser)).then(function(resp){
                         if (resp.result < 0) {
-                            $scope.invalidMessage.$infoForm = appConfig.alertMsg.user.error[resp.result.toString()];
+                            $scope.invalidMessage.oldPwd = appConfig.alertMsg.userModule[resp.result.toString()];
                         } else{
                             alertService.success('密码修改成功');
                             $scope.dismiss();

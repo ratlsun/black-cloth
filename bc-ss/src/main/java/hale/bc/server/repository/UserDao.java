@@ -1,7 +1,6 @@
 package hale.bc.server.repository;
 
 import hale.bc.server.repository.exception.DuplicatedEntryException;
-import hale.bc.server.repository.exception.OldPwdErrorException;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
 
@@ -16,7 +15,6 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.data.redis.support.collections.DefaultRedisZSet;
 import org.springframework.data.redis.support.collections.RedisZSet;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -31,9 +29,6 @@ public class UserDao {
 	private ValueOperations<String, String> userCodes;
 	private ValueOperations<String, User> users;
 	private RedisAtomicLong userIdGenerator;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	public UserDao(RedisTemplate<String, User> userTemplate, StringRedisTemplate template) {
@@ -121,20 +116,10 @@ public class UserDao {
 		return users;
 	}
 	
-	public User eidtPassword(User user) throws OldPwdErrorException {
-		String userNameKey = KeyUtils.userName(user.getName());
-		if (stringTemplate.hasKey(userNameKey)) {
-			String uid = userNames.get(userNameKey);
-			User userInfo = users.get(KeyUtils.userId(uid));
-			if (passwordEncoder.matches(user.getPassword(), userInfo.getPassword())) {
-				userInfo.setPassword(passwordEncoder.encode(user.getNewPwd()));
-				users.set(KeyUtils.userId(uid), userInfo);
-				return userInfo;
-			} else {
-				throw new OldPwdErrorException();
-			}
-		}
-		return null;
+	public User updateUser(User user) {
+		String userIdKey = KeyUtils.userId(String.valueOf(user.getId()));
+		users.set(userIdKey, user);
+		return user;
 	}
-
+	
 }
