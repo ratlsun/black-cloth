@@ -1,0 +1,40 @@
+<app-navbar></app-navbar>
+
+<div class="mock-activity-dashboard-bc container">
+    <div class="user-form-bc" id="user-login-bc">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="form-wrap">
+                    <h1>密码重置服务</h1>
+                    <form ng-submit="resetPwd()" id="login-form" autocomplete="off">
+                        <div class="form-group">
+                            <label for="input-email" class="sr-only">Email</label>
+                            <input type="text" id="input-email" class="form-control"
+                                   value="{{username}}" readonly="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-key" class="sr-only">Password</label>
+                            <input type="password" id="input-key" class="form-control"
+                                   placeholder="输入新密码" required
+                                   ng-model="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="input-key" class="sr-only">Password</label>
+                            <input type="password" id="input-key" class="form-control"
+                                   placeholder="确认新密码" required
+                                   ng-model="password2">
+                        </div>
+                        <div class="alert alert-danger" ng-if="invalidMessage.$form">
+                            <i class="fa fa-warning"></i>{{invalidMessage.$form}}
+                        </div>
+                        <input type="submit" id="btn-login" ng-disabled="!canEdit" class="btn btn-submit-bc btn-lg btn-block" value="修改密码">
+                    </form>
+                </div>
+            </div>
+            <!-- /.col-xs-12 -->
+        </div>
+        <!-- /.row -->
+    </div>
+</div>
+</div>

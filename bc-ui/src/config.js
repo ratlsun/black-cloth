@@ -16,7 +16,8 @@
                 mockerSetting: 'mocker-setting',
                 mockerDashboard: 'mocker-dashboard',
                 mockActivity: 'mock-activity',
-                ruleEditor: 'rule-editor'
+                ruleEditor: 'rule-editor',
+                resetPwd: 'reset-pwd'
             },
 
             userStatus: {
@@ -57,6 +58,16 @@
                 DeleteMocker: {
                     typeName: 'DeleteMocker',
                     icon: 'fa-trash',
+                    theme: 'panel-danger'
+                },
+                CollectMocker: {
+                    typeName: 'CollectMocker',
+                    icon: 'fa-eye',
+                    theme: 'panel-info'
+                },
+                CancelCollectMocker: {
+                    typeName: 'CancelCollectMocker',
+                    icon: 'fa-eye-slash',
                     theme: 'panel-danger'
                 },
                 MockActivity: {

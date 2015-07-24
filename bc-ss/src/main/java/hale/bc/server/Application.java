@@ -7,8 +7,10 @@ import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomi
 import org.springframework.boot.context.embedded.MimeMappings;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportResource;
 
 @Configuration
+@ImportResource("classpath:applicationContext-mail.xml")
 @ComponentScan
 @EnableAutoConfiguration
 public class Application implements EmbeddedServletContainerCustomizer {

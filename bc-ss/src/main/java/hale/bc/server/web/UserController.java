@@ -4,6 +4,7 @@ import hale.bc.server.repository.UserDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.repository.exception.OldPwdErrorException;
 import hale.bc.server.repository.exception.ResetPwdLinkErrorException;
+import hale.bc.server.service.UserService;
 import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
@@ -35,14 +36,17 @@ public class UserController {
 	private UserDao userDao;
 	
 	@Autowired
+	private UserService userService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(method=RequestMethod.POST)
-    public User add(@RequestBody User user) throws DuplicatedEntryException {
+    public User add(@RequestBody User user) throws DuplicatedEntryException, MessagingException {
 		user.setStatus(UserStatus.New);
 		user.getRoles().add("USER");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		return userDao.createUser(user);
+		return userService.createUser(user);
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -91,6 +95,22 @@ public class UserController {
 			return null;
 		}
 		return userDao.eidtPassword(user);
+    }
+	
+	@RequestMapping(value = "/{uid}/forgetPwd", method=RequestMethod.PUT)
+    public User forgetPwd(@RequestBody User user, @PathVariable Long uid)  throws DuplicatedEntryException, MessagingException {
+		return userService.forgetPwd(user.getName());
+    }
+	
+	@RequestMapping(value = "/{uid}/resetPwd", method=RequestMethod.PUT)
+    public User resetPwd(@RequestBody User user, @PathVariable Long uid)  throws DuplicatedEntryException, ResetPwdLinkErrorException {
+		return userDao.resetPwd(user);
+    }
+	
+	@PreAuthorize("hasRole('ROLE_ADMIN')")
+	@RequestMapping(value = "/{uid}/resendCode", method=RequestMethod.PUT)
+    public User resendCode(@RequestBody User user, @PathVariable Long uid)  throws DuplicatedEntryException, MessagingException {
+		return userService.resendCode(user);
     }
 	
 	@ExceptionHandler(DuplicatedEntryException.class)

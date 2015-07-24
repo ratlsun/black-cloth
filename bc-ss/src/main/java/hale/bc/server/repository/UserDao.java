@@ -2,12 +2,15 @@ package hale.bc.server.repository;
 
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.repository.exception.OldPwdErrorException;
+import hale.bc.server.repository.exception.ResetPwdLinkErrorException;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -21,6 +24,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDao {
+	private final long REPIRE_TIME = 1000*60*60*24*2;
 
 	private Random r = new Random();
 	
@@ -29,6 +33,7 @@ public class UserDao {
 	private RedisZSet<String> userNameIndex;
 	private ValueOperations<String, String> userNames;
 	private ValueOperations<String, String> userCodes;
+	private ValueOperations<String, String> pwdCodes;
 	private ValueOperations<String, User> users;
 	private RedisAtomicLong userIdGenerator;
 	
@@ -41,6 +46,7 @@ public class UserDao {
 		users = userTemplate.opsForValue();
 		userNames = stringTemplate.opsForValue();
 		userCodes = stringTemplate.opsForValue();
+		pwdCodes = stringTemplate.opsForValue();
 		userNameIndex = new DefaultRedisZSet<String>(KeyUtils.users(), stringTemplate);
 		userIdGenerator = new RedisAtomicLong(KeyUtils.userId(), stringTemplate.getConnectionFactory());
 	}
@@ -61,7 +67,7 @@ public class UserDao {
 			 code = String.valueOf(r.nextInt(900000) + 100000);
 		} while (stringTemplate.hasKey(KeyUtils.userCode(code)));
 		userCodes.set(KeyUtils.userCode(code), userId);
-		
+		user.setCode(code);
 		users.set(KeyUtils.userId(userId), user);
 		userNames.set(userNameKey, userId);
 		userNameIndex.add(userName, 0);
@@ -136,5 +142,59 @@ public class UserDao {
 		}
 		return null;
 	}
+	
+	public User getUserByPwdCode(String code) {
+		String pwdCodeKey = KeyUtils.resetPwdCode(code);
+		if (stringTemplate.hasKey(pwdCodeKey)) {
+			String uid = pwdCodes.get(pwdCodeKey);
+			String userIdKey = (KeyUtils.userId(uid));
+			User u = users.get(userIdKey);
+			return u;
+		}
+		return null;
+	}
+	
+	public User forgetPwd(String userName) {
+		String pwdCode="";
+		String userNameKey = KeyUtils.userName(userName);
+		if (stringTemplate.hasKey(userNameKey)) {
+			String uid = userNames.get(userNameKey);
+			User userInfo = users.get(KeyUtils.userId(uid));
+			pwdCode = UUID.randomUUID().toString();
+			pwdCodes.set(KeyUtils.resetPwdCode(pwdCode), uid);
+			
+			userInfo.setPwdCode(pwdCode);
+			userInfo.setExpireTime(new Date().getTime());
+			users.set(KeyUtils.userId(uid), userInfo);
 
+			return userInfo;
+		}
+		return null;
+	} 
+	
+	public User resetPwd(User user) throws ResetPwdLinkErrorException {
+		String userNameKey = KeyUtils.userName(user.getName());
+		if (stringTemplate.hasKey(userNameKey)) {
+			String uid = userNames.get(userNameKey);
+			User userInfo = users.get(KeyUtils.userId(uid));
+			if (userInfo.getPwdCode() == null) {
+				throw new ResetPwdLinkErrorException();
+			} else {
+				if (userInfo.getPwdCode().equals(user.getPwdCode())){
+					if (new Date().getTime() - userInfo.getExpireTime() <= REPIRE_TIME) {
+						userInfo.setPassword(passwordEncoder.encode(user.getPassword()));
+						users.set(KeyUtils.userId(uid), userInfo);
+						stringTemplate.delete(KeyUtils.resetPwdCode(userInfo.getPwdCode()));
+						return userInfo;
+					} else {
+						throw new ResetPwdLinkErrorException();
+					}
+				} else {
+					throw new ResetPwdLinkErrorException();
+				}
+			}
+		}
+		return null;
+	} 
+	
 }

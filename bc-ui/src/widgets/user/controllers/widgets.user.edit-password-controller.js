@@ -39,11 +39,15 @@
                         password: $scope.user.password,
                         newPwd: $scope.user.newPwd1
                     }).then(function(resp){
-                        if (resp.result < 0) {
-                            $scope.invalidMessage.$infoForm = appConfig.alertMsg.user.error[resp.result.toString()];
-                        } else{
-                            alertService.success('密码修改成功');
-                            $scope.dismiss();
+                        if (resp) {
+                            if (resp.result < 0) {
+                                $scope.invalidMessage.$infoForm = appConfig.alertMsg.user.error[resp.result.toString()];
+                            } else{
+                                alertService.success('密码修改成功');
+                                $scope.dismiss();
+                            }
+                        } else {
+                            $scope.invalidMessage.$infoForm = '用户不存在。';
                         }
                     });
                 };

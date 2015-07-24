@@ -68,6 +68,22 @@
 
                     editPwd: function (user) {
                         return Restangular.one('users', user.id).customPUT(user, 'editPwd');
+                    },
+
+                    forgetPwd: function (user) {
+                        return Restangular.one('users', user.id).customPUT(user, 'forgetPwd');
+                    },
+
+                    getUserByPwdCode: function (code) {
+                        return Restangular.one('users').one('pwdCode').get({code: code});
+                    },
+
+                    resetPwd: function (user) {
+                        return Restangular.one('users', user.id).customPUT(user, 'resetPwd');
+                    },
+
+                    resendCode: function (user) {
+                        return Restangular.one('users', user.id).customPUT(user, 'resendCode');
                     }
 
                 };

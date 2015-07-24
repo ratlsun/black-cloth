@@ -33,35 +33,41 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserService userService;
-	
+
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.headers().disable()
-				.csrf().disable()
+		http.headers()
+				.disable()
+				.csrf()
+				.disable()
 				.authorizeRequests()
-				.antMatchers("/css/**", "/fonts/**", "/js/**", "/index.html", "/users/active", "/users", "/*.mock/**", "/touch", "/" ).permitAll()
-				.anyRequest().fullyAuthenticated()
-				.and()
+				.antMatchers("/css/**", "/fonts/**", "/js/**", "/index.html",
+						"/users/active", "/*/reset-pwd/**",
+						"/users/*/resetPwd", "/users/*/forgetPwd",
+						"/users/pwdCode", "/users", "/*.mock/**", "/touch", "/")
+				.permitAll().anyRequest().fullyAuthenticated().and()
 				.formLogin()
 				.successHandler(new RestAuthenticationSuccessHandler())
 				.failureHandler(new SimpleUrlAuthenticationFailureHandler())
-				.and()
-				.logout().logoutSuccessHandler(new RestLogoutSuccessHandler())
-				.and()
-				.exceptionHandling()	.authenticationEntryPoint(new RestAuthenticationEntryPoint());
+				.and().logout()
+				.logoutSuccessHandler(new RestLogoutSuccessHandler()).and()
+				.exceptionHandling()
+				.authenticationEntryPoint(new RestAuthenticationEntryPoint());
 	}
 
 	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	protected void configure(AuthenticationManagerBuilder auth)
+			throws Exception {
 		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
 	}
 
-	public static class RestAuthenticationSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+	public static class RestAuthenticationSuccessHandler extends
+			SimpleUrlAuthenticationSuccessHandler {
 
 		@Override
 		public void onAuthenticationSuccess(HttpServletRequest request,
@@ -71,18 +77,20 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 			clearAuthenticationAttributes(request);
 		}
 	}
-	
-	public static class RestLogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler {
+
+	public static class RestLogoutSuccessHandler extends
+			SimpleUrlLogoutSuccessHandler {
 
 		@Override
 		public void onLogoutSuccess(HttpServletRequest request,
 				HttpServletResponse response, Authentication authentication)
 				throws IOException, ServletException {
-			//Do nothing!
+			// Do nothing!
 		}
 	}
 
-	public static class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
+	public static class RestAuthenticationEntryPoint implements
+			AuthenticationEntryPoint {
 
 		@Override
 		public void commence(HttpServletRequest request,
