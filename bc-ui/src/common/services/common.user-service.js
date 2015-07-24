@@ -71,7 +71,7 @@
                     },
 
                     forgetPwd: function (user) {
-                        return Restangular.one('users', user.id).customPUT(user, 'forgetPwd');
+                        return Restangular.one('users').customPUT(user, 'forgetPwd');
                     },
 
                     getUserByPwdCode: function (code) {

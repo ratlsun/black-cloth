@@ -48,7 +48,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 				.authorizeRequests()
 				.antMatchers("/css/**", "/fonts/**", "/js/**", "/index.html",
 						"/users/active", "/*/reset-pwd/**",
-						"/users/*/resetPwd", "/users/*/forgetPwd",
+						"/users/*/resetPwd", "/users/forgetPwd",
 						"/users/pwdCode", "/users", "/*.mock/**", "/touch", "/")
 				.permitAll().anyRequest().fullyAuthenticated().and()
 				.formLogin()

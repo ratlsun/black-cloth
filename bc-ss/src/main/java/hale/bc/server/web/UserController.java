@@ -71,6 +71,11 @@ public class UserController {
 		return userDao.activeUser(code);
     }
 	
+	@RequestMapping(value = "/pwdCode", method=RequestMethod.GET, params="code")
+    public User getUserByPwdCode(@RequestParam(value = "code", required = true) String code)  {
+		return userDao.getUserByPwdCode(code);
+    }
+	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
 	@RequestMapping(method=RequestMethod.GET)
     public List<User> getAll()  {
@@ -97,8 +102,8 @@ public class UserController {
 		return userDao.eidtPassword(user);
     }
 	
-	@RequestMapping(value = "/{uid}/forgetPwd", method=RequestMethod.PUT)
-    public User forgetPwd(@RequestBody User user, @PathVariable Long uid)  throws DuplicatedEntryException, MessagingException {
+	@RequestMapping(value = "/forgetPwd", method=RequestMethod.PUT)
+    public User forgetPwd(@RequestBody User user)  throws DuplicatedEntryException, MessagingException {
 		return userService.forgetPwd(user.getName());
     }
 	
