@@ -12,7 +12,43 @@ public class User {
 	private String password;
 	private UserStatus status = UserStatus.Inactive;
 	private List<String> roles = new ArrayList<>();
+	private String code;
+	private Long expireTime;
+	private String pwdCode;
+	private String newPwd;
 	
+	public String getPwdCode() {
+		return pwdCode;
+	}
+
+	public void setPwdCode(String pwdCode) {
+		this.pwdCode = pwdCode;
+	}
+
+	public Long getExpireTime() {
+		return expireTime;
+	}
+
+	public void setExpireTime(Long expireTime) {
+		this.expireTime = expireTime;
+	}
+
+	public String getNewPwd() {
+		return newPwd;
+	}
+
+	public void setNewPwd(String newPwd) {
+		this.newPwd = newPwd;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
 	public User() {
 		super();
 	}

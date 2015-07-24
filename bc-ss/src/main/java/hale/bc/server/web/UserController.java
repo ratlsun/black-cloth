@@ -2,12 +2,17 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.UserDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
+import hale.bc.server.repository.exception.OldPwdErrorException;
+import hale.bc.server.repository.exception.ResetPwdLinkErrorException;
 import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
 
+import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.util.List;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
@@ -80,9 +85,37 @@ public class UserController {
 		return userDao.updateUserStatus(uid, UserStatus.Inactive);
     }
 	
+	@RequestMapping(value = "/{uid}/editPwd", method=RequestMethod.PUT)
+    public User eidtPassword(@RequestBody User user, @PathVariable Long uid, Principal principal)  throws DuplicatedEntryException, OldPwdErrorException {
+		if (!user.getName().equals(principal.getName())) {
+			return null;
+		}
+		return userDao.eidtPassword(user);
+    }
+	
 	@ExceptionHandler(DuplicatedEntryException.class)
 	public FailedResult handleCustomException(DuplicatedEntryException ex) {
 		return new FailedResult(-1, ex.getMessage());
+	}
+	
+	@ExceptionHandler(OldPwdErrorException.class)
+	public FailedResult handleCustomException(OldPwdErrorException ex) {
+		return new FailedResult(-11, ex.getMessage());
+	}
+	
+	@ExceptionHandler(FileNotFoundException.class)
+	public FailedResult handleCustomException(FileNotFoundException ex) {
+		return new FailedResult(-12, "Config file not found.");
+	}
+	
+	@ExceptionHandler(MessagingException.class)
+	public FailedResult handleCustomException(MessagingException ex) {
+		return new FailedResult(-13, "Mail send fail.");
+	}
+	
+	@ExceptionHandler(ResetPwdLinkErrorException.class)
+	public FailedResult handleCustomException(ResetPwdLinkErrorException ex) {
+		return new FailedResult(-14, ex.getMessage());
 	}
 	
 }
