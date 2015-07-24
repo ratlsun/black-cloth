@@ -24,6 +24,7 @@
                     ruleService.deleteRule(rule.id).then(function(){
                         alertService.success('规则删除成功。');
                         refreshRules();
+                        $scope.postRuleDeleted();
                     });
                 };
             }
