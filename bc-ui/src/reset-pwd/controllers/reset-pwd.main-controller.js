@@ -22,7 +22,7 @@
                         $scope.username = resp.name;
                     } else{
                         $scope.canEdit = false;
-                        alertService.warning(appConfig.alertMsg.user.error['-14']);
+                        alertService.warning(appConfig.alertMsg.userModule['-14']);
                     };
                 });
                 $scope.invalidMessage = {};
@@ -48,7 +48,7 @@
                         userService.resetPwd({'id':$scope.userInfo.id, 'name':$scope.userInfo.name, 'password':$scope.password, 'pwdCode':$scope.pwdCode}).then(function(resp){
                             if (resp) {
                                 if (resp.result < 0) {
-                                    $scope.invalidMessage.$form = appConfig.alertMsg.user.error[resp.result.toString()];
+                                    $scope.invalidMessage.$form = appConfig.alertMsg.userModule[resp.result.toString()];
                                 } else{
                                     alertService.success('密码重置成功！');
                                     $state.go(appConfig.stateName.login);

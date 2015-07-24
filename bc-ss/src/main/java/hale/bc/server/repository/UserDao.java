@@ -1,7 +1,6 @@
 package hale.bc.server.repository;
 
 import hale.bc.server.repository.exception.DuplicatedEntryException;
-import hale.bc.server.repository.exception.OldPwdErrorException;
 import hale.bc.server.repository.exception.ResetPwdLinkErrorException;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
@@ -36,7 +35,6 @@ public class UserDao {
 	private ValueOperations<String, String> pwdCodes;
 	private ValueOperations<String, User> users;
 	private RedisAtomicLong userIdGenerator;
-	
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -127,20 +125,10 @@ public class UserDao {
 		return users;
 	}
 	
-	public User eidtPassword(User user) throws OldPwdErrorException {
-		String userNameKey = KeyUtils.userName(user.getName());
-		if (stringTemplate.hasKey(userNameKey)) {
-			String uid = userNames.get(userNameKey);
-			User userInfo = users.get(KeyUtils.userId(uid));
-			if (passwordEncoder.matches(user.getPassword(), userInfo.getPassword())) {
-				userInfo.setPassword(passwordEncoder.encode(user.getNewPwd()));
-				users.set(KeyUtils.userId(uid), userInfo);
-				return userInfo;
-			} else {
-				throw new OldPwdErrorException();
-			}
-		}
-		return null;
+	public User updateUser(User user) {
+		String userIdKey = KeyUtils.userId(String.valueOf(user.getId()));
+		users.set(userIdKey, user);
+		return user;
 	}
 	
 	public User getUserByPwdCode(String code) {
@@ -196,5 +184,4 @@ public class UserDao {
 		}
 		return null;
 	} 
-	
 }

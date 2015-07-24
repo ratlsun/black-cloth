@@ -74,7 +74,7 @@
                     userService.resendCode(user).then(function(resp){
                         if (resp) {
                             if (resp.result < 0) {
-                                alertService.error(appConfig.alertMsg.user.error[resp.result.toString()]);
+                                alertService.error(appConfig.alertMsg.userModule[resp.result.toString()]);
                             } else{
                                 alertService.success('发送邀请码给［' + user.name + '］成功。');
                             };

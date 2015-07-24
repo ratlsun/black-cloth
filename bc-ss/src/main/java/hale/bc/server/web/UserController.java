@@ -2,9 +2,9 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.UserDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
-import hale.bc.server.repository.exception.OldPwdErrorException;
 import hale.bc.server.repository.exception.ResetPwdLinkErrorException;
 import hale.bc.server.service.UserService;
+import hale.bc.server.service.exception.InvalidPasswordException;
 import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
@@ -94,12 +94,18 @@ public class UserController {
 		return userDao.updateUserStatus(uid, UserStatus.Inactive);
     }
 	
-	@RequestMapping(value = "/{uid}/editPwd", method=RequestMethod.PUT)
-    public User eidtPassword(@RequestBody User user, @PathVariable Long uid, Principal principal)  throws DuplicatedEntryException, OldPwdErrorException {
-		if (!user.getName().equals(principal.getName())) {
+	@RequestMapping(value = "/{uid}/changePwd", method=RequestMethod.PUT)
+    public User eidtPassword(@RequestBody User user, @PathVariable Long uid, Principal principal)  throws InvalidPasswordException {
+		User u = userDao.getUserById(uid);
+		if (u == null || !u.getName().equals(principal.getName())) {
 			return null;
 		}
-		return userDao.eidtPassword(user);
+		if (passwordEncoder.matches(user.getPassword(), u.getPassword())) {
+			u.setPassword(passwordEncoder.encode(user.getNewPwd()));
+			return userDao.updateUser(u);
+		} else {
+			throw new InvalidPasswordException(user.getPassword());
+		}
     }
 	
 	@RequestMapping(value = "/forgetPwd", method=RequestMethod.PUT)
@@ -123,8 +129,8 @@ public class UserController {
 		return new FailedResult(-1, ex.getMessage());
 	}
 	
-	@ExceptionHandler(OldPwdErrorException.class)
-	public FailedResult handleCustomException(OldPwdErrorException ex) {
+	@ExceptionHandler(InvalidPasswordException.class)
+	public FailedResult handleCustomException(InvalidPasswordException ex) {
 		return new FailedResult(-11, ex.getMessage());
 	}
 	
