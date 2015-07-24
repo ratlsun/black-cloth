@@ -74,7 +74,7 @@ public class UserService implements UserDetailsService {
 			m.setSubject("欢迎使用mock-api工具密码重置服务，非常感谢您的使用和关注");
 			m.setTemplateName("mail-reset-pwd.vm");
 			Map<String, Object> model = new HashMap<String, Object>();
-			model.put("url", "http://mock-api.com/users/resetPwd?r=" + u.getPwdCode());
+			model.put("url", "http://mock-api.com/#!/reset-pwd?r=" + u.getPwdCode() );
 			try {
 				mailSenderService.sendWithTemplate(model, m);
 			} catch (Exception e) {

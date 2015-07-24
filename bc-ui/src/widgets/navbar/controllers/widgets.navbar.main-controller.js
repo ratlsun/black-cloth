@@ -46,10 +46,10 @@
                     $state.go(appConfig.stateName.channelAdmin);
                 };
 
-                $scope.editPassword = function(){
-                    var form = $modal.open({
-                        templateUrl: 'widgets.user.edit-password.html',
-                        controller: 'widgets.user.EditPasswordController',
+                $scope.changePassword = function(){
+                    $modal.open({
+                        templateUrl: 'widgets.user.change-password.html',
+                        controller: 'widgets.user.ChangePasswordController',
                         backdrop: false,
                         windowClass: 'browse-origin-modal'
                     });

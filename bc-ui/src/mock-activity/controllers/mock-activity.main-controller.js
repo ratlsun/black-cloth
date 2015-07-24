@@ -22,11 +22,11 @@
                     $scope.activity = resp;
                     if (resp) {
                         $scope.selectedMockers = resp.mockerIds;
-                        pageService.mask('hits-list-spinner');
+                        //pageService.mask('hits-list-spinner');
                         $scope.hitsFetching = $interval(function(){
                             mockActivityService.getMockHitByActivity($scope.activity).then(function(hitsResp) {
                                 $scope.hits = hitsResp;
-                                pageService.unmask('hits-list-spinner');
+                                //pageService.unmask('hits-list-spinner');
                             });
                         }, 5000);
                     }

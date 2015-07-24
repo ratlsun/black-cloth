@@ -66,12 +66,12 @@
                         return Restangular.all('users').getList();
                     },
 
-                    editPwd: function (user) {
-                        return Restangular.one('users', user.id).customPUT(user, 'editPwd');
+                    changePassword: function (user) {
+                        return Restangular.one('users', user.id).customPUT(user, 'changePwd');
                     },
 
                     forgetPwd: function (user) {
-                        return Restangular.one('users', user.id).customPUT(user, 'forgetPwd');
+                        return Restangular.one('users').customPUT(user, 'forgetPwd');
                     },
 
                     getUserByPwdCode: function (code) {
