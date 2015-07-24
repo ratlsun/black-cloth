@@ -1,6 +1,7 @@
 package hale.bc.server.web;
 
 import hale.bc.server.repository.MockerDao;
+import hale.bc.server.repository.RuleDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.service.UserOperationService;
 import hale.bc.server.to.FailedResult;
@@ -29,6 +30,9 @@ public class MockerController {
 	private MockerDao mockerDao;
 	
 	@Autowired
+	private RuleDao ruleDao;
+	
+	@Autowired
 	private UserOperationService userOperationService;
 	
 	@RequestMapping(method=RequestMethod.POST)
@@ -44,12 +48,20 @@ public class MockerController {
 	
 	@RequestMapping(value = "/{mid}", method=RequestMethod.GET)
     public Mocker getById(@PathVariable Long mid, Principal principal) {
-		return mockerDao.getMockerById(mid, principal.getName());
+		Mocker m = mockerDao.getMockerById(mid, principal.getName());
+		if (m != null) {
+			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));
+		}
+		return m;
     }
 	
 	@RequestMapping(method=RequestMethod.GET)
     public List<Mocker> getByOwner(Principal principal) {
-		return mockerDao.getMockers(principal.getName());
+		List<Mocker> ms = mockerDao.getMockers(principal.getName());
+		for (Mocker m: ms) {
+			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));
+		}
+		return ms;
     }
 	
 	@RequestMapping(value = "/{mid}", method=RequestMethod.PUT)

@@ -8,6 +8,7 @@ public class Mocker {
 	private String owner;
 	private String name;
 	private String desc;
+	private Long ruleCount;
 	private MockerType type = MockerType.Public;
 	
 	public Mocker() {
@@ -53,5 +54,13 @@ public class Mocker {
 	public void setOwner(String owner) {
 		this.owner = owner;
 	}
-	
+
+	public Long getRuleCount() {
+		return ruleCount;
+	}
+
+	public void setRuleCount(Long ruleCount) {
+		this.ruleCount = ruleCount;
+	}
+
 }

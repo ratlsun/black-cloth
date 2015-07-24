@@ -7,9 +7,12 @@
             'mockerService',
             function ($scope, mockerService) {
 
-                mockerService.getMockerById($scope.mockerId).then(function(resp){
-                    $scope.mocker = resp;
-                });
+                $scope.refreshMocker = function(){
+                    mockerService.getMockerById($scope.mockerId).then(function(resp){
+                        $scope.mocker = resp;
+                    });
+                };
+                $scope.refreshMocker();
 
             }
         ]);
