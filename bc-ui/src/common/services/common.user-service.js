@@ -20,11 +20,13 @@
 
                     setCurrentUser: function (user) {
                         if (user && user.name) {
+                            currentUser.id = user.id;
                             currentUser.name = user.name;
                             currentUser.status = user.status;
                             currentUser.roles = user.roles;
                             currentUser.isAdmin = _.indexOf(user.roles, 'ADMIN') > -1;
                         } else {
+                            currentUser.id = '';
                             currentUser.name = '';
                             currentUser.status = '';
                             currentUser.roles = '';
@@ -62,6 +64,10 @@
 
                     getAllUsers: function () {
                         return Restangular.all('users').getList();
+                    },
+
+                    editPwd: function (user) {
+                        return Restangular.one('users', user.id).customPUT(user, 'editPwd');
                     }
 
                 };

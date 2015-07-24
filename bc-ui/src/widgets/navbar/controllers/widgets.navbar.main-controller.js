@@ -5,9 +5,10 @@
         .controller('widgets.navbar.MainController', [
             '$scope',
             '$state',
+            '$modal',
             'appConfig',
             'userService',
-            function ($scope, $state, appConfig, userService) {
+            function ($scope, $state, $modal, appConfig, userService) {
 
                 $scope.activeMenu = $state.current.name;
                 $scope.currentUser = userService.getCurrentUser();
@@ -43,6 +44,15 @@
 
                 $scope.gotoChannelAdmin = function () {
                     $state.go(appConfig.stateName.channelAdmin);
+                };
+
+                $scope.editPassword = function(){
+                    var form = $modal.open({
+                        templateUrl: 'widgets.user.edit-password.html',
+                        controller: 'widgets.user.EditPasswordController',
+                        backdrop: false,
+                        windowClass: 'browse-origin-modal'
+                    });
                 };
 
                 $scope.logout = function () {
