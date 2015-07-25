@@ -4,10 +4,10 @@ import hale.bc.server.repository.MockerDao;
 import hale.bc.server.repository.RuleDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.service.UserOperationService;
-import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.Mocker;
 import hale.bc.server.to.UserOperation;
 import hale.bc.server.to.UserOperationType;
+import hale.bc.server.to.result.FailedResult;
 
 import java.security.Principal;
 import java.util.List;

@@ -1,6 +1,6 @@
-package hale.bc.server.to;
+package hale.bc.server.to.result;
 
-public class FailedResult {
+public class FailedResult implements ApplicationResult {
 	private int result = -1;
 	private String errorMsg;
 	

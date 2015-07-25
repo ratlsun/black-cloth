@@ -24,6 +24,7 @@
                     <div class="tab-content">
                         <div class="tab-pane active">
                             <app-mocker-selector selected-mockers="selectedMockers"
+                                                 on-mocker-click="gotoMockerViewer(mocker)"
                                                  disable-check="disableSelectMocker"></app-mocker-selector>
                         </div>
                     </div>
@@ -40,7 +41,6 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active">
-
                             <button class="btn btn-info btn-block" ng-if="!activity || activity.status==='Stopped'" ng-click="startMock()">
                                 开始模拟&nbsp;<i class="fa fa-play"></i>
                             </button>
@@ -52,6 +52,28 @@
                             </button>
                             <button class="btn btn-danger btn-block" ng-if="activity && activity.status!=='Stopped'" ng-click="stopMock()">
                                 结束模拟&nbsp;<i class="fa fa-stop"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            是否自动加载修改后的规则：
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <button class="btn btn-toggle-off-bc btn-default btn-block" ng-click="setAutoLoading(true)"
+                                    ng-if="activity && activity.status!=='Stopped' && !activity.autoLoading"
+                                    tooltip="自动加载处于关闭状态" tooltip-trigger tooltip-placement="bottom">
+                                <i class="fa fa-minus img-circle"></i>规则修改需暂停恢复
+                            </button>
+                            <button class="btn btn-toggle-on-bc btn-success btn-block" ng-click="setAutoLoading(false)"
+                                    ng-if="activity && activity.status!=='Stopped' && activity.autoLoading"
+                                    tooltip="自动加载已经打开" tooltip-trigger tooltip-placement="bottom">
+                                规则修改后自动加载<i class="fa fa-check img-circle text-success"></i>
                             </button>
                         </div>
                     </div>

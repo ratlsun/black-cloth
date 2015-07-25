@@ -23,11 +23,16 @@
                         return Restangular.one('mock-activities', activity.code).customPUT(null, 'stop');
                     },
 
+                    setMockActivityAutoLoading: function (activity) {
+                        return Restangular.one('mock-activities', activity.code)
+                            .customPUT(activity.autoLoading.toString(), 'autoLoading');
+                    },
+
                     getMyMockActivity: function () {
                         return Restangular.one('mock-activities', 'active').get();
                     },
 
-                    getOneHistoryMockActivity: function () {
+                    hasMockActivity: function () {
                         return Restangular.one('mock-activities', 'has').get();
                     },
 

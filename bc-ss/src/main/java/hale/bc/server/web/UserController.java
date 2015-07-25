@@ -4,9 +4,9 @@ import hale.bc.server.repository.UserDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.repository.exception.ResetPwdLinkErrorException;
 import hale.bc.server.service.exception.InvalidPasswordException;
-import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
+import hale.bc.server.to.result.FailedResult;
 
 import java.io.FileNotFoundException;
 import java.security.Principal;

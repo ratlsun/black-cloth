@@ -2,12 +2,15 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.MockActivityDao;
 import hale.bc.server.service.MockActivityService;
+import hale.bc.server.service.RuleChangedListener;
 import hale.bc.server.service.UserOperationService;
-import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.MockActivity;
 import hale.bc.server.to.MockActivityStatus;
 import hale.bc.server.to.UserOperation;
 import hale.bc.server.to.UserOperationType;
+import hale.bc.server.to.result.ApplicationResult;
+import hale.bc.server.to.result.DefaultResult;
+import hale.bc.server.to.result.FailedResult;
 
 import java.security.Principal;
 import java.util.List;
@@ -34,18 +37,21 @@ public class MockActivityController {
 	@Autowired
 	private MockActivityService mockActivityService;
 	
+	@Autowired
+	private RuleChangedListener ruleChangedListener;
+	
 	@RequestMapping(value = "/active", method=RequestMethod.GET)
     public MockActivity getActiveMockByOwner(Principal principal) {
 		return mockActivityDao.getActiveMockActivityByOwner(principal.getName());
     }
 	
 	@RequestMapping(value = "/has", method=RequestMethod.GET)
-    public FailedResult hasMockByOwner(Principal principal) {
+    public ApplicationResult hasMockByOwner(Principal principal) {
 		Set<String> codes = mockActivityDao.getMockCodesByOwner(principal.getName(), 1);
 		if (codes == null || codes.isEmpty()) {
-			return null;
+			return new FailedResult(-1, "");
 		}
-		return new FailedResult(0, codes.iterator().next());  //@TODO change to normal result class.
+		return new DefaultResult(0); 
     }
 	
 	@RequestMapping(method=RequestMethod.POST)
@@ -54,6 +60,7 @@ public class MockActivityController {
 		MockActivity ma = mockActivityDao.createMockActivity(activity);
 		if (ma != null && ma.getMockerIds() != null && !ma.getMockerIds().isEmpty()) {
 			mockActivityService.loadRules(ma);
+			ruleChangedListener.registerMockActivity(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.StartMock));
 		}
@@ -65,6 +72,7 @@ public class MockActivityController {
 		MockActivity ma = updateStatus(code, principal.getName(), MockActivityStatus.Paused);
 		if (ma != null) {
 			mockActivityService.clearRules(ma);
+			ruleChangedListener.unRegisterMockActivity(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.PauseMock));
 		}
@@ -76,6 +84,7 @@ public class MockActivityController {
 		MockActivity ma = updateStatus(code, principal.getName(), MockActivityStatus.Running, activity.getMockerIds());
 		if (ma != null && ma.getMockerIds() != null && !ma.getMockerIds().isEmpty()) {
 			mockActivityService.loadRules(ma);
+			ruleChangedListener.registerMockActivity(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.ResumeMock));
 		}
@@ -87,10 +96,21 @@ public class MockActivityController {
 		MockActivity ma = updateStatus(code, principal.getName(), MockActivityStatus.Stopped);
 		if (ma != null) {
 			mockActivityService.clearRules(ma);
+			ruleChangedListener.unRegisterMockActivity(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.StopMock));
 		}
 		return ma;
+    }
+	
+	@RequestMapping(value = "/{code}/autoLoading", method=RequestMethod.PUT)
+    public MockActivity updateAutoLoading(@PathVariable String code, @RequestBody Boolean autoLoading, Principal principal) {
+		MockActivity ma = mockActivityDao.getMockActivityByCode(code);
+		if (ma == null || !principal.getName().equals(ma.getOwner())) {
+			return null;
+		} 
+		ma.setAutoLoading(autoLoading);
+		return mockActivityDao.updateMockActivity(ma);
     }
 	
 	private MockActivity updateStatus(String code, String owner, MockActivityStatus status) {

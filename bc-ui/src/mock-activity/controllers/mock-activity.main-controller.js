@@ -101,6 +101,17 @@
                     });
                 };
 
+                $scope.setAutoLoading = function (isAuto) {
+                    $scope.activity.autoLoading = isAuto;
+                    mockActivityService.setMockActivityAutoLoading($scope.activity).then(function(resp){
+                        if (resp) {
+                            $scope.activity = resp;
+                        } else {
+                            alertService.error('模拟环境设置自动更新失败，请检查模拟系统的设置是否正确！');
+                        }
+                    });
+                };
+
                 $scope.clearLog = function () {
                     if ($scope.hits.length > 0) {
                         $scope.hits = [];
