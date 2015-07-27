@@ -10,21 +10,27 @@
             'alertService',
             'appConfig',
             function ($scope, $state, $stateParams, userService, alertService, appConfig) {
-                $scope.pwdCode = $stateParams.r;
                 $scope.userInfo = {};
                 $scope.canEdit = true;
-                userService.getUserByPwdCode($scope.pwdCode).then(function(resp){
-                    if (resp) {
-                        $scope.userInfo = {
-                            'id': resp.id,
-                            'name': resp.name
+                $scope.isReset = false;
+                $scope.pwdCode = $stateParams.r;
+                if ($scope.pwdCode) {
+                    $scope.isReset = true;
+
+                    userService.getUserByPwdCode($scope.pwdCode).then(function(resp){
+                        if (resp) {
+                            $scope.userInfo = {
+                                'id': resp.id,
+                                'name': resp.name
+                            };
+                            $scope.username = resp.name;
+                        } else{
+                            $scope.canEdit = false;
+                            alertService.warning(appConfig.alertMsg.userModule['-14']);
                         };
-                        $scope.username = resp.name;
-                    } else{
-                        $scope.canEdit = false;
-                        alertService.warning(appConfig.alertMsg.userModule['-14']);
-                    };
-                });
+                    });
+                };
+                
                 $scope.invalidMessage = {};
 
                 var validatePwd = function (){
@@ -66,6 +72,21 @@
                             }
                         });
                     }
+                };
+
+                $scope.forgetPwd = function () {
+                    userService.forgetPwd({'name': $scope.userInfo.name}).then(function(resp){
+                        if (resp) {
+                            if (resp.result < 0) {
+                                $scope.invalidMessage.$form = appConfig.alertMsg.userModule[resp.result.toString()];
+                            } else {
+                                alertService.success('密码重置的邮件已发送到您的邮箱，请在2天内重置密码！');
+                            }
+                        } else {
+                            alertService.warning(appConfig.alertMsg.userModule['-15']);
+                        }
+                        
+                    });
                 };
             }
         ]);
