@@ -37,22 +37,6 @@
 
                 $scope.forgetPwd = function () {
                     $state.go(appConfig.stateName.resetPwd);
-                    // if (!/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/ .test($scope.user.username)) {
-                    //     $scope.invalidMessage.$form = '请输入正确格式的邮箱！';
-                    // } else {
-                    //     userService.forgetPwd({'name': $scope.user.username}).then(function(resp){
-                    //         if (resp) {
-                    //             if (resp.result < 0) {
-                    //                 $scope.invalidMessage.$form = appConfig.alertMsg.userModule[resp.result.toString()];
-                    //             } else {
-                    //                 alertService.success('密码重置的邮件已发送到您的邮箱，请在2天内重置密码！');
-                    //             }
-                    //         } else {
-                    //             alertService.warning(appConfig.alertMsg.userModule['-15']);
-                    //         }
-                            
-                    //     });
-                    // }
                 };
             }
         ]);
