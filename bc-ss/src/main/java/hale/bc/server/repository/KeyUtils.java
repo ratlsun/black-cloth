@@ -121,10 +121,10 @@ abstract public class KeyUtils {
 	}
 
 	public static String mockerCollectOwner(String owner) {
-		return MOCKER + "collect-" + owner + ":names";
+		return MOCKER + "collect-" + owner + ":ids";
 	}
 	
-	public static String collectMockerOwner(String mockerName) {
-		return MOCKER + "collect-" + mockerName + ":names";
+	public static String collectMockerOwner(String mockerId) {
+		return MOCKER + "collect-" + mockerId + ":names";
 	}
 }

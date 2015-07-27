@@ -17,7 +17,8 @@
                 mockerDashboard: 'mocker-dashboard',
                 mockActivity: 'mock-activity',
                 ruleEditor: 'rule-editor',
-                resetPwd: 'reset-pwd'
+                resetPwd: 'reset-pwd',
+                publicMocker: 'public-mocker'
             },
 
             userStatus: {
@@ -85,6 +86,11 @@
                     '-13': '邮件发送失败！',
                     '-14': '重置密码链接失效！',
                     '-15': '用户名不存在'
+                },
+
+                mockerModule: {
+                    '-11': '您已经关注过此模拟系统，请核对信息!',
+                    '-15': '模拟系统不存在'
                 }
             }
 

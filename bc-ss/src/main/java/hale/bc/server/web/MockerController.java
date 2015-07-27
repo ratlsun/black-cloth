@@ -95,6 +95,52 @@ public class MockerController {
 		return nm;
     }
 	
+	@RequestMapping(value = "/public", method=RequestMethod.GET)
+    public List<Mocker> getByPublic(Principal principal) {
+		List<Mocker> ms = mockerDao.getMockersByPublic(principal.getName());
+		for (Mocker m: ms) {
+			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));
+		}
+		return ms;
+    }
+	
+	@RequestMapping(value = "/collect", method=RequestMethod.GET)
+    public List<Mocker> getCollect(Principal principal) {
+		List<Mocker> ms = mockerDao.getCollectMockers(principal.getName());
+		for (Mocker m: ms) {
+			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));
+		}
+		return ms;
+    }
+	
+	@RequestMapping(value = "/{mid}/collect", method=RequestMethod.PUT)
+    public Mocker collect(@PathVariable Long mid, @RequestParam(value = "op", required = true) String operation, Principal principal) throws DuplicatedEntryException {
+		Mocker m = mockerDao.getMockerById(mid);
+		if (m == null) {
+			return null;
+		}
+		Mocker mocker = mockerDao.collectMockerById(mid, principal.getName());
+		if (mocker != null) {
+			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, null, 
+					UserOperationType.valueOf(operation)));
+		}
+		return mocker;
+    }
+	
+	@RequestMapping(value = "/{mid}/cancelCollect", method=RequestMethod.PUT)
+    public Mocker cancelCollect(@PathVariable Long mid, @RequestParam(value = "op", required = true) String operation, Principal principal) {
+		Mocker m = mockerDao.getMockerById(mid);
+		if (m == null) {
+			return null;
+		}
+		Mocker mocker = mockerDao.cancelCollectMockerById(mid, principal.getName());
+		if (mocker != null) {
+			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, null, 
+					UserOperationType.valueOf(operation)));
+		}
+		return mocker;
+    }
+	
 	@ExceptionHandler(DuplicatedEntryException.class)
 	public FailedResult handleCustomException(DuplicatedEntryException ex) {
 		return new FailedResult(-1, ex.getMessage());
