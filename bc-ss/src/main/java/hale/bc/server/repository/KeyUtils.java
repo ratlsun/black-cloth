@@ -1,6 +1,6 @@
 package hale.bc.server.repository;
 
-abstract class KeyUtils {
+abstract public class KeyUtils {
 	static final String ID_GENERATOR = "id-generator:";
 	
 	static final String USER = "user:";
@@ -69,7 +69,7 @@ abstract class KeyUtils {
 	}
 
 	public static String ruleId() {
-		return ID_GENERATOR + "rule"	;
+		return ID_GENERATOR + "rule";
 	}
 
 	public static String ruleId(String ruleId) {
@@ -95,6 +95,10 @@ abstract class KeyUtils {
 	public static String mockActivityOwner(String owner) {
 		return MOCK_ACTIVITY + "owner-" + owner + ":macodes";
 	}
+	
+	public static String mockActivityMocker(Long mockerId) {
+		return MOCK_ACTIVITY + "mocker-" + mockerId + ":macodes";
+	}
 
 	public static String mockHitCode(String mockActivityCode) {
 		return MOCK_HIT + "macode-" + mockActivityCode + ":values";
@@ -117,10 +121,10 @@ abstract class KeyUtils {
 	}
 
 	public static String mockerCollectOwner(String owner) {
-		return MOCKER + "collect-" + owner + ":names";
+		return MOCKER + "collect-" + owner + ":ids";
 	}
 	
-	public static String collectMockerOwner(String mockerName) {
-		return MOCKER + "collect-" + mockerName + ":names";
+	public static String collectMockerOwner(String mockerId) {
+		return MOCKER + "collect-" + mockerId + ":names";
 	}
 }

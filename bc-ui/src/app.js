@@ -24,7 +24,8 @@
         'module.mocker',
         'module.rule',
         'module.mock-activity',
-        'module.reset-pwd'
+        'module.reset-pwd',
+        'module.public-mocker'
 
     ]).config([
         '$stateProvider',
@@ -88,6 +89,10 @@
                 url: '/reset-pwd?r',
                 templateUrl: 'reset-pwd.main.html',
                 controller: 'reset-pwd.MainController'
+            }).state(appConfig.stateName.publicMocker, {
+                url: '/public-mocker',
+                templateUrl: 'public-mocker.main.html',
+                controller: 'public-mocker.MainController'
             });
 
             RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});

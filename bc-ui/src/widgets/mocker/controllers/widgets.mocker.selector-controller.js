@@ -12,6 +12,9 @@
 
                 mockerService.getMyMockers().then(function(resp){
                     $scope.mockers = resp;
+                    mockerService.getCollect().then(function(resp){
+                        $scope.mockers = _.union($scope.mockers, resp);
+                    });
                 });
 
                 $scope.$watch('selected', function (nv) {

@@ -1,5 +1,6 @@
 package hale.bc.server.repository;
 
+import hale.bc.server.service.event.RuleChangedEvent;
 import hale.bc.server.to.Rule;
 
 import java.util.ArrayList;
@@ -7,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ApplicationEventPublisherAware;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -15,7 +18,9 @@ import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class RuleDao {
+public class RuleDao implements ApplicationEventPublisherAware {
+
+	private ApplicationEventPublisher eventPublisher;
 
 	private StringRedisTemplate stringTemplate;
 	
@@ -41,6 +46,8 @@ public class RuleDao {
 		rule.setUpdated(d);
 		rules.set(KeyUtils.ruleId(ruleId), rule);
 		mockerIndex.add(KeyUtils.ruleMocker(rule.getMockerId()), ruleId, rule.getUpdated().getTime());
+		
+		eventPublisher.publishEvent(new RuleChangedEvent(rule));
 		
 		return rule;
 	}
@@ -73,6 +80,9 @@ public class RuleDao {
 		rule.setUpdated(new Date());
 		rules.set(KeyUtils.ruleId(String.valueOf(ruleId)), rule);
 		mockerIndex.add(KeyUtils.ruleMocker(rule.getMockerId()), String.valueOf(ruleId), rule.getUpdated().getTime());
+		
+		eventPublisher.publishEvent(new RuleChangedEvent(rule));
+		
 		return rule;
 	}
 	
@@ -85,6 +95,14 @@ public class RuleDao {
 		mockerIndex.remove(KeyUtils.ruleMocker(r.getMockerId()), String.valueOf(ruleId));
 		stringTemplate.delete(KeyUtils.ruleId(String.valueOf(ruleId)));
 		rules.set(KeyUtils.ruleId(String.valueOf(-ruleId)), r);
+		
+		eventPublisher.publishEvent(new RuleChangedEvent(r));
+		
 		return r;
+	}
+
+	@Override
+	public void setApplicationEventPublisher(ApplicationEventPublisher eventPublisher) {
+		this.eventPublisher = eventPublisher;
 	}
 }

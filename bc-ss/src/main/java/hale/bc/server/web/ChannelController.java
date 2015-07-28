@@ -4,7 +4,7 @@ import hale.bc.server.repository.ChannelDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.service.ChannelService;
 import hale.bc.server.to.Channel;
-import hale.bc.server.to.FailedResult;
+import hale.bc.server.to.result.FailedResult;
 
 import java.util.List;
 

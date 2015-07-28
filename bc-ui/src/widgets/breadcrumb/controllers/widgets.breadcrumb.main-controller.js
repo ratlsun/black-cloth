@@ -8,8 +8,9 @@
             '$stateParams',
             'appConfig',
             'mockerService',
-            function ($scope, $state, $stateParams, appConfig, mockerService) {
-
+            'userService',
+            function ($scope, $state, $stateParams, appConfig, mockerService, userService) {
+                $scope.user = userService.getCurrentUser();
                 $scope.activeMenu = $state.current.name;
                 $scope.mockerMode = {
                     view: false,
@@ -22,6 +23,7 @@
                 if ($scope.lastItemId) {
                     mockerService.getMockerById($scope.lastItemId).then(function(resp) {
                         $scope.mocker = resp;
+                        $scope.isEdit = ($scope.user.name == $scope.mocker.owner) ? true : false;
                     });
                 }
 

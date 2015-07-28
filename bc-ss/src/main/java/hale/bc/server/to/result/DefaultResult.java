@@ -1,6 +1,6 @@
-package hale.bc.server.to;
+package hale.bc.server.to.result;
 
-public class DefaultResult {
+public class DefaultResult implements ApplicationResult {
 	private int result = 0;
 	
 	public DefaultResult(int result) {

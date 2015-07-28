@@ -2,9 +2,9 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.MockActivityDao;
 import hale.bc.server.repository.MockHitDao;
-import hale.bc.server.to.DefaultResult;
 import hale.bc.server.to.MockActivity;
 import hale.bc.server.to.MockHit;
+import hale.bc.server.to.result.DefaultResult;
 
 import java.security.Principal;
 import java.util.List;
