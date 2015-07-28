@@ -31,68 +31,68 @@ abstract public class KeyUtils {
 		return ID_GENERATOR + "user";
 	}
 
-	public static String channelId() {
+	static String channelId() {
 		return ID_GENERATOR + "channel";
 	}
 
-	public static String channelName(char system, String serviceName) {
+	static String channelName(char system, String serviceName) {
 		return CHANNEL + system + "-system:" + serviceName + ":cid";
 	}
 
-	public static String channelId(String channelId) {
+	static String channelId(String channelId) {
 		return CHANNEL + channelId;
 	}
 
-	public static String channelSystem(char system) {
+	static String channelSystem(char system) {
 		return CHANNEL + system + "-system:ids";
 	}
 
-	public static String channelSystemValue(String key) {
+	static String channelSystemValue(String key) {
 		int l = CHANNEL.length();
 		return key.substring(l, l+1);
 	}
 	
-	public static String mockerId() {
+	static String mockerId() {
 		return ID_GENERATOR + "mocker";
 	}
 	
-	public static String mockerId(String mockerId) {
+	static String mockerId(String mockerId) {
 		return MOCKER + mockerId;
 	}
 
-	public static String mockerOwnerName(String owner, String name) {
+	static String mockerOwnerName(String owner, String name) {
 		return MOCKER + "owner-" + owner + ":" + name + ":mid";
 	}
 
-	public static String mockerOwner(String owner) {
+	static String mockerOwner(String owner) {
 		return MOCKER + "owner-" + owner + ":names";
 	}
 
-	public static String ruleId() {
+	static String ruleId() {
 		return ID_GENERATOR + "rule";
 	}
 
-	public static String ruleId(String ruleId) {
+	static String ruleId(String ruleId) {
 		return RULE + ruleId;
 	}
 
-	public static String ruleMocker(Long mockerId) {
+	static String ruleMocker(Long mockerId) {
 		return RULE + "mocker-" + mockerId + ":ids";
 	}
 
-	public static String userOperationMocker(Long mockerId) {
+	static String userOperationMocker(Long mockerId) {
 		return USER_OPERATION + "mocker-" + mockerId + ":values";
 	}
 	
-	public static String userOperationUsername(String username) {
+	static String userOperationUsername(String username) {
 		return USER_OPERATION + "user-" + username + ":values";
 	}
 
-	public static String mockActivityCode(String code) {
+	static String mockActivityCode(String code) {
 		return MOCK_ACTIVITY + code;
 	}
 
-	public static String mockActivityOwner(String owner) {
+	static String mockActivityOwner(String owner) {
 		return MOCK_ACTIVITY + "owner-" + owner + ":macodes";
 	}
 	
@@ -100,31 +100,31 @@ abstract public class KeyUtils {
 		return MOCK_ACTIVITY + "mocker-" + mockerId + ":macodes";
 	}
 
-	public static String mockHitCode(String mockActivityCode) {
+	static String mockHitCode(String mockActivityCode) {
 		return MOCK_HIT + "macode-" + mockActivityCode + ":values";
 	}
 	
-	static String resetPwdCode(String code) {
+	static String pwdCode(String code) {
 		return "user-pwd-code:" + code + ":uid";
 	}
 	
-	public static String mockerPublicName(String name) {
+	static String mockerPublicName(String name) {
 		return MOCKER + "public:" + name + ":mid";
 	}
 	
-	public static String mockerPublic() {
+	static String mockerPublic() {
 		return MOCKER + "public:names";
 	}
 	
-	public static String mockerCollectOwnerName(String owner, String name) {
+	static String mockerCollectOwnerName(String owner, String name) {
 		return MOCKER + "collect-" + owner + ":" + name + ":mid";
 	}
 
-	public static String mockerCollectOwner(String owner) {
+	static String mockerCollectOwner(String owner) {
 		return MOCKER + "collect-" + owner + ":names";
 	}
 	
-	public static String collectMockerOwner(String mockerName) {
+	static String collectMockerOwner(String mockerName) {
 		return MOCKER + "collect-" + mockerName + ":names";
 	}
 }

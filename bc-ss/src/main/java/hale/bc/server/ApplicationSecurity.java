@@ -47,9 +47,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 				.disable()
 				.authorizeRequests()
 				.antMatchers("/css/**", "/fonts/**", "/js/**", "/index.html",
-						"/users/active", "/*/reset-pwd/**",
-						"/users/*/resetPwd", "/users/forgetPwd",
-						"/users/pwdCode", "/users", "/*.mock/**", "/touch", "/")
+						"/users/active", "/users", "/users/pcode", "/users/*/applyPwd", "/users/*/resetPwd",
+						"/*.mock/**", "/touch", "/")
 				.permitAll().anyRequest().fullyAuthenticated().and()
 				.formLogin()
 				.successHandler(new RestAuthenticationSuccessHandler())

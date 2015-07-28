@@ -17,7 +17,7 @@
                 mockerDashboard: 'mocker-dashboard',
                 mockActivity: 'mock-activity',
                 ruleEditor: 'rule-editor',
-                resetPwd: 'reset-pwd'
+                passwordAdmin: 'password-admin'
             },
 
             userStatus: {
@@ -80,11 +80,7 @@
 
             alertMsg: {
                 userModule: {
-                    '-11': '原密码错误，无法修改密码！',
-                    '-12': '配置文件找不到！',
-                    '-13': '邮件发送失败！',
-                    '-14': '重置密码链接失效！',
-                    '-15': '用户名不存在'
+                    '-11': '原密码错误，无法修改密码！'
                 }
             }
 

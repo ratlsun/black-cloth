@@ -2,17 +2,16 @@
     "use strict";
 
     angular.module('module.widgets.user')
-        .directive('appLogin', [
+        .directive('appPassword', [
             function () {
                 return {
                     restrict: 'E',
                     scope: {
-                        onSignUp: '&',
-                        onForgotPwd: '&',
-                        postSignIn: '&'
+                        pwdCode: '@',
+                        onGoBack: '&'
                     },
-                    templateUrl: 'widgets.user.login.html',
-                    controller: 'widgets.user.LoginController',
+                    templateUrl: 'widgets.user.reset-password.html',
+                    controller: 'widgets.user.ResetPasswordController',
                     replace: true
                 };
             }]);

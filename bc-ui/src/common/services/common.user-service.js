@@ -70,20 +70,23 @@
                         return Restangular.one('users', user.id).customPUT(user, 'changePwd');
                     },
 
-                    forgetPwd: function (user) {
-                        return Restangular.one('users').customPUT(user, 'forgetPwd');
+                    applyResetPassword: function (name) {
+                        return Restangular.one('users', name).customPUT(null, 'applyPwd');
                     },
 
-                    getUserByPwdCode: function (code) {
-                        return Restangular.one('users').one('pwdCode').get({code: code});
+                    checkPasswordCode: function (code) {
+                        return Restangular.all('users').customGET('pcode', {
+                            by: 'pcode',
+                            code: code
+                        });
                     },
 
-                    resetPwd: function (user) {
+                    resetPassword: function (user) {
                         return Restangular.one('users', user.id).customPUT(user, 'resetPwd');
                     },
 
-                    resendCode: function (user) {
-                        return Restangular.one('users', user.id).customPUT(user, 'resendCode');
+                    sendCodeMail: function (uid) {
+                        return Restangular.one('users', uid).customPUT(null, 'sendCode');
                     }
 
                 };

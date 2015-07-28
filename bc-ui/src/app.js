@@ -24,7 +24,7 @@
         'module.mocker',
         'module.rule',
         'module.mock-activity',
-        'module.reset-pwd'
+        'module.password-admin'
 
     ]).config([
         '$stateProvider',
@@ -84,10 +84,10 @@
                 url: '/mock-activity?maid',
                 templateUrl: 'mock-activity.main.html',
                 controller: 'mock-activity.MainController'
-            }).state(appConfig.stateName.resetPwd, {
-                url: '/reset-pwd?r',
-                templateUrl: 'reset-pwd.main.html',
-                controller: 'reset-pwd.MainController'
+            }).state(appConfig.stateName.passwordAdmin, {
+                url: '/password-admin?r',
+                templateUrl: 'password-admin.main.html',
+                controller: 'password-admin.MainController'
             });
 
             RestangularProvider.setDefaultHeaders({'Content-Type': 'application/json;charset=UTF-8'});

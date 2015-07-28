@@ -12,6 +12,10 @@
                     $state.go(appConfig.stateName.register);
                 };
 
+                $scope.gotoPasswordAdmin = function () {
+                    $state.go(appConfig.stateName.passwordAdmin);
+                };
+
                 $scope.gotoHome = function () {
                     $state.go(appConfig.stateName.mockerDashboard);
                 };
