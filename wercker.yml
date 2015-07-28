@@ -20,6 +20,8 @@ build:
             name: build server side java code
             code: |
                 cd bc-ss
+                sed -i "s/mail.aliyun.username=\w*/mail.aliyun.username=$MAIL_USER/" src/main/resources/mail.properties
+                sed -i "s/mail.aliyun.password=\w*/mail.aliyun.password=$MAIL_PWD/" src/main/resources/mail.properties
                 mvn clean package -DskipTests
 
 deploy:

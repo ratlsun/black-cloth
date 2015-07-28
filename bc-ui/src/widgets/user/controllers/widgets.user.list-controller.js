@@ -22,6 +22,7 @@
                         user.icon = 'user-plus';
                         user.canBan = true;
                         user.canActive = true;
+                        user.canSendMail = true;
                     } else if (_.indexOf(user.roles, 'ADMIN') > -1) {
                         user.level = '管理员';
                         user.icon = 'user-secret';
@@ -70,17 +71,9 @@
                     });
                 };
 
-                $scope.resendCode = function(user){
-                    userService.resendCode(user).then(function(resp){
-                        if (resp) {
-                            if (resp.result < 0) {
-                                alertService.error(appConfig.alertMsg.userModule[resp.result.toString()]);
-                            } else{
-                                alertService.success('发送邀请码给［' + user.name + '］成功。');
-                            };
-                        } else {
-                            alertService.error('用户不存在。');
-                        }
+                $scope.sendCode = function(user){
+                    userService.sendCodeMail(user.id).then(function(){
+                        alertService.success('发送邀请码给［' + user.name + '］成功。');
                     });
                 }
             }

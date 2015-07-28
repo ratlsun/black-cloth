@@ -8,6 +8,7 @@
                     restrict: 'E',
                     scope: {
                         onSignUp: '&',
+                        onForgotPwd: '&',
                         postSignIn: '&'
                     },
                     templateUrl: 'widgets.user.login.html',

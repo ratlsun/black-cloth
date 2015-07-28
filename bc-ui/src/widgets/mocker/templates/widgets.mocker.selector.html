@@ -1,8 +1,15 @@
 <div class="mocker-selector-panel-bc">
     <form>
-        <div ng-repeat="mocker in mockers" class="selector-item">
-            <input ng-disabled="disableCheck" type="checkbox" ng-model="selected[mocker.id]" id="input-mockers-{{mocker.id}}"/>
-            <label for="input-mockers-{{mocker.id}}">{{mocker.name}}</label>
+        <div ng-repeat="mocker in mockers" class="selector-item row">
+            <div class="col-xs-10">
+                <input ng-disabled="disableCheck" type="checkbox" ng-model="selected[mocker.id]" id="input-mockers-{{mocker.id}}"/>
+                <label for="input-mockers-{{mocker.id}}" >{{mocker.name}}</label>
+            </div>
+            <div class="selector-item-btn col-xs-2">
+                <a class="btn" href="" ng-click="onMockerClick({mocker: mocker})">
+                    <span class="fa fa-2x fa-edit"></span>
+                </a>
+            </div>
         </div>
     </form>
 </div>

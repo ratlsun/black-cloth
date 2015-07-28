@@ -18,7 +18,8 @@
 
                 <div class="tab-content">
                     <div class="tab-pane active">
-                        <app-login on-sign-up="gotoRegister()" post-sign-in="gotoHome()"></app-login>
+                        <app-login on-sign-up="gotoRegister()" on-forgot-pwd="gotoPasswordAdmin()"
+                                   post-sign-in="gotoHome()"></app-login>
                     </div>
                     <div class="clearfix"></div>
                 </div>

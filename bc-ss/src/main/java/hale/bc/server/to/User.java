@@ -13,7 +13,7 @@ public class User {
 	private UserStatus status = UserStatus.Inactive;
 	private List<String> roles = new ArrayList<>();
 	private String code;
-	private Long expireTime;
+	private Long pwdCodeGeneratedTime;
 	private String pwdCode;
 	private String newPwd;
 	
@@ -25,12 +25,12 @@ public class User {
 		this.pwdCode = pwdCode;
 	}
 
-	public Long getExpireTime() {
-		return expireTime;
+	public Long getPwdCodeGeneratedTime() {
+		return pwdCodeGeneratedTime;
 	}
 
-	public void setExpireTime(Long expireTime) {
-		this.expireTime = expireTime;
+	public void setPwdCodeGeneratedTime(Long pwdCodeGeneratedTime) {
+		this.pwdCodeGeneratedTime = pwdCodeGeneratedTime;
 	}
 
 	public String getNewPwd() {

@@ -52,8 +52,8 @@
                                 </div>
                             </div>
                             <div class="panel-footer">
-                                <button class="btn btn-sm btn-success" ng-if="user.icon === 'user-plus'" ng-click="resendCode(user)">
-                                    <i class="fa fa-check"></i>补发邀请码
+                                <button class="btn btn-sm btn-warning" ng-if="user.canSendMail" ng-click="sendCode(user)">
+                                    <i class="fa fa-envelope-o"></i>补发邀请码
                                 </button>
                                 <button class="btn btn-sm btn-success" ng-show="user.canActive" ng-click="activeUser(user)">
                                     <i class="fa fa-check"></i>激活该用户

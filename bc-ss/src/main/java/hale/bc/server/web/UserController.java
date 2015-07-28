@@ -2,20 +2,18 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.UserDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
-import hale.bc.server.repository.exception.ResetPwdLinkErrorException;
+import hale.bc.server.service.MailSenderService;
 import hale.bc.server.service.UserService;
 import hale.bc.server.service.exception.InvalidPasswordException;
-import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
+import hale.bc.server.to.result.FailedResult;
 
-import java.io.FileNotFoundException;
 import java.security.Principal;
 import java.util.List;
 
-import javax.mail.MessagingException;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -32,6 +30,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UserController {
 	
+	@Value("${app.auto.sendInviteMail}")
+    private boolean autoSendInviteMail;
+	
 	@Autowired
 	private UserDao userDao;
 	
@@ -39,14 +40,21 @@ public class UserController {
 	private UserService userService;
 	
 	@Autowired
+	private MailSenderService mailService;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
 	@RequestMapping(method=RequestMethod.POST)
-    public User add(@RequestBody User user) throws DuplicatedEntryException, MessagingException {
+    public User add(@RequestBody User user) throws DuplicatedEntryException {
 		user.setStatus(UserStatus.New);
 		user.getRoles().add("USER");
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		return userService.createUser(user);
+		User newUser = userDao.createUser(user);
+		if (autoSendInviteMail){
+			mailService.sendNewUserInviteMail(newUser);
+		}
+		return newUser;
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -66,14 +74,18 @@ public class UserController {
 		return userDao.getUserByName(principal.getName());
     }
 	
+	@RequestMapping(value = "/pcode", method=RequestMethod.GET, params="by=pcode")
+    public User getByPasswordCode(@RequestParam(value = "code", required = true) String code)  {
+		User user = userDao.getUserByPwdCode(code);
+		if (user == null || userService.passwordResettingExpired(user)){
+			return null;
+		}
+		return user;
+    }
+	
 	@RequestMapping(value = "/active", method=RequestMethod.PUT, params="code")
     public User activeByCode(@RequestParam(value = "code", required = true) String code)  {
 		return userDao.activeUser(code);
-    }
-	
-	@RequestMapping(value = "/pwdCode", method=RequestMethod.GET, params="code")
-    public User getUserByPwdCode(@RequestParam(value = "code", required = true) String code)  {
-		return userDao.getUserByPwdCode(code);
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -95,7 +107,7 @@ public class UserController {
     }
 	
 	@RequestMapping(value = "/{uid}/changePwd", method=RequestMethod.PUT)
-    public User eidtPassword(@RequestBody User user, @PathVariable Long uid, Principal principal)  throws InvalidPasswordException {
+    public User editPassword(@RequestBody User user, @PathVariable Long uid, Principal principal)  throws InvalidPasswordException {
 		User u = userDao.getUserById(uid);
 		if (u == null || !u.getName().equals(principal.getName())) {
 			return null;
@@ -108,20 +120,36 @@ public class UserController {
 		}
     }
 	
-	@RequestMapping(value = "/forgetPwd", method=RequestMethod.PUT)
-    public User forgetPwd(@RequestBody User user)  throws DuplicatedEntryException, MessagingException {
-		return userService.forgetPwd(user.getName());
+	@RequestMapping(value = "/{name:.+}/applyPwd", method=RequestMethod.PUT)
+    public User applyResetPassword(@PathVariable String name) {
+		User u = userDao.getUserByName(name);
+		if (u == null) {
+			return null;
+		}
+		u = userDao.attachPwdCodeToUser(u);
+		mailService.sendPasswordResettingMail(u);
+		return u;
     }
 	
 	@RequestMapping(value = "/{uid}/resetPwd", method=RequestMethod.PUT)
-    public User resetPwd(@RequestBody User user, @PathVariable Long uid)  throws DuplicatedEntryException, ResetPwdLinkErrorException {
-		return userDao.resetPwd(user);
+    public User resetPwd(@RequestBody User user, @PathVariable Long uid) {
+		User u = userDao.getUserByPwdCode(user.getPwdCode());
+		if (u == null || userService.passwordResettingExpired(u)){
+			return null;
+		}
+		u.setPassword(passwordEncoder.encode(user.getNewPwd()));
+		return userDao.releasePwdCodeAndUpdateUser(u);
     }
 	
 	@PreAuthorize("hasRole('ROLE_ADMIN')")
-	@RequestMapping(value = "/{uid}/resendCode", method=RequestMethod.PUT)
-    public User resendCode(@RequestBody User user, @PathVariable Long uid)  throws DuplicatedEntryException, MessagingException {
-		return userService.resendCode(user);
+	@RequestMapping(value = "/{uid}/sendCode", method=RequestMethod.PUT)
+    public User sendCode(@PathVariable Long uid)  {
+		User user = userDao.getUserById(uid);
+		if (user == null || user.getCode() == null || user.getCode().isEmpty()) {
+			return null;
+		}
+		mailService.sendNewUserInviteMail(user);
+		return user;
     }
 	
 	@ExceptionHandler(DuplicatedEntryException.class)
@@ -133,20 +161,4 @@ public class UserController {
 	public FailedResult handleCustomException(InvalidPasswordException ex) {
 		return new FailedResult(-11, ex.getMessage());
 	}
-	
-	@ExceptionHandler(FileNotFoundException.class)
-	public FailedResult handleCustomException(FileNotFoundException ex) {
-		return new FailedResult(-12, "Config file not found.");
-	}
-	
-	@ExceptionHandler(MessagingException.class)
-	public FailedResult handleCustomException(MessagingException ex) {
-		return new FailedResult(-13, "Mail send fail.");
-	}
-	
-	@ExceptionHandler(ResetPwdLinkErrorException.class)
-	public FailedResult handleCustomException(ResetPwdLinkErrorException ex) {
-		return new FailedResult(-14, ex.getMessage());
-	}
-	
 }

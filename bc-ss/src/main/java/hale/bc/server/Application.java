@@ -5,16 +5,21 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.embedded.ConfigurableEmbeddedServletContainer;
 import org.springframework.boot.context.embedded.EmbeddedServletContainerCustomizer;
 import org.springframework.boot.context.embedded.MimeMappings;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportResource;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 @Configuration
-@ImportResource("classpath:applicationContext-mail.xml")
 @ComponentScan
 @EnableAutoConfiguration
 public class Application implements EmbeddedServletContainerCustomizer {
 
+	@Bean
+	public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+		return new PropertySourcesPlaceholderConfigurer();
+	}
+	
 	@Override
 	public void customize(ConfigurableEmbeddedServletContainer container) {
 		MimeMappings mappings = new MimeMappings(MimeMappings.DEFAULT);
@@ -22,7 +27,7 @@ public class Application implements EmbeddedServletContainerCustomizer {
 		mappings.add("js", "application/javascript;charset=utf-8");
 		container.setMimeMappings(mappings);
 	}
-
+	
 	public static void main(String[] args) {
 		SpringApplication.run(Application.class, args);
 	}

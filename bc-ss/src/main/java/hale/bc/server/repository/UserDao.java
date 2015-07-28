@@ -1,7 +1,6 @@
 package hale.bc.server.repository;
 
 import hale.bc.server.repository.exception.DuplicatedEntryException;
-import hale.bc.server.repository.exception.ResetPwdLinkErrorException;
 import hale.bc.server.to.User;
 import hale.bc.server.to.UserStatus;
 
@@ -18,12 +17,10 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.support.atomic.RedisAtomicLong;
 import org.springframework.data.redis.support.collections.DefaultRedisZSet;
 import org.springframework.data.redis.support.collections.RedisZSet;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class UserDao {
-	private final long REPIRE_TIME = 1000*60*60*24*2;
 
 	private Random r = new Random();
 	
@@ -35,9 +32,7 @@ public class UserDao {
 	private ValueOperations<String, String> pwdCodes;
 	private ValueOperations<String, User> users;
 	private RedisAtomicLong userIdGenerator;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
+
 	@Autowired
 	public UserDao(RedisTemplate<String, User> userTemplate, StringRedisTemplate template) {
 		stringTemplate = template;
@@ -81,6 +76,7 @@ public class UserDao {
 			User u = users.get(userIdKey);
 			if (u.getStatus() == UserStatus.New) {
 				u.setStatus(UserStatus.Active);
+				u.setCode(null);
 				users.set(userIdKey, u);
 			}
 			stringTemplate.delete(userCodeKey);
@@ -131,57 +127,38 @@ public class UserDao {
 		return user;
 	}
 	
-	public User getUserByPwdCode(String code) {
-		String pwdCodeKey = KeyUtils.resetPwdCode(code);
+	public User getUserByPwdCode(String pwdCode) {
+		String pwdCodeKey = KeyUtils.pwdCode(pwdCode);
 		if (stringTemplate.hasKey(pwdCodeKey)) {
-			String uid = pwdCodes.get(pwdCodeKey);
-			String userIdKey = (KeyUtils.userId(uid));
-			User u = users.get(userIdKey);
-			return u;
+			return users.get(KeyUtils.userId(pwdCodes.get(pwdCodeKey)));
 		}
 		return null;
 	}
 	
-	public User forgetPwd(String userName) {
-		String pwdCode="";
-		String userNameKey = KeyUtils.userName(userName);
-		if (stringTemplate.hasKey(userNameKey)) {
-			String uid = userNames.get(userNameKey);
-			User userInfo = users.get(KeyUtils.userId(uid));
-			pwdCode = UUID.randomUUID().toString();
-			pwdCodes.set(KeyUtils.resetPwdCode(pwdCode), uid);
-			
-			userInfo.setPwdCode(pwdCode);
-			userInfo.setExpireTime(new Date().getTime());
-			users.set(KeyUtils.userId(uid), userInfo);
-
-			return userInfo;
-		}
-		return null;
+	public User attachPwdCodeToUser(User user) {
+		String userId = String.valueOf(user.getId());
+		String pwdCode=user.getPwdCode();
+		stringTemplate.delete(KeyUtils.pwdCode(pwdCode));
+		pwdCode = UUID.randomUUID().toString();
+		pwdCodes.set(KeyUtils.pwdCode(pwdCode), userId);
+		
+		user.setPwdCode(pwdCode);
+		user.setPwdCodeGeneratedTime(new Date().getTime());
+		users.set(KeyUtils.userId(userId), user);
+		
+		return user;
 	} 
 	
-	public User resetPwd(User user) throws ResetPwdLinkErrorException {
-		String userNameKey = KeyUtils.userName(user.getName());
-		if (stringTemplate.hasKey(userNameKey)) {
-			String uid = userNames.get(userNameKey);
-			User userInfo = users.get(KeyUtils.userId(uid));
-			if (userInfo.getPwdCode() == null) {
-				throw new ResetPwdLinkErrorException();
-			} else {
-				if (userInfo.getPwdCode().equals(user.getPwdCode())){
-					if (new Date().getTime() - userInfo.getExpireTime() <= REPIRE_TIME) {
-						userInfo.setPassword(passwordEncoder.encode(user.getPassword()));
-						users.set(KeyUtils.userId(uid), userInfo);
-						stringTemplate.delete(KeyUtils.resetPwdCode(userInfo.getPwdCode()));
-						return userInfo;
-					} else {
-						throw new ResetPwdLinkErrorException();
-					}
-				} else {
-					throw new ResetPwdLinkErrorException();
-				}
-			}
-		}
-		return null;
+	public User releasePwdCodeAndUpdateUser(User user) {
+		String userId = String.valueOf(user.getId());
+		String pwdCode=user.getPwdCode();
+		stringTemplate.delete(KeyUtils.pwdCode(pwdCode));
+		
+		user.setPwdCode(null);
+		user.setPwdCodeGeneratedTime(0l);
+		users.set(KeyUtils.userId(userId), user);
+		
+		return user;
 	} 
+	
 }

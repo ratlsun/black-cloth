@@ -14,8 +14,8 @@
                     },
                     link: function(scope, element) {
                         if (scope.enableGuide === 'true') {
-                            mockActivityService.getOneHistoryMockActivity().then(function(mockResp) {
-                                if (!mockResp){
+                            mockActivityService.hasMockActivity().then(function(mockResp) {
+                                if (!mockResp || mockResp.result === -1){
                                     scope.$watch('mockerId', function(nv){
                                         if (nv){
                                             ruleService.getRulesByMockerId(nv).then(function(resp) {

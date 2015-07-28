@@ -6,9 +6,7 @@
             '$state',
             '$scope',
             'userService',
-            'alertService',
-            'appConfig',
-            function ($state, $scope, userService, alertService, appConfig) {
+            function ($state, $scope, userService) {
 
                 $scope.user = {
                     //username: 'hale@hale.com',
@@ -32,11 +30,7 @@
                         });
                     }, function(){
                         $scope.invalidMessage.$form = '用户不存在或者密码错误！';
-                    })
-                };
-
-                $scope.forgetPwd = function () {
-                    $state.go(appConfig.stateName.resetPwd);
+                    });
                 };
             }
         ]);

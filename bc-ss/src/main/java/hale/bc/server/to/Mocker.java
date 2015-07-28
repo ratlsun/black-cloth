@@ -1,5 +1,7 @@
 package hale.bc.server.to;
 
+import java.util.Date;
+
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -8,9 +10,36 @@ public class Mocker {
 	private String owner;
 	private String name;
 	private String desc;
+	private Date created;
+	private Date updated;
 	private Long ruleCount;
 	private MockerType type = MockerType.Public;
+	private int collectCount = 0;
 	
+	public Date getCreated() {
+		return created;
+	}
+
+	public void setCreated(Date created) {
+		this.created = created;
+	}
+
+	public Date getUpdated() {
+		return updated;
+	}
+
+	public void setUpdated(Date updated) {
+		this.updated = updated;
+	}
+
+	public int getCollectCount() {
+		return collectCount;
+	}
+
+	public void setCollectCount(int collectCount) {
+		this.collectCount = collectCount;
+	}
+
 	public Mocker() {
 		super();
 	}

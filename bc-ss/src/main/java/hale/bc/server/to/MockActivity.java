@@ -13,6 +13,7 @@ public class MockActivity {
 	private Date updated;
 	private List<Long> mockerIds;
 	private MockActivityStatus status;
+	private Boolean autoLoading = true;
 	
 	public MockActivity() {
 		super();
@@ -64,6 +65,14 @@ public class MockActivity {
 
 	public void setUpdated(Date updated) {
 		this.updated = updated;
+	}
+
+	public Boolean getAutoLoading() {
+		return autoLoading;
+	}
+
+	public void setAutoLoading(Boolean autoLoading) {
+		this.autoLoading = autoLoading;
 	}
 
 }

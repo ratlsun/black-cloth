@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+
+<div class="public-mocker-container-bc container">
+    <div class="row">
+        <div class="col-xs-4" ng-repeat="mocker in publicMockers">
+            <div class="well well-sm">
+                <div class="row">
+                    <div class="col-xs-12 list-content">
+                        <h2 calss="public-mocker-h2">
+                            <a href="" ng-click="viewMocker(mocker.id)">{{mocker.name}}</a>
+                            <a href="" ng-click="cancelCollectMocker(mocker.id)" ng-if="mocker.isCollect" class="pull-right list-content-last-btn" tooltip="取消关注" tooltip-trigger tooltip-placement="top"><i class="fa fa-eye-slash text-danger"></i></a>
+                            <a href="" ng-click="collectMocker(mocker.id)" ng-if="!mocker.isCollect" class="pull-right"><i class="fa fa-eye text-success" tooltip="关注" tooltip-trigger tooltip-placement="top"></i></a>
+                        </h2>
+                        <p ng-if="mocker.desc">用途：{{mocker.desc}}</p>
+                        <ul class="list-inline list-unstyled">
+                        <li><span><i class="fa fa-user" tooltip="创建用户" tooltip-trigger tooltip-placement="top"></i>  {{mocker.owner}}</span></li>
+                        <li>|</li>
+                        <li><span><i class="fa fa-calendar" tooltip="最近更新日期" tooltip-trigger tooltip-placement="top"></i>  {{mocker.updated | date : 'yyyy-MM-dd HH:mm'}}</span></li>
+                        </ul>
+                        <ul class="list-inline list-unstyled">
+                        <li><span><i class="fa fa-retweet count" tooltip="有{{mocker.ruleCount}}条规则" tooltip-trigger tooltip-placement="top"> {{mocker.ruleCount}}</i></span></li><li>|</li>
+                          <li><span><i class="fa fa-crosshairs count" tooltip="0次匹配规则" tooltip-trigger tooltip-placement="top"> 0</i></span></li><li>|</li>
+                          <li><span><i class="fa fa-eye count" tooltip="有{{mocker.collectCount}}个关注" tooltip-trigger tooltip-placement="top"> {{mocker.collectCount}}</i></span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

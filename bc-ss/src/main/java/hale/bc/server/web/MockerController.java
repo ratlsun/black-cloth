@@ -4,10 +4,10 @@ import hale.bc.server.repository.MockerDao;
 import hale.bc.server.repository.RuleDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.service.UserOperationService;
-import hale.bc.server.to.FailedResult;
 import hale.bc.server.to.Mocker;
 import hale.bc.server.to.UserOperation;
 import hale.bc.server.to.UserOperationType;
+import hale.bc.server.to.result.FailedResult;
 
 import java.security.Principal;
 import java.util.List;
@@ -93,6 +93,52 @@ public class MockerController {
 					UserOperationType.DeleteMocker));
 		}
 		return nm;
+    }
+	
+	@RequestMapping(value = "/public", method=RequestMethod.GET)
+    public List<Mocker> getByPublic(Principal principal) {
+		List<Mocker> ms = mockerDao.getMockersByPublic(principal.getName());
+		for (Mocker m: ms) {
+			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));
+		}
+		return ms;
+    }
+	
+	@RequestMapping(value = "/collect", method=RequestMethod.GET)
+    public List<Mocker> getCollect(Principal principal) {
+		List<Mocker> ms = mockerDao.getCollectMockers(principal.getName());
+		for (Mocker m: ms) {
+			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));
+		}
+		return ms;
+    }
+	
+	@RequestMapping(value = "/{mid}/collect", method=RequestMethod.PUT)
+    public Mocker collect(@PathVariable Long mid, @RequestParam(value = "op", required = true) String operation, Principal principal) throws DuplicatedEntryException {
+		Mocker m = mockerDao.getMockerById(mid);
+		if (m == null) {
+			return null;
+		}
+		Mocker mocker = mockerDao.collectMockerById(mid, principal.getName());
+		if (mocker != null) {
+			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, null, 
+					UserOperationType.valueOf(operation)));
+		}
+		return mocker;
+    }
+	
+	@RequestMapping(value = "/{mid}/cancelCollect", method=RequestMethod.PUT)
+    public Mocker cancelCollect(@PathVariable Long mid, @RequestParam(value = "op", required = true) String operation, Principal principal) {
+		Mocker m = mockerDao.getMockerById(mid);
+		if (m == null) {
+			return null;
+		}
+		Mocker mocker = mockerDao.cancelCollectMockerById(mid, principal.getName());
+		if (mocker != null) {
+			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, null, 
+					UserOperationType.valueOf(operation)));
+		}
+		return mocker;
     }
 	
 	@ExceptionHandler(DuplicatedEntryException.class)

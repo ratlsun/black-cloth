@@ -8,7 +8,8 @@
                     restrict: 'E',
                     scope: {
                         selectedMockers: '=',
-                        disableCheck: '='
+                        disableCheck: '=',
+                        onMockerClick: '&'
                     },
                     templateUrl: 'widgets.mocker.selector.html',
                     controller: 'widgets.mocker.SelectorController',

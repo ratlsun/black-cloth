@@ -17,6 +17,9 @@
                 <li app-never-mock-guide enable-guide="{{activeMenu==='mocker-viewer'}}" mocker-id="{{mockerId}}" ng-if="currentUser.name" ng-class="{'active': activeMenu==='mock-activity'}" tooltip="开始模拟" tooltip-trigger tooltip-placement="bottom">
                     <a href="" ng-click="gotoMockActivity()" class="navbar-icon"><i class="fa fa-play-circle-o fa-lg"></i></a>
                 </li>
+                <li app-never-mock-guide enable-guide="{{activeMenu==='mock-activity'}}" ng-if="currentUser.name" ng-class="{'active': activeMenu==='public-mocker'}" tooltip="公共模拟系统" tooltip-trigger tooltip-placement="bottom">
+                    <a href="" ng-click="gotoPublicMocker()" class="navbar-icon"><i class="fa fa-eye fa-lg"></i></a>
+                </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li dropdown class="dropdown dropdown-right" ng-if="currentUser.name">
