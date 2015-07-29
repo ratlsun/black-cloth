@@ -24,6 +24,7 @@
         'module.mocker',
         'module.rule',
         'module.mock-activity',
+        'module.public-mocker',
         'module.password-admin'
 
     ]).config([
@@ -84,6 +85,10 @@
                 url: '/mock-activity?maid',
                 templateUrl: 'mock-activity.main.html',
                 controller: 'mock-activity.MainController'
+            }).state(appConfig.stateName.publicMocker, {
+                url: '/public-mocker',
+                templateUrl: 'public-mocker.main.html',
+                controller: 'public-mocker.MainController'
             }).state(appConfig.stateName.passwordAdmin, {
                 url: '/password-admin?r',
                 templateUrl: 'password-admin.main.html',

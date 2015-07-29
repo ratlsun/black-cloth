@@ -17,6 +17,7 @@
                 mockerDashboard: 'mocker-dashboard',
                 mockActivity: 'mock-activity',
                 ruleEditor: 'rule-editor',
+                publicMocker: 'public-mocker',
                 passwordAdmin: 'password-admin'
             },
 
@@ -75,12 +76,15 @@
                     icon: 'fa-youtube-play',
                     theme: 'panel-warning'
                 }
-
             },
 
             alertMsg: {
                 userModule: {
                     '-11': '原密码错误，无法修改密码！'
+                },
+                mockerModule: {
+                    '-11': '您已经关注过此模拟系统，请核对信息!',
+                    '-15': '模拟系统不存在'
                 }
             }
 
