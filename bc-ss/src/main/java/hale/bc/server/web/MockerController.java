@@ -95,17 +95,17 @@ public class MockerController {
 		return nm;
     }
 	
-	@RequestMapping(value = "/public", method=RequestMethod.GET)
-    public List<Mocker> getByPublic(Principal principal) {
-		List<Mocker> ms = mockerDao.getMockersByPublic(principal.getName());
+	@RequestMapping(method=RequestMethod.GET, params="public")
+    public List<Mocker> getByPublicType() {
+		List<Mocker> ms = mockerDao.getPublicMockers();
 		for (Mocker m: ms) {
 			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));
 		}
 		return ms;
     }
 	
-	@RequestMapping(value = "/collect", method=RequestMethod.GET)
-    public List<Mocker> getCollect(Principal principal) {
+	@RequestMapping(method=RequestMethod.GET, params="watched")
+    public List<Mocker> getWatched(Principal principal) {
 		List<Mocker> ms = mockerDao.getCollectMockers(principal.getName());
 		for (Mocker m: ms) {
 			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));

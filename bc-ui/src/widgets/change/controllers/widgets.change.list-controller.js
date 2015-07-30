@@ -13,6 +13,9 @@
                     var dateLine = null;
                     _.forEach(resp, function(change) {
                         change.icon = appConfig.changeType[change.type].icon;
+                        if (change.type === appConfig.changeType.ChangeMockerType.typeName){
+                            change.icon = appConfig.changeType.ChangeMockerType.icon['to' + change.mocker.type];
+                        }
                         change.theme = appConfig.changeType[change.type].theme;
                         if (change.ruleAddedCount + change.ruleDeletedCount + change.ruleModifiedCount > 0){
                             change.hasRules = true;

@@ -15,7 +15,7 @@
 
                 var refreshCollectMocker = function () {
                     $scope.collectMockers = [];
-                    mockerService.getCollect().then(function(resp){
+                    mockerService.getWatchedMockers().then(function(resp){
                         $scope.collectMockers = resp;
                     });
                 };

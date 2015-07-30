@@ -34,7 +34,7 @@ public class UserOperation {
 				uo.setName("将模拟系统－" + oldMocker.getName() + " 移交给用户 " + newMocker.getOwner());
 				break;
 			case ChangeMockerType:
-				uo.setMocker(oldMocker);
+				uo.setMocker(newMocker);
 				uo.setName("将模拟系统－" + oldMocker.getName() + " 更改为 " +
 						(newMocker.getType() == MockerType.Private ? "私有的" : "公开的"));
 				break;

@@ -34,6 +34,16 @@
                     });
                 };
 
+                $scope.convertType = function (mtype) {
+                    $scope.mocker.type = mtype;
+                    mockerService.updateMocker($scope.mocker, 'ChangeMockerType').then(function(resp){
+                        if (resp) {
+                            alertService.success('模拟系统更改类型成功。');
+                            $scope.postMockerChanged({mocker: resp});
+                        }
+                    });
+                };
+
                 $scope.deleteMocker = function () {
                     mockerService.deleteMocker($scope.mocker.id).then(function(){
                         alertService.success('模拟系统删除成功。');

@@ -15,12 +15,12 @@
                         return Restangular.one('mockers', mid).get();
                     },
 
-                    getByPublic: function () {
-                        return Restangular.all('mockers').customGET('public');
+                    getPublicMockers: function () {
+                        return Restangular.all('mockers').getList({public: ''});
                     },
 
-                    getCollect: function () {
-                        return Restangular.all('mockers').customGET('collect');
+                    getWatchedMockers: function () {
+                        return Restangular.all('mockers').getList({watched: ''});
                     },
 
                     createMocker: function (mocker) {

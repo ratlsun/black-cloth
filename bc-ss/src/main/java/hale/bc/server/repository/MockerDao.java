@@ -2,6 +2,7 @@ package hale.bc.server.repository;
 
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.to.Mocker;
+import hale.bc.server.to.MockerType;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.BoundZSetOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
@@ -23,8 +25,7 @@ public class MockerDao {
 	
 	private ZSetOperations<String, String> ownerIndex;
 	private ValueOperations<String, String> ownerNames;
-	private ZSetOperations<String, String> publicIndex;
-	private ValueOperations<String, String> publicNames;
+	private BoundZSetOperations<String,String> publicGroup;
 	private ZSetOperations<String, String> collectOwnerIndex;
 	private ZSetOperations<String, String> collectMockerIndex;
 	private ValueOperations<String, Mocker> mockers;
@@ -36,8 +37,7 @@ public class MockerDao {
 		mockers = mockerTemplate.opsForValue();
 		ownerNames = stringTemplate.opsForValue();
 		ownerIndex = stringTemplate.opsForZSet();
-		publicNames = stringTemplate.opsForValue();
-		publicIndex = stringTemplate.opsForZSet();
+		publicGroup = stringTemplate.boundZSetOps(KeyUtils.mockerPublic());
 		collectOwnerIndex = stringTemplate.opsForZSet();
 		collectMockerIndex = stringTemplate.opsForZSet();
 		mockerIdGenerator = new RedisAtomicLong(KeyUtils.mockerId(), stringTemplate.getConnectionFactory());
@@ -57,21 +57,14 @@ public class MockerDao {
 		ownerNames.set(mockerOwnerNameKey, mockerId);
 		ownerIndex.add(KeyUtils.mockerOwner(mocker.getOwner()), mocker.getName(), 0);
 		
-		if ("Public".equals(mocker.getType().name())) {
-			String mockerPublicNameKey = getPublicNameKey(mocker);
-			checkMockerName(mockerPublicNameKey);
-			publicNames.set(mockerPublicNameKey, mockerId);
-			publicIndex.add(KeyUtils.mockerPublic(), mocker.getName(), 0);
+		if (MockerType.Public == mocker.getType()) {
+			publicGroup.add(mockerId, mocker.getUpdated().getTime());
 		}
 		return mocker;
 	}
 	
 	private String getOwnerNameKey(Mocker mocker)  {
 		return KeyUtils.mockerOwnerName(mocker.getOwner(), mocker.getName());
-	}
-	
-	private String getPublicNameKey(Mocker mocker)  {
-		return KeyUtils.mockerPublicName(mocker.getName());
 	}
 	
 	private void checkMockerName(String mockerOwnerNameKey) throws DuplicatedEntryException {
@@ -86,7 +79,7 @@ public class MockerDao {
 	
 	public Mocker getMockerById(Long mockerId, String owner) {
 		Mocker m = mockers.get(KeyUtils.mockerId(String.valueOf(mockerId)));
-		if (m != null && m.getOwner() != null && (m.getOwner().equals(owner) || "Public".equals(m.getType().name()))) {
+		if (m != null && m.getOwner() != null && (m.getOwner().equals(owner) || MockerType.Public == m.getType())) {
 			m.setCollectCount(getCollectCount(m.getId()));
 			return m;
 		}
@@ -105,11 +98,11 @@ public class MockerDao {
 		return result;
 	}
 	
-	public List<Mocker> getMockersByPublic(String username) {
+	public List<Mocker> getPublicMockers() {
 		List<Mocker> result = new ArrayList<>();
-		for (String mockerName : publicIndex.range(KeyUtils.mockerPublic(), 0, -1)){
-			Mocker m = mockers.get(KeyUtils.mockerId(publicNames.get(KeyUtils.mockerPublicName(mockerName))));
-			if (m != null && !username.equals(m.getOwner())) {
+		for (String mockerId : publicGroup.reverseRange(0, -1)){
+			Mocker m = mockers.get(KeyUtils.mockerId(mockerId));
+			if (m != null) {
 				m.setCollectCount(getCollectCount(m.getId()));
 				result.add(m);
 			}
@@ -117,9 +110,9 @@ public class MockerDao {
 		return result;
 	}
 	
-	public List<Mocker> getCollectMockers(String owner) {
+	public List<Mocker> getCollectMockers(String watcher) {
 		List<Mocker> result = new ArrayList<>();
-		for (String mockerId : collectOwnerIndex.range(KeyUtils.mockerCollectOwner(owner), 0, -1)){
+		for (String mockerId : collectOwnerIndex.range(KeyUtils.mockerCollectOwner(watcher), 0, -1)){
 			Mocker m = mockers.get(KeyUtils.mockerId(mockerId));
 			if (m != null) {
 				m.setCollectCount(getCollectCount(m.getId()));
@@ -137,9 +130,8 @@ public class MockerDao {
 		stringTemplate.delete(getOwnerNameKey(m));
 		ownerIndex.remove(KeyUtils.mockerOwner(m.getOwner()), m.getName());
 		stringTemplate.delete(KeyUtils.mockerId(String.valueOf(mockerId)));
-		if ("Public".equals(m.getType().name())) {
-			stringTemplate.delete(getPublicNameKey(m));
-			publicIndex.remove(KeyUtils.mockerPublic(), m.getName());
+		if (MockerType.Public == m.getType()) {
+			publicGroup.remove(String.valueOf(mockerId));
 		}
 		mockers.set(KeyUtils.mockerId(String.valueOf(-mockerId)), m);
 		return m;
@@ -162,19 +154,14 @@ public class MockerDao {
 			String ownerKey = KeyUtils.mockerOwner(mocker.getOwner());
 			ownerIndex.remove(ownerKey, oldMocker.getName());
 			ownerIndex.add(ownerKey, mocker.getName(), 0);
-			
-			if ("Public".equals(mocker.getType().name())) {
-				String newMockerPublicNameKey = getPublicNameKey(mocker);
-				checkMockerName(newMockerPublicNameKey);
-				stringTemplate.delete(getPublicNameKey(oldMocker));
-				publicNames.set(newMockerPublicNameKey, mockerId.toString());
-				
-				publicIndex.remove(KeyUtils.mockerPublic(), oldMocker.getName());
-				publicIndex.add(KeyUtils.mockerPublic(), mocker.getName(), 0);
-			}
 		}
 		mocker.setUpdated(new Date());
 		mockers.set(KeyUtils.mockerId(mockerIdText), mocker);
+		if (MockerType.Public == mocker.getType()) {
+			publicGroup.add(mockerIdText, mocker.getUpdated().getTime());
+		} else { // Private
+			publicGroup.remove(mockerIdText);
+		}
 		return mocker;
 	}
 

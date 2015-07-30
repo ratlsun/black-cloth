@@ -30,8 +30,8 @@
                     $state.go(appConfig.stateName.mockActivity);
                 };
 
-                $scope.gotoPublicMocker = function () {
-                    $state.go(appConfig.stateName.publicMocker);
+                $scope.gotoMockerSearch = function () {
+                    $state.go(appConfig.stateName.mockerSearch);
                 };
 
                 $scope.gotoLogin = function () {

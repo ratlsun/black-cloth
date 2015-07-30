@@ -15,9 +15,9 @@
                 mockerViewer: 'mocker-viewer',
                 mockerSetting: 'mocker-setting',
                 mockerDashboard: 'mocker-dashboard',
+                mockerSearch: 'mocker-search',
                 mockActivity: 'mock-activity',
                 ruleEditor: 'rule-editor',
-                publicMocker: 'public-mocker',
                 passwordAdmin: 'password-admin'
             },
 

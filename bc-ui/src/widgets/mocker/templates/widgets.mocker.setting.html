@@ -33,13 +33,22 @@
 
                 <ul class="list-group">
                     <li class="list-group-item">
-                        <div class="row">
+                        <div class="row" ng-if="mocker.type === 'Private'">
                             <div class="col-xs-8">
                                 <h4>开放模拟系统给所有用户</h4>
-                                <p>公开的模拟系统中的匹配规则可以被其他用户使用和修改。</p>
+                                <p>公开的模拟系统中的匹配规则可以被其他用户关注和使用。</p>
                             </div>
                             <div class="col-xs-offset-2 col-xs-2">
-                                <button class="btn btn-default" disabled="disabled">暂未提供</button>
+                                <button ng-click="convertType('Public')" class="btn btn-submit-bc">转为公开</button>
+                            </div>
+                        </div>
+                        <div class="row" ng-if="mocker.type === 'Public'">
+                            <div class="col-xs-8">
+                                <h4>将公开的模拟系统转为私有</h4>
+                                <p>其他用户无法再使用和查看这个模拟系统，所有对该系统的关注也将被取消！</p>
+                            </div>
+                            <div class="col-xs-offset-2 col-xs-2">
+                                <button ng-click="convertType('Private')" class="btn btn-submit-bc">转为私有</button>
                             </div>
                         </div>
                     </li>
