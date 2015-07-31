@@ -5,6 +5,7 @@ import hale.bc.server.repository.RuleDao;
 import hale.bc.server.repository.exception.DuplicatedEntryException;
 import hale.bc.server.service.UserOperationService;
 import hale.bc.server.to.Mocker;
+import hale.bc.server.to.MockerType;
 import hale.bc.server.to.UserOperation;
 import hale.bc.server.to.UserOperationType;
 import hale.bc.server.to.result.FailedResult;
@@ -106,37 +107,41 @@ public class MockerController {
 	
 	@RequestMapping(method=RequestMethod.GET, params="watched")
     public List<Mocker> getWatched(Principal principal) {
-		List<Mocker> ms = mockerDao.getCollectMockers(principal.getName());
+		List<Mocker> ms = mockerDao.getMockersByWatcher(principal.getName());
 		for (Mocker m: ms) {
 			m.setRuleCount(ruleDao.getRuleCountByMocker(m.getId()));
 		}
 		return ms;
     }
 	
-	@RequestMapping(value = "/{mid}/collect", method=RequestMethod.PUT)
-    public Mocker collect(@PathVariable Long mid, @RequestParam(value = "op", required = true) String operation, Principal principal) throws DuplicatedEntryException {
+	@RequestMapping(value = "/{mid}/watch", method=RequestMethod.PUT)
+    public Mocker watch(@PathVariable Long mid, Principal principal) throws DuplicatedEntryException {
 		Mocker m = mockerDao.getMockerById(mid);
-		if (m == null) {
+		if (m == null || m.getType() == MockerType.Private) {
 			return null;
 		}
-		Mocker mocker = mockerDao.collectMockerById(mid, principal.getName());
-		if (mocker != null) {
-			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, null, 
-					UserOperationType.valueOf(operation)));
+		Mocker mocker = null;
+		if (mockerDao.putMockerToWatcherGroup(m, principal.getName())) {
+			m.increaseWatcherCount();
+			mocker = mockerDao.updateMocker(m, false);
+			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, mocker, 
+					UserOperationType.WatchMocker));
 		}
 		return mocker;
     }
 	
-	@RequestMapping(value = "/{mid}/cancelCollect", method=RequestMethod.PUT)
-    public Mocker cancelCollect(@PathVariable Long mid, @RequestParam(value = "op", required = true) String operation, Principal principal) {
+	@RequestMapping(value = "/{mid}/unwatch", method=RequestMethod.PUT)
+    public Mocker cancelCollect(@PathVariable Long mid, Principal principal) throws DuplicatedEntryException {
 		Mocker m = mockerDao.getMockerById(mid);
 		if (m == null) {
 			return null;
 		}
-		Mocker mocker = mockerDao.cancelCollectMockerById(mid, principal.getName());
-		if (mocker != null) {
-			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, null, 
-					UserOperationType.valueOf(operation)));
+		Mocker mocker = null;
+		if (mockerDao.removeMockerFromWatcherGroup(m, principal.getName())) {
+			m.decreaseWatcherCount();
+			mocker = mockerDao.updateMocker(m, false);
+			userOperationService.log(UserOperation.mockerOperation(principal.getName(), m, mocker, 
+					UserOperationType.UnwatchMocker));
 		}
 		return mocker;
     }

@@ -2,24 +2,16 @@
     <div ng-repeat="mocker in mockers" class="list-item row">
         <div class="item-container">
             <div class="item-icon">
-                <div><i class="fa fa-lock fa-2x"></i></div>
+                <div ng-if="mocker.type === 'Private'"><i class="fa fa-lock fa-2x"></i></div>
+                <div ng-if="mocker.type === 'Public'"><i class="fa fa-rss fa-2x"></i></div>
             </div>
             <a href="" ng-click="onItemClick({mocker: mocker})">{{mocker.name}}</a>
             <i class="fa fa-retweet count" tooltip="有{{mocker.ruleCount}}条规则" tooltip-trigger tooltip-placement="bottom">{{mocker.ruleCount}}</i>
             <i class="fa fa-crosshairs count" tooltip="0次匹配规则成功" tooltip-trigger tooltip-placement="bottom">0</i>
-            <i class="fa fa-eye count" tooltip="有{{mocker.collectCount}}个关注" tooltip-trigger tooltip-placement="bottom">{{mocker.collectCount}}</i>
-        </div>
-    </div>
-    <div ng-repeat="mocker in collectMockers" class="list-item row">
-        <div class="item-container">
-            <div class="item-icon">
-                <div><i class="fa fa-eye fa-2x"></i></div>
-            </div>
-            <a href="" ng-click="onItemClick({mocker: mocker})">{{mocker.name}}</a>
-            <i class="fa fa-retweet count" tooltip="有{{mocker.ruleCount}}条规则" tooltip-trigger tooltip-placement="bottom">{{mocker.ruleCount}}</i>
-            <i class="fa fa-crosshairs count" tooltip="0次匹配规则成功" tooltip-trigger tooltip-placement="bottom">0</i>
-            <i class="fa fa-eye count" tooltip="有{{mocker.collectCount}}个关注" tooltip-trigger tooltip-placement="bottom">{{mocker.collectCount}}</i>
-            <button class="btn btn-xs btn-danger" ng-click="cancelCollectMocker(mocker.id)"><i class="fa fa-eye-slash"></i>取消关注</button>
+            <i class="fa fa-eye count" tooltip="有{{mocker.watcherCount}}个关注" tooltip-trigger tooltip-placement="bottom">{{mocker.watcherCount}}</i>
+            <button class="btn btn-xs btn-danger pull-right" ng-if="mockerGroup === 'watched'" ng-click="unwatch(mocker)">
+                <i class="fa fa-eye-slash"></i>取消关注
+            </button>
         </div>
     </div>
 </div>

@@ -7,7 +7,8 @@
                 return {
                     restrict: 'E',
                     scope: {
-                        onItemClick: '&'
+                        onItemClick: '&',
+                        mockerGroup: '@'
                     },
                     templateUrl: 'widgets.mocker.list.html',
                     controller: 'widgets.mocker.ListController',

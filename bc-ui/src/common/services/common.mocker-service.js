@@ -35,12 +35,12 @@
                         return Restangular.one('mockers', mockerId).remove();
                     },
 
-                    collectMocker: function (id, operation) {
-                        return Restangular.one('mockers', id).customPUT(null, 'collect', {op: operation});
+                    watchMocker: function (mockerId) {
+                        return Restangular.one('mockers', mockerId).customPUT(null, 'watch');
                     },
 
-                    cancelCollectMocker: function (id, operation) {
-                        return Restangular.one('mockers', id).customPUT(null, 'cancelCollect', {op: operation});
+                    unwatchMocker: function (mockerId) {
+                        return Restangular.one('mockers', mockerId).customPUT(null, 'unwatch');
                     }
                 };
             }]);

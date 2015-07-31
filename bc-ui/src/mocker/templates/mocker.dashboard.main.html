@@ -28,7 +28,20 @@
                     </ul>
                     <div class="tab-content">
                         <div class="tab-pane active">
-                            <app-mocker-list on-item-click="viewMocker(mocker)"></app-mocker-list>
+                            <app-mocker-list on-item-click="viewMocker(mocker)" mocker-group="owner"></app-mocker-list>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+                <div class="tabbable-line">
+                    <ul class="nav nav-tabs">
+                        <li class="active">
+                            关注的模拟系统：
+                        </li>
+                    </ul>
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <app-mocker-list on-item-click="viewMocker(mocker)" mocker-group="watched"></app-mocker-list>
                         </div>
                     </div>
                 </div>

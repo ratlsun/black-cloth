@@ -12,9 +12,9 @@ public class Mocker {
 	private String desc;
 	private Date created;
 	private Date updated;
-	private Long ruleCount;
+	private Long ruleCount = 0l;
 	private MockerType type = MockerType.Public;
-	private int collectCount = 0;
+	private Long watcherCount = 0l;
 	
 	public Date getCreated() {
 		return created;
@@ -32,12 +32,20 @@ public class Mocker {
 		this.updated = updated;
 	}
 
-	public int getCollectCount() {
-		return collectCount;
+	public Long getWatcherCount() {
+		return watcherCount;
 	}
 
-	public void setCollectCount(int collectCount) {
-		this.collectCount = collectCount;
+	public void setWatcherCount(Long watcherCount) {
+		this.watcherCount = watcherCount;
+	}
+	
+	public void increaseWatcherCount(){
+		watcherCount++;
+	}
+	
+	public void decreaseWatcherCount(){
+		watcherCount--;
 	}
 
 	public Mocker() {
@@ -91,5 +99,13 @@ public class Mocker {
 	public void setRuleCount(Long ruleCount) {
 		this.ruleCount = ruleCount;
 	}
+	
+	public void increaseRuleCount(){
+		ruleCount++;
+	}
 
+	public void decreaseRuleCount(){
+		ruleCount--;
+	}
+	
 }

@@ -61,15 +61,15 @@
                     icon: 'fa-trash',
                     theme: 'panel-danger'
                 },
-                CollectMocker: {
-                    typeName: 'CollectMocker',
+                WatchMocker: {
+                    typeName: 'WatchMocker',
                     icon: 'fa-eye',
                     theme: 'panel-info'
                 },
-                CancelCollectMocker: {
-                    typeName: 'CancelCollectMocker',
+                UnwatchMocker: {
+                    typeName: 'UnwatchMocker',
                     icon: 'fa-eye-slash',
-                    theme: 'panel-danger'
+                    theme: 'panel-info'
                 },
                 MockActivity: {
                     typeName: 'MockActivity',
@@ -81,10 +81,6 @@
             alertMsg: {
                 userModule: {
                     '-11': '原密码错误，无法修改密码！'
-                },
-                mockerModule: {
-                    '-11': '您已经关注过此模拟系统，请核对信息!',
-                    '-15': '模拟系统不存在'
                 }
             }
 

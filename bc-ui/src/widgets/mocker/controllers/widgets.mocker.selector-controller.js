@@ -10,10 +10,10 @@
 
                 $scope.selected = {};
 
-                mockerService.getMyMockers().then(function(resp){
-                    $scope.mockers = resp;
-                    mockerService.getCollect().then(function(resp){
-                        $scope.mockers = _.union($scope.mockers, resp);
+                mockerService.getMyMockers().then(function(myResp){
+                    var myMockers = myResp;
+                    mockerService.getWatchedMockers().then(function(watchedResp){
+                        $scope.mockers = _.union(myMockers, watchedResp);
                     });
                 });
 

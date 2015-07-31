@@ -46,13 +46,13 @@ public class UserOperation {
 				uo.setMocker(oldMocker);
 				uo.setName("删除模拟系统－" + oldMocker.getName());
 				break;
-			case CollectMocker:
+			case WatchMocker:
 				uo.setMocker(oldMocker);
-				uo.setName("将公共模拟系统－" + oldMocker.getName() + " 标记为关注");
+				uo.setName("关注了公共模拟系统－" + oldMocker.getName());
 				break;
-			case CancelCollectMocker:
+			case UnwatchMocker:
 				uo.setMocker(oldMocker);
-				uo.setName("将公共模拟系统－" + oldMocker.getName() + " 取消关注");
+				uo.setName("取消关注公共模拟系统－" + oldMocker.getName());
 				break;
 			default:
 		}

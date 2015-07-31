@@ -38,8 +38,8 @@ public class UserOperationService {
 	    			case ChangeMockerOwner:
 	    			case ChangeMockerType:
 	    			case ChangeMockerName:
-	    			case CollectMocker:
-	    			case CancelCollectMocker:	
+	    			case WatchMocker:
+	    			case UnwatchMocker:	
 	    			case DeleteMocker:
 	    				chs.add(UserChange.mockerChange(op.getMocker(), op, UserChangeType.valueOf(op.getType().name())));
 	    				break;

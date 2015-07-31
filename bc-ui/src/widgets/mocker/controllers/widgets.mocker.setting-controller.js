@@ -6,7 +6,8 @@
             '$scope',
             'mockerService',
             'alertService',
-            function ($scope, mockerService, alertService) {
+            'appConfig',
+            function ($scope, mockerService, alertService, appConfig) {
 
                 mockerService.getMockerById($scope.mockerId).then(function(resp){
                     $scope.mocker = resp;
@@ -23,7 +24,8 @@
                     }
                     var oldName = $scope.mocker.name;
                     $scope.mocker.name = $scope.mocker.newName;
-                    mockerService.updateMocker($scope.mocker, 'ChangeMockerName').then(function(resp){
+                    mockerService.updateMocker($scope.mocker,
+                        appConfig.changeType.ChangeMockerName.typeName).then(function(resp){
                         if (resp.result === -1) {
                             $scope.invalidMessage.name = '相同名字的模拟系统已经存在！';
                             $scope.mocker.name = oldName;
@@ -36,7 +38,8 @@
 
                 $scope.convertType = function (mtype) {
                     $scope.mocker.type = mtype;
-                    mockerService.updateMocker($scope.mocker, 'ChangeMockerType').then(function(resp){
+                    mockerService.updateMocker($scope.mocker,
+                        appConfig.changeType.ChangeMockerType.typeName).then(function(resp){
                         if (resp) {
                             alertService.success('模拟系统更改类型成功。');
                             $scope.postMockerChanged({mocker: resp});

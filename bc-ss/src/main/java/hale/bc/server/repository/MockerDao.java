@@ -7,7 +7,6 @@ import hale.bc.server.to.MockerType;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.BoundZSetOperations;
@@ -26,8 +25,7 @@ public class MockerDao {
 	private ZSetOperations<String, String> ownerIndex;
 	private ValueOperations<String, String> ownerNames;
 	private BoundZSetOperations<String,String> publicGroup;
-	private ZSetOperations<String, String> collectOwnerIndex;
-	private ZSetOperations<String, String> collectMockerIndex;
+	private ZSetOperations<String, String> watcherGroup;
 	private ValueOperations<String, Mocker> mockers;
 	private RedisAtomicLong mockerIdGenerator;
 	
@@ -38,8 +36,7 @@ public class MockerDao {
 		ownerNames = stringTemplate.opsForValue();
 		ownerIndex = stringTemplate.opsForZSet();
 		publicGroup = stringTemplate.boundZSetOps(KeyUtils.mockerPublic());
-		collectOwnerIndex = stringTemplate.opsForZSet();
-		collectMockerIndex = stringTemplate.opsForZSet();
+		watcherGroup = stringTemplate.opsForZSet();
 		mockerIdGenerator = new RedisAtomicLong(KeyUtils.mockerId(), stringTemplate.getConnectionFactory());
 	}
 	
@@ -80,7 +77,6 @@ public class MockerDao {
 	public Mocker getMockerById(Long mockerId, String owner) {
 		Mocker m = mockers.get(KeyUtils.mockerId(String.valueOf(mockerId)));
 		if (m != null && m.getOwner() != null && (m.getOwner().equals(owner) || MockerType.Public == m.getType())) {
-			m.setCollectCount(getCollectCount(m.getId()));
 			return m;
 		}
 		return null;
@@ -91,7 +87,6 @@ public class MockerDao {
 		for (String mockerName : ownerIndex.range(KeyUtils.mockerOwner(owner), 0, -1)){
 			Mocker m = mockers.get(KeyUtils.mockerId(ownerNames.get(KeyUtils.mockerOwnerName(owner, mockerName))));
 			if (m != null) {
-				m.setCollectCount(getCollectCount(m.getId()));
 				result.add(m);
 			}
 		}
@@ -103,19 +98,17 @@ public class MockerDao {
 		for (String mockerId : publicGroup.reverseRange(0, -1)){
 			Mocker m = mockers.get(KeyUtils.mockerId(mockerId));
 			if (m != null) {
-				m.setCollectCount(getCollectCount(m.getId()));
 				result.add(m);
 			}
 		}
 		return result;
 	}
 	
-	public List<Mocker> getCollectMockers(String watcher) {
+	public List<Mocker> getMockersByWatcher(String watcher) {
 		List<Mocker> result = new ArrayList<>();
-		for (String mockerId : collectOwnerIndex.range(KeyUtils.mockerCollectOwner(watcher), 0, -1)){
+		for (String mockerId : watcherGroup.reverseRange(KeyUtils.mockerWatcher(watcher), 0, -1)){
 			Mocker m = mockers.get(KeyUtils.mockerId(mockerId));
-			if (m != null) {
-				m.setCollectCount(getCollectCount(m.getId()));
+			if (m != null && m.getType() == MockerType.Public) {
 				result.add(m);
 			}
 		}
@@ -137,7 +130,7 @@ public class MockerDao {
 		return m;
 	}
 	
-	public Mocker updateMocker(Mocker mocker) throws DuplicatedEntryException {
+	public Mocker updateMocker(Mocker mocker, boolean modifyUpdated) throws DuplicatedEntryException {
 		Long mockerId = mocker.getId();
 		String mockerIdText = String.valueOf(mockerId);
 		Mocker oldMocker = getMockerById(mockerId);
@@ -155,7 +148,9 @@ public class MockerDao {
 			ownerIndex.remove(ownerKey, oldMocker.getName());
 			ownerIndex.add(ownerKey, mocker.getName(), 0);
 		}
-		mocker.setUpdated(new Date());
+		if (modifyUpdated) {
+			mocker.setUpdated(new Date());
+		}
 		mockers.set(KeyUtils.mockerId(mockerIdText), mocker);
 		if (MockerType.Public == mocker.getType()) {
 			publicGroup.add(mockerIdText, mocker.getUpdated().getTime());
@@ -164,39 +159,17 @@ public class MockerDao {
 		}
 		return mocker;
 	}
+	
+	public Mocker updateMocker(Mocker mocker) throws DuplicatedEntryException {
+		return updateMocker(mocker, true); 
+	}
 
-	public Mocker collectMockerById(Long mid, String username) throws DuplicatedEntryException {
-		Mocker mocker = getMockerById(mid);
-		if (mocker == null) {
-			return null;
-		}
-		String mIdStr = String.valueOf(mid);
-
-		collectOwnerIndex.add(KeyUtils.mockerCollectOwner(username), mIdStr, 0);
-		
-		collectMockerIndex.add(KeyUtils.collectMockerOwner(mIdStr), username, 0);
-		
-		return mocker;
+	public boolean putMockerToWatcherGroup(Mocker mocker, String watcher) {
+		return watcherGroup.add(KeyUtils.mockerWatcher(watcher), String.valueOf(mocker.getId()), (new Date()).getTime());
 	}
 	
-	public Mocker cancelCollectMockerById(Long mid, String username) {
-		Mocker mocker = getMockerById(mid);
-		if (mocker == null) {
-			return null;
-		}
-		String mIdStr = String.valueOf(mid);
-		
-		collectOwnerIndex.remove(KeyUtils.mockerCollectOwner(username), mIdStr);
-		
-		collectMockerIndex.remove(KeyUtils.collectMockerOwner(mIdStr), username);
-		return mocker;
-	}
-	
-	public int getCollectCount(Long mockerId){
-		int cCount = 0;
-		Set<String> set = collectMockerIndex.range(KeyUtils.collectMockerOwner(String.valueOf(mockerId)), 0, -1);
-		cCount = set.size();
-		return cCount;
+	public boolean removeMockerFromWatcherGroup(Mocker mocker, String watcher) {
+		return  watcherGroup.remove(KeyUtils.mockerWatcher(watcher), String.valueOf(mocker.getId())) == 1;
 	}
 	
 	public Mocker updateMockerLastDate(long mid, Date updated){

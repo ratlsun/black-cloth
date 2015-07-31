@@ -71,6 +71,10 @@ abstract public class KeyUtils {
 	static String mockerPublic() {
 		return MOCKER + "public:ids";
 	}
+	
+	static String mockerWatcher(String watcher) {
+		return MOCKER + "watcher-" + watcher + ":ids";
+	}
 
 	static String ruleId() {
 		return ID_GENERATOR + "rule";
@@ -110,17 +114,5 @@ abstract public class KeyUtils {
 	
 	static String pwdCode(String code) {
 		return "user-pwd-code:" + code + ":uid";
-	}
-	
-	static String mockerCollectOwnerName(String owner, String name) {
-		return MOCKER + "collect-" + owner + ":" + name + ":mid";
-	}
-
-	static String mockerCollectOwner(String owner) {
-		return MOCKER + "collect-" + owner + ":names";
-	}
-	
-	static String collectMockerOwner(String mockerName) {
-		return MOCKER + "collect-" + mockerName + ":names";
 	}
 }
