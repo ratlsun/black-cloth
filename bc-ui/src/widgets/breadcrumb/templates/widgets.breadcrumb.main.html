@@ -1,16 +1,21 @@
 <div class="breadcrumb-bc" id="breadcrumb-bc">
     <ol class="breadcrumb">
         <li><a href="" ng-click="gotoMockerDashboard()">
-            <i class="fa fa-dashboard"></i> 模拟系统
+            <i class="fa fa-dashboard"></i> 首页
+        </a></li>
+
+        <li ng-if="mockerMode.viewOther"><a href="" ng-click="gotoMockerSearch()">
+            <i class="fa fa-eye"></i> 公共模拟系统
         </a></li>
 
         <li ng-if="mockerMode.create" class="active">新建</li>
 
         <li ng-if="mockerMode.view" class="active">{{mocker.name}}</li>
-        <li ng-if="mockerMode.view && isEdit"><a href="" ng-click="gotoMockerSetting()">
+        <li ng-if="mockerMode.view && !mockerMode.viewOther"><a href="" ng-click="gotoMockerSetting()">
             <i class="fa fa-cog" tooltip="修改设置" tooltip-trigger tooltip-placement="bottom"></i>
         </a></li>
-        <li app-no-rule-guide mocker-id="{{mocker.id}}" enable-guide="true" ng-if="mockerMode.view && isEdit"><a href="" ng-click="gotoRuleEditor()">
+        <li app-no-rule-guide mocker-id="{{mocker.id}}" enable-guide="true"
+            ng-if="mockerMode.view && !mockerMode.viewOther"><a href="" ng-click="gotoRuleEditor()">
             <i class="fa fa-plus" tooltip="添加规则" tooltip-trigger tooltip-placement="bottom"></i>
         </a></li>
 

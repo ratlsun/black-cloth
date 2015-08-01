@@ -9,7 +9,8 @@
                     scope: {
                         onRuleClick: '&',
                         postRuleDeleted: '&',
-                        mockerId: '@'
+                        mockerId: '@',
+                        viewMode: '@'
                     },
                     templateUrl: 'widgets.rule.list.html',
                     controller: 'widgets.rule.ListController',

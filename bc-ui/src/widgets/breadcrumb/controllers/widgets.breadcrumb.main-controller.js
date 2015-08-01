@@ -10,20 +10,21 @@
             'mockerService',
             'userService',
             function ($scope, $state, $stateParams, appConfig, mockerService, userService) {
-                $scope.user = userService.getCurrentUser();
+                $scope.user =
                 $scope.activeMenu = $state.current.name;
                 $scope.mockerMode = {
                     view: false,
                     setting: false,
                     create: false,
                     addRule: false,
-                    editRule: false
+                    editRule: false,
+                    viewOther: false
                 };
 
                 if ($scope.lastItemId) {
                     mockerService.getMockerById($scope.lastItemId).then(function(resp) {
                         $scope.mocker = resp;
-                        $scope.isEdit = ($scope.user.name == $scope.mocker.owner) ? true : false;
+                        $scope.mockerMode.viewOther = userService.getCurrentUser().name !== $scope.mocker.owner;
                     });
                 }
 
@@ -41,6 +42,10 @@
 
                 $scope.gotoMockerDashboard = function () {
                     $state.go(appConfig.stateName.mockerDashboard);
+                };
+
+                $scope.gotoMockerSearch = function () {
+                    $state.go(appConfig.stateName.mockerSearch);
                 };
 
                 $scope.gotoMockerSetting = function () {

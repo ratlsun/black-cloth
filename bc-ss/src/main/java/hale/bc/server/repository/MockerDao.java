@@ -151,12 +151,13 @@ public class MockerDao {
 		if (modifyUpdated) {
 			mocker.setUpdated(new Date());
 		}
-		mockers.set(KeyUtils.mockerId(mockerIdText), mocker);
 		if (MockerType.Public == mocker.getType()) {
 			publicGroup.add(mockerIdText, mocker.getUpdated().getTime());
 		} else { // Private
 			publicGroup.remove(mockerIdText);
+			mocker.setWatcherCount(0l);
 		}
+		mockers.set(KeyUtils.mockerId(mockerIdText), mocker);
 		return mocker;
 	}
 	

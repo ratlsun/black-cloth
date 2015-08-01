@@ -1,10 +1,7 @@
 package hale.bc.server.service;
 
-import java.util.Date;
-
 import hale.bc.server.repository.KeyUtils;
 import hale.bc.server.repository.MockActivityDao;
-import hale.bc.server.repository.MockerDao;
 import hale.bc.server.service.event.RuleChangedEvent;
 import hale.bc.server.to.MockActivity;
 
@@ -14,7 +11,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RuleChangedListener implements ApplicationListener<RuleChangedEvent> {
+public class RuleChangedListenerByActivity implements ApplicationListener<RuleChangedEvent> {
 
 	@Autowired
 	private MockActivityService mockActivityService;
@@ -24,9 +21,6 @@ public class RuleChangedListener implements ApplicationListener<RuleChangedEvent
 	
 	@Autowired
 	private StringRedisTemplate template;
-	
-	@Autowired
-	private MockerDao mockerDao;
 	
 	@Override
 	public void onApplicationEvent(RuleChangedEvent event) {
@@ -38,8 +32,6 @@ public class RuleChangedListener implements ApplicationListener<RuleChangedEvent
 				mockActivityService.loadRules(ma);
 			}
 		}
-		
-		mockerDao.updateMockerLastDate(mid,new Date());
 	}
 
 	public void registerMockActivity(MockActivity activity) {
@@ -48,7 +40,7 @@ public class RuleChangedListener implements ApplicationListener<RuleChangedEvent
 		}
 	}
 	
-	public void unRegisterMockActivity(MockActivity activity) {
+	public void unregisterMockActivity(MockActivity activity) {
 		for (Long mid: activity.getMockerIds()) {
 			template.opsForSet().remove(KeyUtils.mockActivityMocker(mid), activity.getCode());
 		}

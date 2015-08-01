@@ -2,7 +2,7 @@ package hale.bc.server.web;
 
 import hale.bc.server.repository.MockActivityDao;
 import hale.bc.server.service.MockActivityService;
-import hale.bc.server.service.RuleChangedListener;
+import hale.bc.server.service.RuleChangedListenerByActivity;
 import hale.bc.server.service.UserOperationService;
 import hale.bc.server.to.MockActivity;
 import hale.bc.server.to.MockActivityStatus;
@@ -38,7 +38,7 @@ public class MockActivityController {
 	private MockActivityService mockActivityService;
 	
 	@Autowired
-	private RuleChangedListener ruleChangedListener;
+	private RuleChangedListenerByActivity ruleChangedListener;
 	
 	@RequestMapping(value = "/active", method=RequestMethod.GET)
     public MockActivity getActiveMockByOwner(Principal principal) {
@@ -72,7 +72,7 @@ public class MockActivityController {
 		MockActivity ma = updateStatus(code, principal.getName(), MockActivityStatus.Paused);
 		if (ma != null) {
 			mockActivityService.clearRules(ma);
-			ruleChangedListener.unRegisterMockActivity(ma);
+			ruleChangedListener.unregisterMockActivity(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.PauseMock));
 		}
@@ -96,7 +96,7 @@ public class MockActivityController {
 		MockActivity ma = updateStatus(code, principal.getName(), MockActivityStatus.Stopped);
 		if (ma != null) {
 			mockActivityService.clearRules(ma);
-			ruleChangedListener.unRegisterMockActivity(ma);
+			ruleChangedListener.unregisterMockActivity(ma);
 			userOperationService.log(UserOperation.activityOperation(principal.getName(), ma.getCode(), 
 					UserOperationType.StopMock));
 		}
