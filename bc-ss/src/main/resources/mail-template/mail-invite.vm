@@ -2,9 +2,7 @@
 <br/>
 非常感谢您注册我们的mock工具。您获得的注册码为：<span style="font-size: 24px;background-color: #f2dcdb;">${code}</span>
 <br/>
-您可以在 <a href="http://mock-api.com/#!/signup">http://mock-api.com/#!/signup</a> 页面上点击中间黄色按钮进入步骤II后输入上述注册码通过注册。
-<br/>
-
+您可以在 <a href="http://mock-api.com/#!/signup?code">http://mock-api.com/#!/signup?code</a> 页面上输入上述注册码；
 <br/>
 验证成功后，就可以使用您的用户名和密码登录该工具。
 <br/>

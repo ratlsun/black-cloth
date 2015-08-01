@@ -7,7 +7,7 @@
             'userService',
             function ($scope, userService) {
                 $scope.newUser = {};
-                $scope.activeStep = "info";
+                $scope.activeStep = $scope.forceToStep || "info";
                 $scope.invalidMessage = {};
 
                 var validatePwd = function (){

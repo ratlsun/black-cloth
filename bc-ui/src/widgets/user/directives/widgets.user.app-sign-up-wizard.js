@@ -7,7 +7,8 @@
                 return {
                     restrict: 'E',
                     scope: {
-                        onGoBack: '&'
+                        onGoBack: '&',
+                        forceToStep: '@'
                     },
                     templateUrl: 'widgets.user.sign-up.html',
                     controller: 'widgets.user.SignUpController',

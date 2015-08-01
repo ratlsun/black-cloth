@@ -49,7 +49,7 @@
                 templateUrl: 'login.main.html',
                 controller: 'login.MainController'
             }).state(appConfig.stateName.register, {
-                url: '/signup',
+                url: '/signup?code',
                 templateUrl: 'register.main.html',
                 controller: 'register.MainController'
             }).state(appConfig.stateName.userAdmin, {
@@ -81,7 +81,7 @@
                 templateUrl: 'rule.editor.main.html',
                 controller: 'rule.editor.MainController'
             }).state(appConfig.stateName.mockActivity, {
-                url: '/mock-activity?maid',
+                url: '/mock-activity',
                 templateUrl: 'mock-activity.main.html',
                 controller: 'mock-activity.MainController'
             }).state(appConfig.stateName.mockerSearch, {

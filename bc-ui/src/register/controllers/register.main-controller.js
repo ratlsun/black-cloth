@@ -5,8 +5,11 @@
         .controller('register.MainController', [
             '$scope',
             '$state',
+            '$stateParams',
             'appConfig',
-            function ($scope, $state, appConfig) {
+            function ($scope, $state, $stateParams, appConfig) {
+
+                $scope.codeStep = $stateParams.code ? 'code' : '';
 
                 $scope.gotoLogin = function () {
                     $state.go(appConfig.stateName.login);

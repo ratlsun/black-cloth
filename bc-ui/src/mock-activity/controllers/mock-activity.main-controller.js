@@ -5,13 +5,12 @@
         .controller('mock-activity.MainController', [
             '$scope',
             '$state',
-            '$stateParams',
             '$interval',
             'mockActivityService',
             'alertService',
             'pageService',
             'appConfig',
-            function ($scope, $state, $stateParams, $interval,
+            function ($scope, $state, $interval,
                       mockActivityService, alertService, pageService, appConfig) {
 
                 $scope.selectedMockers = [];
